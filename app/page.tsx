@@ -673,7 +673,11 @@ export default function CodeStrokeProApp() {
 
                                 <div className="flex justify-center">
                                     <Button
-                                        onClick={() => setCurrentStep("timers")}
+                                        onClick={() => {
+                                            if (timers.lkwTime) {
+                                                setCurrentStep("timers");
+                                            }
+                                        }}
                                         className="bg-clinical-slate hover:bg-clinical-slate/90 text-parchment btn-text text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
                                         disabled={!timers.lkwTime}
                                     >
@@ -926,7 +930,11 @@ export default function CodeStrokeProApp() {
 
                         <div className="flex justify-center">
                             <Button
-                                onClick={() => setCurrentStep("screening")}
+                                onClick={() => {
+                                    if (timers.arrivalTime) {
+                                        setCurrentStep("screening");
+                                    }
+                                }}
                                 className="bg-blue-600 hover:bg-blue-700 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
                                 disabled={!timers.arrivalTime}
                             >
@@ -1852,9 +1860,14 @@ export default function CodeStrokeProApp() {
                                     Back to Timers
                                 </Button>
                                 <Button
-                                    onClick={() =>
-                                        setCurrentStep("drugSelection")
-                                    }
+                                    onClick={() => {
+                                        if (
+                                            eligibilityStatus.status ===
+                                            "eligible"
+                                        ) {
+                                            setCurrentStep("drugSelection");
+                                        }
+                                    }}
                                     className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
                                     size="lg"
                                     disabled={
@@ -2072,7 +2085,15 @@ export default function CodeStrokeProApp() {
                                     Back to Screening
                                 </Button>
                                 <Button
-                                    onClick={() => setCurrentStep("dosing")}
+                                    onClick={() => {
+                                        if (
+                                            selectedDrug &&
+                                            vialSize &&
+                                            patientWeight
+                                        ) {
+                                            setCurrentStep("dosing");
+                                        }
+                                    }}
                                     className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
                                     size="lg"
                                     disabled={
@@ -2300,8 +2321,8 @@ export default function CodeStrokeProApp() {
 
                 {/* Step 6: Resources - Mobile Optimized */}
                 {currentStep === "resources" && (
-                    <Card className="mb-6 md:mb-8 shadow-xl border-0 bg-white">
-                        <CardHeader className="bg-gradient-to-r from-gray-600 to-gray-700 text-white p-4 md:p-6">
+                    <Card className="mb-6 md:mb-8 clarity-shadow border-0 bg-parchment">
+                        <CardHeader className="bg-gradient-to-r from-clinical-slate to-deep-charcoal text-parchment p-4 md:p-6">
                             <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl">
                                 <BookOpen className="w-5 h-5 md:w-6 md:h-6" />
                                 Resources and Guidelines
@@ -2311,71 +2332,99 @@ export default function CodeStrokeProApp() {
                             <div className="space-y-4 md:space-y-6">
                                 {/* Guidelines */}
                                 <div className="space-y-3 md:space-y-4">
-                                    <h3 className="text-base md:text-lg font-semibold text-gray-800 border-b pb-2">
+                                    <h3 className="text-base md:text-lg font-semibold text-deep-charcoal border-b border-harbor-gray pb-2">
                                         Treatment Guidelines
                                     </h3>
 
                                     {/* Mobile Layout - Stacked */}
                                     <div className="block md:hidden space-y-3">
-                                        <div className="p-3 border-2 border-gray-200 rounded-lg hover:border-blue-300 transition-colors">
+                                        <div className="p-3 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
                                             <a
-                                                href="https://www.stroke.org/"
+                                                href="https://www.stroke.org/en/professionals/stroke-treatments/acute-stroke-treatment/acute-stroke-treatment-toolkit"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center space-x-3"
                                             >
-                                                <FileText className="w-4 h-4 text-blue-600" />
-                                                <span className="text-sm font-medium text-blue-800">
-                                                    American Stroke Association
+                                                <FileText className="w-4 h-4 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    ASA Acute Stroke Treatment
                                                     Guidelines
                                                 </span>
                                             </a>
                                         </div>
 
-                                        <div className="p-3 border-2 border-gray-200 rounded-lg hover:border-blue-300 transition-colors">
+                                        <div className="p-3 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
                                             <a
-                                                href="https://www.heart.org/"
+                                                href="https://www.ahajournals.org/doi/10.1161/STR.0000000000000375"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center space-x-3"
                                             >
-                                                <FileText className="w-4 h-4 text-blue-600" />
-                                                <span className="text-sm font-medium text-blue-800">
-                                                    American Heart Association
+                                                <FileText className="w-4 h-4 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    AHA/ASA Endovascular Therapy
                                                     Guidelines
+                                                </span>
+                                            </a>
+                                        </div>
+
+                                        <div className="p-3 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
+                                            <a
+                                                href="https://www.ninds.nih.gov/health-information/public-education/know-stroke/health-professionals"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center space-x-3"
+                                            >
+                                                <Shield className="w-4 h-4 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    NINDS Stroke Guidelines
                                                 </span>
                                             </a>
                                         </div>
                                     </div>
 
                                     {/* Desktop Layout - Grid */}
-                                    <div className="hidden md:grid md:grid-cols-2 gap-4">
-                                        <div className="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-300 transition-colors">
+                                    <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        <div className="p-4 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
                                             <a
-                                                href="https://www.stroke.org/"
+                                                href="https://www.stroke.org/en/professionals/stroke-treatments/acute-stroke-treatment/acute-stroke-treatment-toolkit"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center space-x-3"
                                             >
-                                                <FileText className="w-5 h-5 text-blue-600" />
-                                                <span className="text-sm font-medium text-blue-800">
-                                                    American Stroke Association
+                                                <FileText className="w-5 h-5 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    ASA Acute Stroke Treatment
                                                     Guidelines
                                                 </span>
                                             </a>
                                         </div>
 
-                                        <div className="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-300 transition-colors">
+                                        <div className="p-4 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
                                             <a
-                                                href="https://www.heart.org/"
+                                                href="https://www.ahajournals.org/doi/10.1161/STR.0000000000000375"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center space-x-3"
                                             >
-                                                <FileText className="w-5 h-5 text-blue-600" />
-                                                <span className="text-sm font-medium text-blue-800">
-                                                    American Heart Association
+                                                <FileText className="w-5 h-5 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    AHA/ASA Endovascular Therapy
                                                     Guidelines
+                                                </span>
+                                            </a>
+                                        </div>
+
+                                        <div className="p-4 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
+                                            <a
+                                                href="https://www.ninds.nih.gov/health-information/public-education/know-stroke/health-professionals"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center space-x-3"
+                                            >
+                                                <Shield className="w-5 h-5 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    NINDS Stroke Guidelines
                                                 </span>
                                             </a>
                                         </div>
@@ -2384,71 +2433,226 @@ export default function CodeStrokeProApp() {
 
                                 {/* Additional Resources */}
                                 <div className="space-y-3 md:space-y-4">
-                                    <h3 className="text-base md:text-lg font-semibold text-gray-800 border-b pb-2">
-                                        Additional Resources
+                                    <h3 className="text-base md:text-lg font-semibold text-deep-charcoal border-b border-harbor-gray pb-2">
+                                        Clinical Calculators & Tools
                                     </h3>
 
                                     {/* Mobile Layout - Stacked */}
                                     <div className="block md:hidden space-y-3">
-                                        <div className="p-3 border-2 border-gray-200 rounded-lg hover:border-blue-300 transition-colors">
+                                        <div className="p-3 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
                                             <a
                                                 href="https://www.mdcalc.com/nihss-stroke-scale-score"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center space-x-3"
                                             >
-                                                <Eye className="w-4 h-4 text-blue-600" />
-                                                <span className="text-sm font-medium text-blue-800">
+                                                <Calculator className="w-4 h-4 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
                                                     NIHSS Stroke Scale
                                                     Calculator
                                                 </span>
                                             </a>
                                         </div>
 
-                                        <div className="p-3 border-2 border-gray-200 rounded-lg hover:border-blue-300 transition-colors">
+                                        <div className="p-3 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
                                             <a
-                                                href="https://www.uptodate.com/"
+                                                href="https://www.mdcalc.com/modified-rankin-scale-mrs-stroke-disability"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center space-x-3"
                                             >
-                                                <Users className="w-4 h-4 text-blue-600" />
-                                                <span className="text-sm font-medium text-blue-800">
-                                                    UpToDate Clinical Resource
+                                                <Activity className="w-4 h-4 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    Modified Rankin Scale (mRS)
+                                                </span>
+                                            </a>
+                                        </div>
+
+                                        <div className="p-3 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
+                                            <a
+                                                href="https://www.mdcalc.com/aspects-alberta-stroke-program-early-ct-score"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center space-x-3"
+                                            >
+                                                <Eye className="w-4 h-4 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    ASPECTS Score Calculator
+                                                </span>
+                                            </a>
+                                        </div>
+
+                                        <div className="p-3 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
+                                            <a
+                                                href="https://www.uptodate.com/contents/overview-of-secondary-prevention-of-ischemic-stroke"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center space-x-3"
+                                            >
+                                                <Stethoscope className="w-4 h-4 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    UpToDate Stroke Reference
                                                 </span>
                                             </a>
                                         </div>
                                     </div>
 
                                     {/* Desktop Layout - Grid */}
-                                    <div className="hidden md:grid md:grid-cols-2 gap-4">
-                                        <div className="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-300 transition-colors">
+                                    <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        <div className="p-4 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
                                             <a
                                                 href="https://www.mdcalc.com/nihss-stroke-scale-score"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center space-x-3"
                                             >
-                                                <Eye className="w-5 h-5 text-blue-600" />
-                                                <span className="text-sm font-medium text-blue-800">
+                                                <Calculator className="w-5 h-5 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
                                                     NIHSS Stroke Scale
                                                     Calculator
                                                 </span>
                                             </a>
                                         </div>
 
-                                        <div className="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-300 transition-colors">
+                                        <div className="p-4 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
                                             <a
-                                                href="https://www.uptodate.com/"
+                                                href="https://www.mdcalc.com/modified-rankin-scale-mrs-stroke-disability"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center space-x-3"
                                             >
-                                                <Users className="w-5 h-5 text-blue-600" />
-                                                <span className="text-sm font-medium text-blue-800">
-                                                    UpToDate Clinical Resource
+                                                <Activity className="w-5 h-5 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    Modified Rankin Scale (mRS)
                                                 </span>
                                             </a>
+                                        </div>
+
+                                        <div className="p-4 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
+                                            <a
+                                                href="https://www.mdcalc.com/aspects-alberta-stroke-program-early-ct-score"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center space-x-3"
+                                            >
+                                                <Eye className="w-5 h-5 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    ASPECTS Score Calculator
+                                                </span>
+                                            </a>
+                                        </div>
+
+                                        <div className="p-4 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
+                                            <a
+                                                href="https://www.uptodate.com/contents/overview-of-secondary-prevention-of-ischemic-stroke"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center space-x-3"
+                                            >
+                                                <Stethoscope className="w-5 h-5 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    UpToDate Stroke Reference
+                                                </span>
+                                            </a>
+                                        </div>
+
+                                        <div className="p-4 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
+                                            <a
+                                                href="https://www.strokeassociation.org/en/professionals/quality-improvement/target-stroke"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center space-x-3"
+                                            >
+                                                <Users className="w-5 h-5 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    Target: Stroke Quality
+                                                    Program
+                                                </span>
+                                            </a>
+                                        </div>
+
+                                        <div className="p-4 border-2 border-harbor-gray rounded-lg hover:border-vital-green transition-colors bg-parchment">
+                                            <a
+                                                href="https://www.stroke.org/en/professionals/stroke-treatments/acute-stroke-treatment/telestroke"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center space-x-3"
+                                            >
+                                                <Activity className="w-5 h-5 text-clinical-slate" />
+                                                <span className="text-sm font-medium text-deep-charcoal">
+                                                    Telestroke Guidelines
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* PDF Resources */}
+                                <div className="space-y-3 md:space-y-4">
+                                    <h3 className="text-base md:text-lg font-semibold text-deep-charcoal border-b border-harbor-gray pb-2">
+                                        Quick Reference Guides
+                                    </h3>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                                        <div className="p-3 md:p-4 border-2 border-urgent-amber rounded-lg bg-gradient-to-r from-urgent-amber/10 to-urgent-amber/5">
+                                            <div className="flex items-center space-x-3">
+                                                <Download className="w-4 h-4 md:w-5 md:h-5 text-urgent-amber" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-deep-charcoal">
+                                                        tPA Checklist & Dosing
+                                                        Card
+                                                    </p>
+                                                    <p className="text-xs text-clinical-slate">
+                                                        Quick reference for
+                                                        eligibility and dosing
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-3 md:p-4 border-2 border-urgent-amber rounded-lg bg-gradient-to-r from-urgent-amber/10 to-urgent-amber/5">
+                                            <div className="flex items-center space-x-3">
+                                                <Download className="w-4 h-4 md:w-5 md:h-5 text-urgent-amber" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-deep-charcoal">
+                                                        NIHSS Assessment Card
+                                                    </p>
+                                                    <p className="text-xs text-clinical-slate">
+                                                        Printable neurological
+                                                        assessment guide
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-3 md:p-4 border-2 border-urgent-amber rounded-lg bg-gradient-to-r from-urgent-amber/10 to-urgent-amber/5">
+                                            <div className="flex items-center space-x-3">
+                                                <Download className="w-4 h-4 md:w-5 md:h-5 text-urgent-amber" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-deep-charcoal">
+                                                        Code Stroke Algorithm
+                                                    </p>
+                                                    <p className="text-xs text-clinical-slate">
+                                                        Step-by-step treatment
+                                                        flowchart
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-3 md:p-4 border-2 border-urgent-amber rounded-lg bg-gradient-to-r from-urgent-amber/10 to-urgent-amber/5">
+                                            <div className="flex items-center space-x-3">
+                                                <Download className="w-4 h-4 md:w-5 md:h-5 text-urgent-amber" />
+                                                <div>
+                                                    <p className="text-sm font-medium text-deep-charcoal">
+                                                        Transfer Checklist
+                                                    </p>
+                                                    <p className="text-xs text-clinical-slate">
+                                                        Rural hospital transfer
+                                                        guide
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2457,7 +2661,7 @@ export default function CodeStrokeProApp() {
                             <div className="flex justify-center pt-4 md:pt-6">
                                 <Button
                                     onClick={() => setCurrentStep("lkw")}
-                                    className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
+                                    className="bg-clinical-slate hover:bg-deep-charcoal text-parchment w-full sm:w-auto"
                                     size="lg"
                                 >
                                     Start New Code Stroke
