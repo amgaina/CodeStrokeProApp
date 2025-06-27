@@ -86,6 +86,8 @@ export default function CodeStrokeProApp() {
     >("lkw");
 
     const [showResourcesPopup, setShowResourcesPopup] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [scrollPosition, setScrollPosition] = useState(0);
 
     // Update current time every second
     useEffect(() => {
@@ -94,6 +96,35 @@ export default function CodeStrokeProApp() {
         }, 1000);
 
         return () => clearInterval(interval);
+    }, []);
+
+    // Handle scroll to collapse header
+    useEffect(() => {
+        let timeoutId: NodeJS.Timeout;
+
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            setScrollPosition(currentScrollY);
+
+            // Clear any existing timeout
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+
+            // Debounce the state change to prevent flickering
+            timeoutId = setTimeout(() => {
+                const shouldCollapse = currentScrollY > 20;
+                setIsScrolled(shouldCollapse);
+            }, 50); // Small delay to stabilize
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
     }, []);
 
     // Handler functions
@@ -159,68 +190,41 @@ export default function CodeStrokeProApp() {
 
     return (
         <div className="min-h-screen bg-parchment">
-            {/* Compact Sticky Header */}
-            <header className="sticky top-0 z-50 bg-clinical-slate text-parchment clarity-shadow border-b border-harbor-gray backdrop-blur-sm">
-                <div className="container mx-auto px-4 py-2 md:py-3">
-                    {/* Main Header Content - Compact */}
-                    <div className="flex items-center justify-between gap-2 md:gap-4">
-                        <div className="flex items-center space-x-2 md:space-x-3">
-                            <div className="bg-white/10 p-1.5 md:p-2 rounded-full">
-                                <Stethoscope className="w-4 h-4 md:w-5 md:h-5 text-parchment/80" />
-                            </div>
-                            <Link
-                                href="/"
-                                className="hover:opacity-80 transition-opacity"
-                            >
-                                <h1 className="text-lg md:text-xl font-semibold tracking-tight text-parchment">
-                                    CodeStroke Pro
-                                </h1>
-                                <p className="text-parchment/80 text-xs md:text-sm font-medium leading-tight">
-                                    Clinical Decision Support
-                                </p>
-                            </Link>
-                        </div>
-                        <div className="flex items-center gap-2 md:gap-3">
-                            {/* Home Link Button */}
-                            <Link href="/">
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="bg-white/10 border-white/20 text-parchment hover:bg-white/20 hover:text-parchment px-2 py-1 h-8"
-                                >
-                                    <Home className="w-3 h-3 md:w-4 md:h-4 mr-1" />
-                                    <span className="hidden sm:inline text-xs">
-                                        Home
-                                    </span>
-                                </Button>
-                            </Link>
-                            <div className="text-right">
-                                <div className="bg-white/10 px-2 py-1 rounded">
-                                    <p className="text-parchment/80 text-xs font-medium">
-                                        Funded by
-                                    </p>
-                                    <p className="font-semibold text-xs text-parchment leading-tight">
-                                        Living Well Foundation
-                                    </p>
+            {/* Responsive Sticky Header */}
+            <header
+                className={`sticky top-0 z-50 bg-clinical-slate text-parchment clarity-shadow border-b border-harbor-gray backdrop-blur-sm transition-all duration-300 ${
+                    isScrolled ? "py-2" : "py-2 md:py-3"
+                }`}
+            >
+                <div className="container mx-auto px-4">
+                    {/* Collapsed Header when Scrolled */}
+                    {isScrolled ? (
+                        <div className="flex items-center justify-between gap-2">
+                            {/* Left: Brand (Compact) */}
+                            <div className="flex items-center space-x-2">
+                                <div className="bg-white/10 p-1 rounded-full">
+                                    <Stethoscope className="w-4 h-4 text-parchment/80" />
                                 </div>
+                                <Link
+                                    href="/"
+                                    className="hover:opacity-80 transition-opacity"
+                                >
+                                    <h1 className="text-base font-semibold tracking-tight text-parchment">
+                                        CodeStroke Pro
+                                    </h1>
+                                </Link>
                             </div>
-                        </div>
-                    </div>
 
-                    {/* Compact Timer Display */}
-                    {(timers.lkwTime || timers.arrivalTime) && (
-                        <div className="border-t border-clinical-slate/20 mt-2 pt-2">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                {/* LKW Timer in Header - Compact */}
-                                {timers.lkwTime && (
-                                    <div className="bg-white/10 backdrop-blur-sm rounded p-2 border border-white/20">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex-1">
-                                                <h3 className="text-parchment/80 text-xs font-medium">
+                            {/* Center: Timer Information (if available) */}
+                            {(timers.lkwTime || timers.arrivalTime) && (
+                                <div className="flex items-center gap-4 flex-1 justify-center">
+                                    {/* LKW Timer - Inline with better visibility */}
+                                    {timers.lkwTime && (
+                                        <div className="flex items-center gap-3 bg-white/15 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/30">
+                                            <div className="text-center">
+                                                <div className="text-parchment/70 text-xs font-medium uppercase tracking-wide">
                                                     4.5hr Window
-                                                </h3>
-                                            </div>
-                                            <div className="text-right">
+                                                </div>
                                                 {(() => {
                                                     const fourHourLimit =
                                                         new Date(
@@ -248,51 +252,41 @@ export default function CodeStrokeProApp() {
                                                             (1000 * 60)) /
                                                             1000
                                                     );
-                                                    const timeText = `${hours}h ${minutes}m ${seconds}s`;
+                                                    const timeText = `${hours}:${minutes
+                                                        .toString()
+                                                        .padStart(
+                                                            2,
+                                                            "0"
+                                                        )}:${seconds
+                                                        .toString()
+                                                        .padStart(2, "0")}`;
 
                                                     return (
-                                                        <>
-                                                            <p
-                                                                className={`text-sm font-bold ${
-                                                                    isExpired
-                                                                        ? "text-critical-crimson"
-                                                                        : "text-parchment"
-                                                                }`}
-                                                            >
-                                                                {isExpired
-                                                                    ? "EXPIRED"
-                                                                    : timeText}
-                                                            </p>
-                                                            <p className="text-parchment/70 text-xs">
-                                                                LKW:{" "}
-                                                                {timers.lkwTime.toLocaleTimeString(
-                                                                    [],
-                                                                    {
-                                                                        hour: "2-digit",
-                                                                        minute: "2-digit",
-                                                                        hour12: true,
-                                                                    }
-                                                                )}
-                                                            </p>
-                                                        </>
+                                                        <div
+                                                            className={`text-lg font-bold font-mono ${
+                                                                isExpired
+                                                                    ? "text-critical-crimson"
+                                                                    : "text-parchment"
+                                                            }`}
+                                                        >
+                                                            {isExpired
+                                                                ? "EXPIRED"
+                                                                : timeText}
+                                                        </div>
                                                     );
                                                 })()}
                                             </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
 
-                                {/* Door-to-Needle Timer in Header - Compact */}
-                                {timers.arrivalTime && (
-                                    <div className="bg-white/10 backdrop-blur-sm rounded p-2 border border-white/20">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex-1">
-                                                <h3 className="text-parchment/80 text-xs font-medium">
+                                    {/* Door-to-Needle Timer - Inline with better visibility */}
+                                    {timers.arrivalTime && (
+                                        <div className="flex items-center gap-3 bg-critical-crimson/20 backdrop-blur-sm rounded-lg px-4 py-2 border border-critical-crimson/40">
+                                            <div className="text-center">
+                                                <div className="text-parchment/70 text-xs font-medium uppercase tracking-wide">
                                                     Door-to-Needle
-                                                </h3>
-                                            </div>
-                                            <div className="text-right">
-                                                <p className="text-parchment text-sm font-bold">
+                                                </div>
+                                                <div className="text-parchment text-lg font-bold font-mono">
                                                     {(() => {
                                                         const diff = Math.max(
                                                             0,
@@ -321,19 +315,234 @@ export default function CodeStrokeProApp() {
                                                                         60)) /
                                                                     1000
                                                             );
-                                                        return `${hours}h ${minutes}m ${seconds}s`;
+                                                        return `${hours}:${minutes
+                                                            .toString()
+                                                            .padStart(
+                                                                2,
+                                                                "0"
+                                                            )}:${seconds
+                                                            .toString()
+                                                            .padStart(2, "0")}`;
                                                     })()}
-                                                </p>
-                                                <div className="inline-flex items-center gap-1 bg-critical-crimson text-white text-xs font-medium px-1.5 py-0.5 rounded">
-                                                    <div className="w-1 h-1 bg-white rounded-full animate-pulse"></div>
-                                                    CODE STROKE
                                                 </div>
                                             </div>
+                                            <div className="flex items-center gap-1">
+                                                <div className="w-2 h-2 bg-critical-crimson rounded-full animate-pulse"></div>
+                                                <span className="text-white bg-critical-crimson text-xs font-bold uppercase tracking-wider px-2 py-1 rounded">
+                                                    ACTIVE
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Right: Home Link Only */}
+                            <Link href="/">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="bg-white/10 border-white/20 text-parchment hover:bg-white/20 hover:text-parchment px-2 py-1 h-7"
+                                >
+                                    <Home className="w-3 h-3" />
+                                </Button>
+                            </Link>
+                        </div>
+                    ) : (
+                        /* Full Header when Not Scrolled */
+                        <>
+                            {/* Main Header Content */}
+                            <div className="flex items-center justify-between gap-2 md:gap-4">
+                                <div className="flex items-center space-x-2 md:space-x-3">
+                                    <div className="bg-white/10 p-1.5 md:p-2 rounded-full">
+                                        <Stethoscope className="w-4 h-4 md:w-5 md:h-5 text-parchment/80" />
+                                    </div>
+                                    <Link
+                                        href="/"
+                                        className="hover:opacity-80 transition-opacity"
+                                    >
+                                        <h1 className="text-lg md:text-xl font-semibold tracking-tight text-parchment">
+                                            CodeStroke Pro
+                                        </h1>
+                                        <p className="text-parchment/80 text-xs md:text-sm font-medium leading-tight">
+                                            Clinical Decision Support
+                                        </p>
+                                    </Link>
+                                </div>
+                                <div className="flex items-center gap-2 md:gap-3">
+                                    {/* Home Link Button */}
+                                    <Link href="/">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="bg-white/10 border-white/20 text-parchment hover:bg-white/20 hover:text-parchment px-2 py-1 h-8"
+                                        >
+                                            <Home className="w-3 h-3 md:w-4 md:h-4 mr-1" />
+                                            <span className="hidden sm:inline text-xs">
+                                                Home
+                                            </span>
+                                        </Button>
+                                    </Link>
+                                    <div className="text-right">
+                                        <div className="bg-white/10 px-2 py-1 rounded">
+                                            <p className="text-parchment/80 text-xs font-medium">
+                                                Funded by
+                                            </p>
+                                            <p className="font-semibold text-xs text-parchment leading-tight">
+                                                Living Well Foundation
+                                            </p>
                                         </div>
                                     </div>
-                                )}
+                                </div>
                             </div>
-                        </div>
+
+                            {/* Full Timer Display when Not Scrolled */}
+                            {(timers.lkwTime || timers.arrivalTime) && (
+                                <div className="border-t border-clinical-slate/20 mt-2 pt-2">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        {/* LKW Timer in Header - Full */}
+                                        {timers.lkwTime && (
+                                            <div className="bg-white/10 backdrop-blur-sm rounded p-2 border border-white/20">
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex-1">
+                                                        <h3 className="text-parchment/80 text-xs font-medium">
+                                                            4.5hr Window
+                                                        </h3>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        {(() => {
+                                                            const fourHourLimit =
+                                                                new Date(
+                                                                    timers.lkwTime.getTime() +
+                                                                        4.5 *
+                                                                            60 *
+                                                                            60 *
+                                                                            1000
+                                                                );
+                                                            const diff =
+                                                                fourHourLimit.getTime() -
+                                                                timers.currentTime.getTime();
+                                                            const isExpired =
+                                                                diff <= 0;
+                                                            const hours =
+                                                                Math.floor(
+                                                                    Math.abs(
+                                                                        diff
+                                                                    ) /
+                                                                        (1000 *
+                                                                            60 *
+                                                                            60)
+                                                                );
+                                                            const minutes =
+                                                                Math.floor(
+                                                                    (Math.abs(
+                                                                        diff
+                                                                    ) %
+                                                                        (1000 *
+                                                                            60 *
+                                                                            60)) /
+                                                                        (1000 *
+                                                                            60)
+                                                                );
+                                                            const seconds =
+                                                                Math.floor(
+                                                                    (Math.abs(
+                                                                        diff
+                                                                    ) %
+                                                                        (1000 *
+                                                                            60)) /
+                                                                        1000
+                                                                );
+                                                            const timeText = `${hours}h ${minutes}m ${seconds}s`;
+
+                                                            return (
+                                                                <>
+                                                                    <p
+                                                                        className={`text-sm font-bold ${
+                                                                            isExpired
+                                                                                ? "text-critical-crimson"
+                                                                                : "text-parchment"
+                                                                        }`}
+                                                                    >
+                                                                        {isExpired
+                                                                            ? "EXPIRED"
+                                                                            : timeText}
+                                                                    </p>
+                                                                    <p className="text-parchment/70 text-xs">
+                                                                        LKW:{" "}
+                                                                        {timers.lkwTime.toLocaleTimeString(
+                                                                            [],
+                                                                            {
+                                                                                hour: "2-digit",
+                                                                                minute: "2-digit",
+                                                                                hour12: true,
+                                                                            }
+                                                                        )}
+                                                                    </p>
+                                                                </>
+                                                            );
+                                                        })()}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Door-to-Needle Timer in Header - Full */}
+                                        {timers.arrivalTime && (
+                                            <div className="bg-critical-crimson/20 backdrop-blur-sm rounded-lg p-3 border border-critical-crimson/40">
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex-1">
+                                                        <h3 className="text-parchment/80 text-sm font-medium uppercase tracking-wide">
+                                                            Door-to-Needle Time
+                                                        </h3>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <div className="text-parchment text-xl font-bold font-mono">
+                                                            {(() => {
+                                                                const diff =
+                                                                    Math.max(
+                                                                        0,
+                                                                        timers.currentTime.getTime() -
+                                                                            timers.arrivalTime.getTime()
+                                                                    );
+                                                                const hours =
+                                                                    Math.floor(
+                                                                        diff /
+                                                                            (1000 *
+                                                                                60 *
+                                                                                60)
+                                                                    );
+                                                                const minutes =
+                                                                    Math.floor(
+                                                                        (diff %
+                                                                            (1000 *
+                                                                                60 *
+                                                                                60)) /
+                                                                            (1000 *
+                                                                                60)
+                                                                    );
+                                                                const seconds =
+                                                                    Math.floor(
+                                                                        (diff %
+                                                                            (1000 *
+                                                                                60)) /
+                                                                            1000
+                                                                    );
+                                                                return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                                                            })()}
+                                                        </div>
+                                                        <div className="inline-flex items-center gap-1 bg-critical-crimson text-white text-sm font-bold px-3 py-1.5 rounded-md mt-1">
+                                                            <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
+                                                            CODE STROKE ACTIVE
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>
             </header>
