@@ -57,6 +57,15 @@ const config: Config = {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
                 },
+                // Clarity Protocol System
+                clarity: {
+                    background: "#F7F7F5",
+                    foreground: "#2E3A40",
+                    primary: "#3A506B",
+                    muted: "#BCC5CE",
+                    card: "#FFFFFF",
+                    border: "#BCC5CE",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",
@@ -65,6 +74,8 @@ const config: Config = {
             },
             boxShadow: {
                 clarity: "0 4px 12px rgba(46, 58, 64, 0.08)",
+                "clarity-card": "0 2px 8px rgba(46, 58, 64, 0.06)",
+                "clarity-card-hover": "0 4px 16px rgba(46, 58, 64, 0.12)",
             },
         },
     },
