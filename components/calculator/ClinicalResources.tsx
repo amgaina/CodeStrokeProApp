@@ -9,18 +9,23 @@ interface ClinicalResourcesProps {
     onBack?: () => void;
 }
 
-export default function ClinicalResources({ onRestart, onBack }: ClinicalResourcesProps) {
+export default function ClinicalResources({
+    onRestart,
+    onBack,
+}: ClinicalResourcesProps) {
     const resources = [
         {
             title: "2019 AHA/ASA Acute Ischemic Stroke Guidelines",
             url: "https://www.ahajournals.org/doi/10.1161/STR.0000000000000211",
-            description: "Comprehensive guidelines for the early management of acute ischemic stroke",
+            description:
+                "Comprehensive guidelines for the early management of acute ischemic stroke",
             category: "Guidelines",
         },
         {
             title: "NINDS Stroke Information",
             url: "https://www.ninds.nih.gov/health-information/disorders/stroke",
-            description: "National Institute of Neurological Disorders and Stroke resources",
+            description:
+                "National Institute of Neurological Disorders and Stroke resources",
             category: "Education",
         },
         {
@@ -32,7 +37,8 @@ export default function ClinicalResources({ onRestart, onBack }: ClinicalResourc
         {
             title: "Emergency Stroke Care Algorithms",
             url: "https://www.stroke.org/en/professionals/stroke-treatments/emergency-stroke-care",
-            description: "Step-by-step algorithms for emergency stroke management",
+            description:
+                "Step-by-step algorithms for emergency stroke management",
             category: "Protocols",
         },
     ];
@@ -53,7 +59,8 @@ export default function ClinicalResources({ onRestart, onBack }: ClinicalResourc
                                 Essential Stroke Care Resources
                             </h3>
                             <p className="text-gray-600 text-sm">
-                                Quick access to evidence-based guidelines and protocols
+                                Quick access to evidence-based guidelines and
+                                protocols
                             </p>
                         </div>
 
@@ -97,13 +104,16 @@ export default function ClinicalResources({ onRestart, onBack }: ClinicalResourc
                             </h4>
                             <div className="space-y-2 text-sm">
                                 <p className="text-red-700">
-                                    <strong>Stroke Team:</strong> Call stroke alert per institutional protocol
+                                    <strong>Stroke Team:</strong> Call stroke
+                                    alert per institutional protocol
                                 </p>
                                 <p className="text-red-700">
-                                    <strong>Neurology:</strong> Contact on-call neurologist immediately
+                                    <strong>Neurology:</strong> Contact on-call
+                                    neurologist immediately
                                 </p>
                                 <p className="text-red-700">
-                                    <strong>Pharmacy:</strong> For drug preparation and verification
+                                    <strong>Pharmacy:</strong> For drug
+                                    preparation and verification
                                 </p>
                             </div>
                         </div>
@@ -114,11 +124,26 @@ export default function ClinicalResources({ onRestart, onBack }: ClinicalResourc
                                 Post-Thrombolytic Monitoring
                             </h4>
                             <div className="space-y-1 text-sm text-yellow-700">
-                                <p>• Neurological assessments every 15 minutes × 2 hours</p>
-                                <p>• Vital signs every 15 minutes × 2 hours, then every 30 minutes × 6 hours</p>
-                                <p>• Blood pressure management: keep &lt;180/105 mmHg</p>
-                                <p>• Watch for signs of bleeding or neurological deterioration</p>
-                                <p>• No anticoagulants or antiplatelets for 24 hours</p>
+                                <p>
+                                    • Neurological assessments every 15 minutes
+                                    × 2 hours
+                                </p>
+                                <p>
+                                    • Vital signs every 15 minutes × 2 hours,
+                                    then every 30 minutes × 6 hours
+                                </p>
+                                <p>
+                                    • Blood pressure management: keep
+                                    &lt;180/105 mmHg
+                                </p>
+                                <p>
+                                    • Watch for signs of bleeding or
+                                    neurological deterioration
+                                </p>
+                                <p>
+                                    • No anticoagulants or antiplatelets for 24
+                                    hours
+                                </p>
                             </div>
                         </div>
 

@@ -19,11 +19,11 @@ interface CodeStrokeTimersProps {
     onBack?: () => void;
 }
 
-export default function CodeStrokeTimers({ 
-    timers, 
-    onStartArrivalTimer, 
+export default function CodeStrokeTimers({
+    timers,
+    onStartArrivalTimer,
     onNext,
-    onBack
+    onBack,
 }: CodeStrokeTimersProps) {
     const formatTimeRemaining = (
         targetTime: Date,
@@ -48,7 +48,7 @@ export default function CodeStrokeTimers({
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-        
+
         return `${hours}h ${minutes}m ${seconds}s`;
     };
 
@@ -58,8 +58,9 @@ export default function CodeStrokeTimers({
             <Alert className="border-urgent-amber/30 bg-urgent-amber/10 clarity-shadow">
                 <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-urgent-amber" />
                 <AlertDescription className="text-deep-charcoal font-medium text-sm md:text-base">
-                    <strong className="text-urgent-amber">Important:</strong> 
-                    Do not close this application. Timers will reset if the page is closed.
+                    <strong className="text-urgent-amber">Important:</strong>
+                    Do not close this application. Timers will reset if the page
+                    is closed.
                 </AlertDescription>
             </Alert>
 
@@ -78,7 +79,8 @@ export default function CodeStrokeTimers({
                             <div className="text-center">
                                 {(() => {
                                     const fourHourLimit = new Date(
-                                        timers.lkwTime.getTime() + 4.5 * 60 * 60 * 1000
+                                        timers.lkwTime.getTime() +
+                                            4.5 * 60 * 60 * 1000
                                     );
                                     const timeRemaining = formatTimeRemaining(
                                         fourHourLimit,
@@ -99,10 +101,9 @@ export default function CodeStrokeTimers({
                                                         : "text-green-700"
                                                 }`}
                                             >
-                                                {timeRemaining.isExpired 
-                                                    ? "Thrombolytic Window Expired" 
-                                                    : "Time Remaining for IV Thrombolytics"
-                                                }
+                                                {timeRemaining.isExpired
+                                                    ? "Thrombolytic Window Expired"
+                                                    : "Time Remaining for IV Thrombolytics"}
                                             </p>
                                             <p
                                                 className={`text-2xl md:text-4xl font-bold ${
@@ -114,11 +115,15 @@ export default function CodeStrokeTimers({
                                                 {timeRemaining.text}
                                             </p>
                                             <p className="text-xs text-gray-600 mt-2">
-                                                LKW: {timers.lkwTime.toLocaleTimeString([], {
-                                                    hour: "2-digit",
-                                                    minute: "2-digit",
-                                                    hour12: true,
-                                                })}
+                                                LKW:{" "}
+                                                {timers.lkwTime.toLocaleTimeString(
+                                                    [],
+                                                    {
+                                                        hour: "2-digit",
+                                                        minute: "2-digit",
+                                                        hour12: true,
+                                                    }
+                                                )}
                                             </p>
                                         </div>
                                     );
@@ -140,7 +145,8 @@ export default function CodeStrokeTimers({
                         {!timers.arrivalTime ? (
                             <div className="text-center space-y-4">
                                 <p className="text-gray-600 text-sm">
-                                    Start timer when patient arrives to Emergency Department
+                                    Start timer when patient arrives to
+                                    Emergency Department
                                 </p>
                                 <Button
                                     onClick={onStartArrivalTimer}
@@ -157,7 +163,10 @@ export default function CodeStrokeTimers({
                                     Time Since ED Arrival
                                 </p>
                                 <p className="text-2xl md:text-4xl font-bold text-blue-800">
-                                    {formatElapsedTime(timers.arrivalTime, timers.currentTime)}
+                                    {formatElapsedTime(
+                                        timers.arrivalTime,
+                                        timers.currentTime
+                                    )}
                                 </p>
                                 <Badge className="mt-2 bg-red-600 text-xs">
                                     CODE STROKE ACTIVE
@@ -183,7 +192,8 @@ export default function CodeStrokeTimers({
                             <div className="text-center">
                                 {(() => {
                                     const fourHourLimit = new Date(
-                                        timers.lkwTime.getTime() + 4.5 * 60 * 60 * 1000
+                                        timers.lkwTime.getTime() +
+                                            4.5 * 60 * 60 * 1000
                                     );
                                     const timeRemaining = formatTimeRemaining(
                                         fourHourLimit,
@@ -204,10 +214,9 @@ export default function CodeStrokeTimers({
                                                         : "text-green-700"
                                                 }`}
                                             >
-                                                {timeRemaining.isExpired 
-                                                    ? "Thrombolytic Window Expired" 
-                                                    : "Time Remaining for IV Thrombolytics"
-                                                }
+                                                {timeRemaining.isExpired
+                                                    ? "Thrombolytic Window Expired"
+                                                    : "Time Remaining for IV Thrombolytics"}
                                             </p>
                                             <p
                                                 className={`text-4xl font-bold ${
@@ -219,11 +228,15 @@ export default function CodeStrokeTimers({
                                                 {timeRemaining.text}
                                             </p>
                                             <p className="text-xs text-gray-600 mt-2">
-                                                LKW: {timers.lkwTime.toLocaleTimeString([], {
-                                                    hour: "2-digit",
-                                                    minute: "2-digit",
-                                                    hour12: true,
-                                                })}
+                                                LKW:{" "}
+                                                {timers.lkwTime.toLocaleTimeString(
+                                                    [],
+                                                    {
+                                                        hour: "2-digit",
+                                                        minute: "2-digit",
+                                                        hour12: true,
+                                                    }
+                                                )}
                                             </p>
                                         </div>
                                     );
@@ -245,7 +258,8 @@ export default function CodeStrokeTimers({
                         {!timers.arrivalTime ? (
                             <div className="text-center space-y-4">
                                 <p className="text-gray-600">
-                                    Start timer when patient arrives to Emergency Department
+                                    Start timer when patient arrives to
+                                    Emergency Department
                                 </p>
                                 <Button
                                     onClick={onStartArrivalTimer}
@@ -262,7 +276,10 @@ export default function CodeStrokeTimers({
                                     Time Since ED Arrival
                                 </p>
                                 <p className="text-4xl font-bold text-blue-800">
-                                    {formatElapsedTime(timers.arrivalTime, timers.currentTime)}
+                                    {formatElapsedTime(
+                                        timers.arrivalTime,
+                                        timers.currentTime
+                                    )}
                                 </p>
                                 <Badge className="mt-2 bg-red-600">
                                     CODE STROKE ACTIVE

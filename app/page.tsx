@@ -64,10 +64,12 @@ export default function HomePage() {
                             Serving Communities Through Better Stroke Care
                         </h2>
                         <p className="text-xl text-deep-charcoal/70 max-w-3xl mx-auto mb-10">
-                            CodeStroke Pro is a non-commercial clinical decision support tool developed 
-                            to serve healthcare providers and improve patient outcomes in acute stroke care. 
-                            Our mission is to enhance community health through accessible, evidence-based tools 
-                            that support timely and effective treatment decisions.
+                            CodeStroke Pro is a non-commercial clinical decision
+                            support tool developed to serve healthcare providers
+                            and improve patient outcomes in acute stroke care.
+                            Our mission is to enhance community health through
+                            accessible, evidence-based tools that support timely
+                            and effective treatment decisions.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Button
@@ -92,7 +94,7 @@ export default function HomePage() {
                                 </Link>
                             </Button>
                         </div>
-                        
+
                         {/* Service Impact Banner */}
                         <div className="mt-12 bg-gradient-to-r from-vital-green/10 to-clinical-slate/10 border border-vital-green/20 rounded-lg p-6 clarity-shadow">
                             <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
@@ -101,8 +103,12 @@ export default function HomePage() {
                                         <Activity className="h-5 w-5 text-vital-green" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium text-deep-charcoal">Community Focus</p>
-                                        <p className="text-xs text-deep-charcoal/70">Serving Northeast Louisiana</p>
+                                        <p className="text-sm font-medium text-deep-charcoal">
+                                            Community Focus
+                                        </p>
+                                        <p className="text-xs text-deep-charcoal/70">
+                                            Serving Northeast Louisiana
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -110,8 +116,12 @@ export default function HomePage() {
                                         <Shield className="h-5 w-5 text-clinical-slate" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium text-deep-charcoal">Non-Commercial</p>
-                                        <p className="text-xs text-deep-charcoal/70">Open Access Tool</p>
+                                        <p className="text-sm font-medium text-deep-charcoal">
+                                            Non-Commercial
+                                        </p>
+                                        <p className="text-xs text-deep-charcoal/70">
+                                            Open Access Tool
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -119,8 +129,12 @@ export default function HomePage() {
                                         <Stethoscope className="h-5 w-5 text-vital-green" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium text-deep-charcoal">Evidence-Based</p>
-                                        <p className="text-xs text-deep-charcoal/70">Clinical Guidelines</p>
+                                        <p className="text-sm font-medium text-deep-charcoal">
+                                            Evidence-Based
+                                        </p>
+                                        <p className="text-xs text-deep-charcoal/70">
+                                            Clinical Guidelines
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -175,11 +189,13 @@ export default function HomePage() {
                                 About This Project
                             </h2>
                             <p className="text-lg text-deep-charcoal/70 mb-8 max-w-3xl mx-auto">
-                                CodeStroke Pro is a non-commercial, open-access clinical decision support tool
-                                developed to serve healthcare providers and improve patient outcomes in acute stroke care.
+                                CodeStroke Pro is a non-commercial, open-access
+                                clinical decision support tool developed to
+                                serve healthcare providers and improve patient
+                                outcomes in acute stroke care.
                             </p>
                         </div>
-                        
+
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                             {/* Mission Statement */}
                             <div className="bg-white border border-harbor-gray rounded-lg p-6 clarity-shadow">
@@ -188,13 +204,22 @@ export default function HomePage() {
                                     Our Mission
                                 </h3>
                                 <p className="text-deep-charcoal/70 mb-4">
-                                    This tool was developed to improve the efficiency and safety of acute stroke care by
-                                    providing an intuitive, evidence-based decision support system. Our goal is to reduce cognitive
-                                    load on healthcare providers during critical, time-sensitive situations.
+                                    This tool was developed to improve the
+                                    efficiency and safety of acute stroke care
+                                    by providing an intuitive, evidence-based
+                                    decision support system. Our goal is to
+                                    reduce cognitive load on healthcare
+                                    providers during critical, time-sensitive
+                                    situations.
                                 </p>
                                 <p className="text-deep-charcoal/70">
-                                    This project supports the mission of the ULM College of Pharmacy: 
-                                    <em className="text-vital-green"> "Enhancing the health and environment of the communities we serve."</em>
+                                    This project supports the mission of the ULM
+                                    College of Pharmacy:
+                                    <em className="text-vital-green">
+                                        {" "}
+                                        "Enhancing the health and environment of
+                                        the communities we serve."
+                                    </em>
                                 </p>
                             </div>
 
@@ -205,12 +230,19 @@ export default function HomePage() {
                                     Development Team
                                 </h3>
                                 <p className="text-deep-charcoal/70 mb-4">
-                                    This project was created by faculty members at the University of Louisiana at Monroe College of Pharmacy,
-                                    with a focus on translating clinical expertise into practical tools for healthcare providers.
+                                    This project was created by faculty members
+                                    at the University of Louisiana at Monroe
+                                    College of Pharmacy, with a focus on
+                                    translating clinical expertise into
+                                    practical tools for healthcare providers.
                                 </p>
                                 <p className="text-deep-charcoal/70">
-                                    This tool is provided for educational and clinical support purposes only and is not intended for commercial use.
-                                    All development efforts are aligned with our institutional commitment to public service and community health.
+                                    This tool is provided for educational and
+                                    clinical support purposes only and is not
+                                    intended for commercial use. All development
+                                    efforts are aligned with our institutional
+                                    commitment to public service and community
+                                    health.
                                 </p>
                             </div>
                         </div>
@@ -226,18 +258,29 @@ export default function HomePage() {
                                         Living Well Foundation
                                     </h4>
                                     <p className="text-deep-charcoal/70 mb-4">
-                                        <strong>This project was funded (or funded in part) by a grant from the Living Well Foundation.</strong>
+                                        <strong>
+                                            This project was funded (or funded
+                                            in part) by a grant from the Living
+                                            Well Foundation.
+                                        </strong>
                                     </p>
                                     <p className="text-deep-charcoal/70 mb-4">
-                                        The Living Well Foundation is a public non-profit organization dedicated to enhancing the health, 
-                                        wellness, and quality of life in northeast Louisiana. Founded in 2006, the Living Well Foundation 
-                                        serves the residents of Caldwell, Franklin, Jackson, Lincoln, Morehouse, Ouachita, Richland, and Union Parishes.
+                                        The Living Well Foundation is a public
+                                        non-profit organization dedicated to
+                                        enhancing the health, wellness, and
+                                        quality of life in northeast Louisiana.
+                                        Founded in 2006, the Living Well
+                                        Foundation serves the residents of
+                                        Caldwell, Franklin, Jackson, Lincoln,
+                                        Morehouse, Ouachita, Richland, and Union
+                                        Parishes.
                                     </p>
                                     <p className="text-deep-charcoal/70">
-                                        For more information about the Foundation, visit:{" "}
-                                        <a 
-                                            href="https://www.livingwellfoundation.net" 
-                                            target="_blank" 
+                                        For more information about the
+                                        Foundation, visit:{" "}
+                                        <a
+                                            href="https://www.livingwellfoundation.net"
+                                            target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-vital-green hover:text-vital-green/80 underline font-medium"
                                         >
@@ -245,15 +288,19 @@ export default function HomePage() {
                                         </a>
                                     </p>
                                 </div>
-                                
+
                                 <div className="bg-white/80 rounded-lg p-6 border border-harbor-gray/30">
                                     <h4 className="text-lg font-medium text-deep-charcoal mb-3">
-                                        University of Louisiana at Monroe College of Pharmacy
+                                        University of Louisiana at Monroe
+                                        College of Pharmacy
                                     </h4>
                                     <p className="text-deep-charcoal/70">
-                                        This project was created by faculty members at University of Louisiana at Monroe College of Pharmacy 
-                                        and supports the mission of the ULM College of Pharmacy in enhancing the health and environment 
-                                        of the communities we serve.
+                                        This project was created by faculty
+                                        members at University of Louisiana at
+                                        Monroe College of Pharmacy and supports
+                                        the mission of the ULM College of
+                                        Pharmacy in enhancing the health and
+                                        environment of the communities we serve.
                                     </p>
                                 </div>
                             </div>
@@ -305,56 +352,120 @@ export default function HomePage() {
                                 </h3>
                                 <div className="space-y-4 text-sm text-deep-charcoal/70">
                                     <p>
-                                        <strong>This application is provided as a clinical support and educational tool only.</strong> It is designed to assist qualified healthcare professionals in managing time-sensitive decisions in acute stroke care but is not a substitute for independent clinical judgment, institutional protocols, or the standard of care.
+                                        <strong>
+                                            This application is provided as a
+                                            clinical support and educational
+                                            tool only.
+                                        </strong>{" "}
+                                        It is designed to assist qualified
+                                        healthcare professionals in managing
+                                        time-sensitive decisions in acute stroke
+                                        care but is not a substitute for
+                                        independent clinical judgment,
+                                        institutional protocols, or the standard
+                                        of care.
                                     </p>
-                                    
+
                                     <p>
-                                        <strong>This information is current as of 06/26/2025.</strong> While reasonable efforts are made to maintain the accuracy and relevance of the information presented, it is the responsibility of the prescriber and care team to verify all data and ensure appropriate treatment is provided.
+                                        <strong>
+                                            This information is current as of
+                                            06/26/2025.
+                                        </strong>{" "}
+                                        While reasonable efforts are made to
+                                        maintain the accuracy and relevance of
+                                        the information presented, it is the
+                                        responsibility of the prescriber and
+                                        care team to verify all data and ensure
+                                        appropriate treatment is provided.
                                     </p>
-                                    
+
                                     <div>
-                                        <p className="font-medium text-deep-charcoal mb-2">By using this application, you acknowledge that:</p>
+                                        <p className="font-medium text-deep-charcoal mb-2">
+                                            By using this application, you
+                                            acknowledge that:
+                                        </p>
                                         <ul className="space-y-2 ml-4">
                                             <li className="flex items-start">
                                                 <span className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                                                <span>The app does not make treatment decisions and is not a source of medical advice.</span>
+                                                <span>
+                                                    The app does not make
+                                                    treatment decisions and is
+                                                    not a source of medical
+                                                    advice.
+                                                </span>
                                             </li>
                                             <li className="flex items-start">
                                                 <span className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                                                <span>The app provides guidance only, based on user-input data and current evidence or clinical standards as of the noted date.</span>
+                                                <span>
+                                                    The app provides guidance
+                                                    only, based on user-input
+                                                    data and current evidence or
+                                                    clinical standards as of the
+                                                    noted date.
+                                                </span>
                                             </li>
                                             <li className="flex items-start">
                                                 <span className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                                                <span>Ultimate responsibility for patient care remains solely with the treating provider(s).</span>
+                                                <span>
+                                                    Ultimate responsibility for
+                                                    patient care remains solely
+                                                    with the treating
+                                                    provider(s).
+                                                </span>
                                             </li>
                                             <li className="flex items-start">
                                                 <span className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                                                <span>With the appropriate disclaimers in place, the liability of the developers and affiliated institutions is considered to be very low. The developers and institutions assume no liability for any direct or indirect damages, injuries, or outcomes resulting from use or reliance on this tool.</span>
+                                                <span>
+                                                    With the appropriate
+                                                    disclaimers in place, the
+                                                    liability of the developers
+                                                    and affiliated institutions
+                                                    is considered to be very
+                                                    low. The developers and
+                                                    institutions assume no
+                                                    liability for any direct or
+                                                    indirect damages, injuries,
+                                                    or outcomes resulting from
+                                                    use or reliance on this
+                                                    tool.
+                                                </span>
                                             </li>
                                             <li className="flex items-start">
                                                 <span className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                                                <span><strong>By continuing, you acknowledge and accept these terms.</strong></span>
+                                                <span>
+                                                    <strong>
+                                                        By continuing, you
+                                                        acknowledge and accept
+                                                        these terms.
+                                                    </strong>
+                                                </span>
                                             </li>
                                         </ul>
                                     </div>
-                                    
+
                                     <p className="text-xs text-deep-charcoal/60 mt-6 pt-4 border-t border-harbor-gray/30">
-                                        All patient data entered is processed locally and is not stored or transmitted. This tool is intended for use by licensed healthcare professionals as a decision support aid.
+                                        All patient data entered is processed
+                                        locally and is not stored or
+                                        transmitted. This tool is intended for
+                                        use by licensed healthcare professionals
+                                        as a decision support aid.
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div className="text-center text-deep-charcoal/60 space-y-2">
                         <p className="text-sm">
-                            Developed by University of Louisiana at Monroe College of Pharmacy
+                            Developed by University of Louisiana at Monroe
+                            College of Pharmacy
                         </p>
                         <p className="text-sm">
                             Funded by the Living Well Foundation
                         </p>
                         <p className="text-xs">
-                            &copy; {new Date().getFullYear()} CodeStroke Pro. A public service initiative.
+                            &copy; {new Date().getFullYear()} CodeStroke Pro. A
+                            public service initiative.
                         </p>
                     </div>
                 </div>

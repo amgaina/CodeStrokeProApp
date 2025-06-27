@@ -34,14 +34,15 @@ interface EligibilityScreeningProps {
     onBack?: () => void;
 }
 
-export default function EligibilityScreening({ 
-    answers, 
-    onAnswerChange, 
+export default function EligibilityScreening({
+    answers,
+    onAnswerChange,
     onNext,
-    onBack
+    onBack,
 }: EligibilityScreeningProps) {
     const [medicationsExpanded, setMedicationsExpanded] = useState(false);
-    const [contraindicationsExpanded, setContraindicationsExpanded] = useState(false);
+    const [contraindicationsExpanded, setContraindicationsExpanded] =
+        useState(false);
 
     const updateAnswer = (key: keyof EligibilityAnswers, value: boolean) => {
         onAnswerChange({
@@ -77,7 +78,8 @@ export default function EligibilityScreening({
         ) {
             return {
                 status: "evaluate",
-                message: "Careful evaluation required - Relative contraindications present",
+                message:
+                    "Careful evaluation required - Relative contraindications present",
                 color: "amber",
             };
         }
@@ -126,8 +128,8 @@ export default function EligibilityScreening({
                         <div
                             key={question.key}
                             className={`flex items-start space-x-3 p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                                answers[question.key] 
-                                    ? "border-red-300 bg-red-50" 
+                                answers[question.key]
+                                    ? "border-red-300 bg-red-50"
                                     : "border-gray-200"
                             }`}
                         >
@@ -159,9 +161,13 @@ export default function EligibilityScreening({
                     </p>
 
                     {/* Blood Pressure */}
-                    <div className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                        answers.highBP ? "border-amber-300 bg-amber-50" : "border-gray-200"
-                    }`}>
+                    <div
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
+                            answers.highBP
+                                ? "border-amber-300 bg-amber-50"
+                                : "border-gray-200"
+                        }`}
+                    >
                         <div className="flex items-start space-x-3">
                             <Checkbox
                                 id="highBP"
@@ -175,21 +181,29 @@ export default function EligibilityScreening({
                                 htmlFor="highBP"
                                 className="text-sm font-medium cursor-pointer"
                             >
-                                Blood pressure &gt;185/110 mmHg on repeated measures?
+                                Blood pressure &gt;185/110 mmHg on repeated
+                                measures?
                             </Label>
                         </div>
                     </div>
 
                     {/* Glucose */}
-                    <div className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                        answers.abnormalGlucose ? "border-amber-300 bg-amber-50" : "border-gray-200"
-                    }`}>
+                    <div
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
+                            answers.abnormalGlucose
+                                ? "border-amber-300 bg-amber-50"
+                                : "border-gray-200"
+                        }`}
+                    >
                         <div className="flex items-start space-x-3">
                             <Checkbox
                                 id="abnormalGlucose"
                                 checked={answers.abnormalGlucose}
                                 onCheckedChange={(checked) =>
-                                    updateAnswer("abnormalGlucose", checked === true)
+                                    updateAnswer(
+                                        "abnormalGlucose",
+                                        checked === true
+                                    )
                                 }
                                 className="mt-1"
                             />
@@ -203,15 +217,22 @@ export default function EligibilityScreening({
                     </div>
 
                     {/* Clinical Assessment */}
-                    <div className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                        answers.rapidImprovement ? "border-amber-300 bg-amber-50" : "border-gray-200"
-                    }`}>
+                    <div
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
+                            answers.rapidImprovement
+                                ? "border-amber-300 bg-amber-50"
+                                : "border-gray-200"
+                        }`}
+                    >
                         <div className="flex items-start space-x-3">
                             <Checkbox
                                 id="rapidImprovement"
                                 checked={answers.rapidImprovement}
                                 onCheckedChange={(checked) =>
-                                    updateAnswer("rapidImprovement", checked === true)
+                                    updateAnswer(
+                                        "rapidImprovement",
+                                        checked === true
+                                    )
                                 }
                                 className="mt-1"
                             />
@@ -224,15 +245,22 @@ export default function EligibilityScreening({
                         </div>
                     </div>
 
-                    <div className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                        answers.minorSymptoms ? "border-amber-300 bg-amber-50" : "border-gray-200"
-                    }`}>
+                    <div
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
+                            answers.minorSymptoms
+                                ? "border-amber-300 bg-amber-50"
+                                : "border-gray-200"
+                        }`}
+                    >
                         <div className="flex items-start space-x-3">
                             <Checkbox
                                 id="minorSymptoms"
                                 checked={answers.minorSymptoms}
                                 onCheckedChange={(checked) =>
-                                    updateAnswer("minorSymptoms", checked === true)
+                                    updateAnswer(
+                                        "minorSymptoms",
+                                        checked === true
+                                    )
                                 }
                                 className="mt-1"
                             />
@@ -240,21 +268,29 @@ export default function EligibilityScreening({
                                 htmlFor="minorSymptoms"
                                 className="text-sm font-medium cursor-pointer"
                             >
-                                Are symptoms mild and non-disabling (NIHSS &lt;4)?
+                                Are symptoms mild and non-disabling (NIHSS
+                                &lt;4)?
                             </Label>
                         </div>
                     </div>
 
                     {/* Medications */}
-                    <div className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                        answers.onMedications ? "border-amber-300 bg-amber-50" : "border-gray-200"
-                    }`}>
+                    <div
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
+                            answers.onMedications
+                                ? "border-amber-300 bg-amber-50"
+                                : "border-gray-200"
+                        }`}
+                    >
                         <div className="flex items-start space-x-3">
                             <Checkbox
                                 id="onMedications"
                                 checked={answers.onMedications}
                                 onCheckedChange={(checked) =>
-                                    updateAnswer("onMedications", checked === true)
+                                    updateAnswer(
+                                        "onMedications",
+                                        checked === true
+                                    )
                                 }
                                 className="mt-1"
                             />
@@ -263,7 +299,8 @@ export default function EligibilityScreening({
                                     htmlFor="onMedications"
                                     className="text-sm font-medium cursor-pointer"
                                 >
-                                    Is the patient on anticoagulants or recent antiplatelet therapy?
+                                    Is the patient on anticoagulants or recent
+                                    antiplatelet therapy?
                                 </Label>
 
                                 <Collapsible
@@ -286,8 +323,14 @@ export default function EligibilityScreening({
                                             </h4>
                                             <div className="space-y-1 text-xs text-red-700">
                                                 <p>• Warfarin (check INR)</p>
-                                                <p>• Direct oral anticoagulants (DOACs)</p>
-                                                <p>• Heparin products (check aPTT/anti-Xa)</p>
+                                                <p>
+                                                    • Direct oral anticoagulants
+                                                    (DOACs)
+                                                </p>
+                                                <p>
+                                                    • Heparin products (check
+                                                    aPTT/anti-Xa)
+                                                </p>
                                             </div>
                                         </div>
 
@@ -296,8 +339,14 @@ export default function EligibilityScreening({
                                                 Recent Antiplatelet Therapy
                                             </h4>
                                             <div className="space-y-1 text-xs text-yellow-700">
-                                                <p>• Dual antiplatelet therapy within 24 hours</p>
-                                                <p>• Clopidogrel, ticagrelor, or prasugrel</p>
+                                                <p>
+                                                    • Dual antiplatelet therapy
+                                                    within 24 hours
+                                                </p>
+                                                <p>
+                                                    • Clopidogrel, ticagrelor,
+                                                    or prasugrel
+                                                </p>
                                             </div>
                                         </div>
                                     </CollapsibleContent>
@@ -307,15 +356,22 @@ export default function EligibilityScreening({
                     </div>
 
                     {/* Additional Contraindications - Collapsible */}
-                    <div className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                        answers.contraindications ? "border-amber-300 bg-amber-50" : "border-gray-200"
-                    }`}>
+                    <div
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
+                            answers.contraindications
+                                ? "border-amber-300 bg-amber-50"
+                                : "border-gray-200"
+                        }`}
+                    >
                         <div className="flex items-start space-x-3">
                             <Checkbox
                                 id="contraindications"
                                 checked={answers.contraindications}
                                 onCheckedChange={(checked) =>
-                                    updateAnswer("contraindications", checked === true)
+                                    updateAnswer(
+                                        "contraindications",
+                                        checked === true
+                                    )
                                 }
                                 className="mt-1"
                             />
@@ -343,16 +399,36 @@ export default function EligibilityScreening({
                                         <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700">
                                                 <div>
-                                                    <p>• Recent major surgery (&lt;14 days)</p>
-                                                    <p>• Active internal bleeding</p>
-                                                    <p>• History of intracranial hemorrhage</p>
-                                                    <p>• Severe liver disease</p>
+                                                    <p>
+                                                        • Recent major surgery
+                                                        (&lt;14 days)
+                                                    </p>
+                                                    <p>
+                                                        • Active internal
+                                                        bleeding
+                                                    </p>
+                                                    <p>
+                                                        • History of
+                                                        intracranial hemorrhage
+                                                    </p>
+                                                    <p>
+                                                        • Severe liver disease
+                                                    </p>
                                                 </div>
                                                 <div>
-                                                    <p>• Platelet count &lt;100,000</p>
-                                                    <p>• Suspected aortic dissection</p>
+                                                    <p>
+                                                        • Platelet count
+                                                        &lt;100,000
+                                                    </p>
+                                                    <p>
+                                                        • Suspected aortic
+                                                        dissection
+                                                    </p>
                                                     <p>• Pregnancy</p>
-                                                    <p>• Arterial puncture at non-compressible site</p>
+                                                    <p>
+                                                        • Arterial puncture at
+                                                        non-compressible site
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -364,11 +440,17 @@ export default function EligibilityScreening({
                 </div>
 
                 {/* Eligibility Status */}
-                <Alert className={`border-${eligibilityStatus.color}-300 bg-${eligibilityStatus.color}-50`}>
-                    <AlertTriangle className={`h-5 w-5 text-${eligibilityStatus.color}-600`} />
+                <Alert
+                    className={`border-${eligibilityStatus.color}-300 bg-${eligibilityStatus.color}-50`}
+                >
+                    <AlertTriangle
+                        className={`h-5 w-5 text-${eligibilityStatus.color}-600`}
+                    />
                     <AlertDescription className="font-medium">
-                        <strong className={`text-${eligibilityStatus.color}-800`}>
-                            Assessment: 
+                        <strong
+                            className={`text-${eligibilityStatus.color}-800`}
+                        >
+                            Assessment:
                         </strong>{" "}
                         {eligibilityStatus.message}
                     </AlertDescription>
@@ -395,8 +477,7 @@ export default function EligibilityScreening({
                     >
                         {eligibilityStatus.status === "ineligible"
                             ? "Review Alternative Therapies"
-                            : "Continue to Drug Selection"
-                        }
+                            : "Continue to Drug Selection"}
                     </Button>
                 </div>
             </CardContent>

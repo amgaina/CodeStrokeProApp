@@ -13,25 +13,30 @@ interface LKWTimeEntryProps {
 }
 
 // Utility function to determine the most appropriate LKW date/time
-function calculateLKWDateTime(timeInput: string, currentTime: Date): Date | null {
+function calculateLKWDateTime(
+    timeInput: string,
+    currentTime: Date
+): Date | null {
     const [hours, minutes] = timeInput.split(":").map(Number);
-    
+
     // Create candidate dates for today and yesterday
     const todayLKW = new Date(currentTime);
     todayLKW.setHours(hours, minutes, 0, 0);
-    
+
     const yesterdayLKW = new Date(currentTime);
     yesterdayLKW.setDate(yesterdayLKW.getDate() - 1);
     yesterdayLKW.setHours(hours, minutes, 0, 0);
-    
+
     // Calculate time differences
     const todayDiff = Math.abs(todayLKW.getTime() - currentTime.getTime());
-    const yesterdayDiff = Math.abs(yesterdayLKW.getTime() - currentTime.getTime());
-    
+    const yesterdayDiff = Math.abs(
+        yesterdayLKW.getTime() - currentTime.getTime()
+    );
+
     // Choose the date that makes more clinical sense
     let lkwDateTime: Date;
     const twelveHours = 12 * 60 * 60 * 1000;
-    
+
     if (todayLKW.getTime() > currentTime.getTime() + twelveHours) {
         // Today's time is far in the future, use yesterday
         lkwDateTime = yesterdayLKW;
@@ -42,29 +47,37 @@ function calculateLKWDateTime(timeInput: string, currentTime: Date): Date | null
         // Yesterday's time is closer, use yesterday
         lkwDateTime = yesterdayLKW;
     }
-    
+
     // Clinical validation: LKW shouldn't be more than 48 hours ago
-    const fortyEightHoursAgo = new Date(currentTime.getTime() - 48 * 60 * 60 * 1000);
+    const fortyEightHoursAgo = new Date(
+        currentTime.getTime() - 48 * 60 * 60 * 1000
+    );
     if (lkwDateTime < fortyEightHoursAgo) {
         return null; // Don't set unreasonably old times
     }
-    
+
     // Clinical validation: LKW shouldn't be more than 2 hours in the future
-    const twoHoursFromNow = new Date(currentTime.getTime() + 2 * 60 * 60 * 1000);
+    const twoHoursFromNow = new Date(
+        currentTime.getTime() + 2 * 60 * 60 * 1000
+    );
     if (lkwDateTime > twoHoursFromNow) {
         return null; // Don't set unreasonably future times
     }
-    
+
     return lkwDateTime;
 }
 
-export default function LKWTimeEntry({ lkwTime, onTimeSet, onNext }: LKWTimeEntryProps) {
+export default function LKWTimeEntry({
+    lkwTime,
+    onTimeSet,
+    onNext,
+}: LKWTimeEntryProps) {
     const setLKWTime = (timeInput: string) => {
         if (!timeInput) return;
-        
+
         const now = new Date();
         const lkwDateTime = calculateLKWDateTime(timeInput, now);
-        
+
         if (lkwDateTime) {
             onTimeSet(lkwDateTime);
         }
@@ -85,7 +98,8 @@ export default function LKWTimeEntry({ lkwTime, onTimeSet, onNext }: LKWTimeEntr
                             When was the patient last seen normal?
                         </h3>
                         <p className="text-deep-charcoal/70 text-sm">
-                            Enter the time the patient was last known to be without neurological symptoms
+                            Enter the time the patient was last known to be
+                            without neurological symptoms
                         </p>
                     </div>
 
@@ -114,10 +128,10 @@ export default function LKWTimeEntry({ lkwTime, onTimeSet, onNext }: LKWTimeEntr
                                 </p>
                                 <p className="text-base md:text-lg font-semibold text-deep-charcoal">
                                     {lkwTime.toLocaleDateString([], {
-                                        weekday: 'short',
-                                        month: 'short',
-                                        day: 'numeric'
-                                    })}{' '}
+                                        weekday: "short",
+                                        month: "short",
+                                        day: "numeric",
+                                    })}{" "}
                                     {lkwTime.toLocaleTimeString([], {
                                         hour: "2-digit",
                                         minute: "2-digit",
@@ -127,12 +141,22 @@ export default function LKWTimeEntry({ lkwTime, onTimeSet, onNext }: LKWTimeEntr
                                 <p className="text-xs text-deep-charcoal/60 mt-1">
                                     {(() => {
                                         const now = new Date();
-                                        const timeDiff = now.getTime() - lkwTime.getTime();
-                                        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-                                        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                                        const isToday = lkwTime.toDateString() === now.toDateString();
+                                        const timeDiff =
+                                            now.getTime() - lkwTime.getTime();
+                                        const hours = Math.floor(
+                                            timeDiff / (1000 * 60 * 60)
+                                        );
+                                        const minutes = Math.floor(
+                                            (timeDiff % (1000 * 60 * 60)) /
+                                                (1000 * 60)
+                                        );
+                                        const isToday =
+                                            lkwTime.toDateString() ===
+                                            now.toDateString();
                                         const timeAgo = `${hours} hours ${minutes} minutes ago`;
-                                        return isToday ? timeAgo : `${timeAgo} (${lkwTime.toDateString()})`;
+                                        return isToday
+                                            ? timeAgo
+                                            : `${timeAgo} (${lkwTime.toDateString()})`;
                                     })()}
                                 </p>
                             </div>

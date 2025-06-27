@@ -209,7 +209,7 @@ export default function CodeStrokeProApp() {
                                     href="/"
                                     className="hover:opacity-80 transition-opacity"
                                 >
-                                    <h1 className="text-base font-semibold tracking-tight text-parchment">
+                                    <h1 className="hidden sm:block text-base font-semibold tracking-tight text-parchment">
                                         CodeStroke Pro
                                     </h1>
                                 </Link>
@@ -361,10 +361,10 @@ export default function CodeStrokeProApp() {
                                         href="/"
                                         className="hover:opacity-80 transition-opacity"
                                     >
-                                        <h1 className="text-lg md:text-xl font-semibold tracking-tight text-parchment">
+                                        <h1 className="hidden sm:block text-lg md:text-xl font-semibold tracking-tight text-parchment">
                                             CodeStroke Pro
                                         </h1>
-                                        <p className="text-parchment/80 text-xs md:text-sm font-medium leading-tight">
+                                        <p className="hidden sm:block text-parchment/80 text-xs md:text-sm font-medium leading-tight">
                                             Clinical Decision Support
                                         </p>
                                     </Link>
@@ -528,7 +528,17 @@ export default function CodeStrokeProApp() {
                                                                                 60)) /
                                                                             1000
                                                                     );
-                                                                return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                                                                return `${hours}:${minutes
+                                                                    .toString()
+                                                                    .padStart(
+                                                                        2,
+                                                                        "0"
+                                                                    )}:${seconds
+                                                                    .toString()
+                                                                    .padStart(
+                                                                        2,
+                                                                        "0"
+                                                                    )}`;
                                                             })()}
                                                         </div>
                                                         <div className="inline-flex items-center gap-1 bg-critical-crimson text-white text-sm font-bold px-3 py-1.5 rounded-md mt-1">

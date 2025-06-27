@@ -13,11 +13,11 @@ interface DrugSelectionProps {
     onBack?: () => void;
 }
 
-export default function DrugSelection({ 
-    selectedDrug, 
-    onDrugSelect, 
+export default function DrugSelection({
+    selectedDrug,
+    onDrugSelect,
     onNext,
-    onBack
+    onBack,
 }: DrugSelectionProps) {
     return (
         <Card className="mb-6 md:mb-8 shadow-xl border-0 bg-white">
@@ -34,7 +34,8 @@ export default function DrugSelection({
                             Select Thrombolytic Agent
                         </h3>
                         <p className="text-gray-600 text-sm">
-                            Both agents are guideline-recommended for acute ischemic stroke
+                            Both agents are guideline-recommended for acute
+                            ischemic stroke
                         </p>
                     </div>
 
@@ -42,9 +43,10 @@ export default function DrugSelection({
                     <Alert className="border-blue-200 bg-blue-50">
                         <Info className="h-4 w-4 text-blue-600" />
                         <AlertDescription className="text-blue-800 text-sm">
-                            <strong>Clinical Note:</strong> Recent trials suggest TNK may have advantages 
-                            for large vessel occlusions, while both agents have similar efficacy for 
-                            standard acute ischemic stroke.
+                            <strong>Clinical Note:</strong> Recent trials
+                            suggest TNK may have advantages for large vessel
+                            occlusions, while both agents have similar efficacy
+                            for standard acute ischemic stroke.
                         </AlertDescription>
                     </Alert>
 
@@ -66,7 +68,7 @@ export default function DrugSelection({
                                     </div>
                                 </div>
                             )}
-                            
+
                             <div className="text-center">
                                 <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
                                     Tenecteplase (TNK)
@@ -74,21 +76,33 @@ export default function DrugSelection({
                                 <Badge className="mb-4 bg-purple-100 text-purple-800 border-purple-300">
                                     Single IV Bolus
                                 </Badge>
-                                
+
                                 <div className="space-y-3 text-sm text-gray-700">
                                     <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-                                        <h5 className="font-semibold text-green-800 mb-1">Advantages</h5>
+                                        <h5 className="font-semibold text-green-800 mb-1">
+                                            Advantages
+                                        </h5>
                                         <ul className="text-xs space-y-1">
-                                            <li>• Single bolus administration (30 seconds)</li>
+                                            <li>
+                                                • Single bolus administration
+                                                (30 seconds)
+                                            </li>
                                             <li>• No IV infusion required</li>
-                                            <li>• May be superior for large vessel occlusions</li>
+                                            <li>
+                                                • May be superior for large
+                                                vessel occlusions
+                                            </li>
                                             <li>• Reduced nursing workload</li>
                                         </ul>
                                     </div>
-                                    
+
                                     <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-                                        <h5 className="font-semibold text-blue-800 mb-1">Dosing</h5>
-                                        <p className="text-xs">Weight-based: 0.25 mg/kg (max 25 mg)</p>
+                                        <h5 className="font-semibold text-blue-800 mb-1">
+                                            Dosing
+                                        </h5>
+                                        <p className="text-xs">
+                                            Weight-based: 0.25 mg/kg (max 25 mg)
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +124,7 @@ export default function DrugSelection({
                                     </div>
                                 </div>
                             )}
-                            
+
                             <div className="text-center">
                                 <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
                                     Alteplase (tPA)
@@ -118,22 +132,37 @@ export default function DrugSelection({
                                 <Badge className="mb-4 bg-blue-100 text-blue-800 border-blue-300">
                                     IV Bolus + Infusion
                                 </Badge>
-                                
+
                                 <div className="space-y-3 text-sm text-gray-700">
                                     <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-                                        <h5 className="font-semibold text-green-800 mb-1">Advantages</h5>
+                                        <h5 className="font-semibold text-green-800 mb-1">
+                                            Advantages
+                                        </h5>
                                         <ul className="text-xs space-y-1">
-                                            <li>• Extensive clinical experience</li>
-                                            <li>• Gold standard in stroke trials</li>
-                                            <li>• Well-established safety profile</li>
+                                            <li>
+                                                • Extensive clinical experience
+                                            </li>
+                                            <li>
+                                                • Gold standard in stroke trials
+                                            </li>
+                                            <li>
+                                                • Well-established safety
+                                                profile
+                                            </li>
                                             <li>• Widely available</li>
                                         </ul>
                                     </div>
-                                    
+
                                     <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-                                        <h5 className="font-semibold text-blue-800 mb-1">Dosing</h5>
-                                        <p className="text-xs">0.9 mg/kg (max 90 mg)</p>
-                                        <p className="text-xs">10% bolus + 90% over 60 min</p>
+                                        <h5 className="font-semibold text-blue-800 mb-1">
+                                            Dosing
+                                        </h5>
+                                        <p className="text-xs">
+                                            0.9 mg/kg (max 90 mg)
+                                        </p>
+                                        <p className="text-xs">
+                                            10% bolus + 90% over 60 min
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +173,10 @@ export default function DrugSelection({
                     {selectedDrug && (
                         <div className="text-center p-4 bg-green-50 border-2 border-green-200 rounded-lg">
                             <p className="text-green-800 font-medium">
-                                ✓ Selected: {selectedDrug === "tnk" ? "Tenecteplase (TNK)" : "Alteplase (tPA)"}
+                                ✓ Selected:{" "}
+                                {selectedDrug === "tnk"
+                                    ? "Tenecteplase (TNK)"
+                                    : "Alteplase (tPA)"}
                             </p>
                         </div>
                     )}

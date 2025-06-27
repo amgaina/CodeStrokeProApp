@@ -115,16 +115,25 @@ Patient Weight: ${patientWeight} ${weightUnit} (${weightInKg.toFixed(1)} kg)
 Calculated: ${new Date().toLocaleString()}
 
 DOSING INSTRUCTIONS:
-${selectedDrug === "tnk" 
-    ? `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
+${
+    selectedDrug === "tnk"
+        ? `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
 - Volume: ${doseCalculation.volume.toFixed(1)} mL
 - Administration: IV push over 5-10 seconds`
-    : `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
-- Bolus (10%): ${doseCalculation.pushDose!.toFixed(1)} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)
-- Infusion (90%): ${doseCalculation.infusionDose!.toFixed(1)} mg (${doseCalculation.infusionVolume!.toFixed(1)} mL) over 60 minutes`
+        : `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
+- Bolus (10%): ${doseCalculation.pushDose!.toFixed(
+              1
+          )} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)
+- Infusion (90%): ${doseCalculation.infusionDose!.toFixed(
+              1
+          )} mg (${doseCalculation.infusionVolume!.toFixed(
+              1
+          )} mL) over 60 minutes`
 }
 
-WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toFixed(1)} mL)
+WASTE: ${doseCalculation.waste.toFixed(
+            1
+        )} mg (${doseCalculation.wasteVolume.toFixed(1)} mL)
 
 ⚠️  VERIFY ALL CALCULATIONS BEFORE ADMINISTRATION
         `;
@@ -133,7 +142,9 @@ WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toF
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `stroke-dosing-${selectedDrug}-${new Date().toISOString().split('T')[0]}.txt`;
+        a.download = `stroke-dosing-${selectedDrug}-${
+            new Date().toISOString().split("T")[0]
+        }.txt`;
         a.click();
         URL.revokeObjectURL(url);
     };
@@ -143,14 +154,18 @@ WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toF
             <CardHeader className="bg-gradient-to-r from-vital-green to-vital-green/90 text-white p-4 md:p-6">
                 <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl font-medium">
                     <Calculator className="w-5 h-5 md:w-6 md:h-6" />
-                    {selectedDrug === "tnk" ? "Tenecteplase" : "Alteplase"} Dosing Calculator
+                    {selectedDrug === "tnk" ? "Tenecteplase" : "Alteplase"}{" "}
+                    Dosing Calculator
                 </CardTitle>
             </CardHeader>
             <CardContent className="p-4 md:p-8 space-y-4 md:space-y-6">
                 {/* Weight Input */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <Label htmlFor="weight" className="text-sm font-medium text-deep-charcoal block mb-2">
+                        <Label
+                            htmlFor="weight"
+                            className="text-sm font-medium text-deep-charcoal block mb-2"
+                        >
                             Patient Weight
                         </Label>
                         <Input
@@ -166,24 +181,36 @@ WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toF
                         />
                     </div>
                     <div>
-                        <Label htmlFor="weight-unit" className="text-sm font-medium text-deep-charcoal block mb-2">
+                        <Label
+                            htmlFor="weight-unit"
+                            className="text-sm font-medium text-deep-charcoal block mb-2"
+                        >
                             Weight Unit
                         </Label>
-                        <Select value={weightUnit} onValueChange={onWeightUnitChange}>
+                        <Select
+                            value={weightUnit}
+                            onValueChange={onWeightUnitChange}
+                        >
                             <SelectTrigger className="text-base p-3 border-2 border-harbor-gray focus:border-vital-green">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="kg">Kilograms (kg)</SelectItem>
-                                <SelectItem value="lbs">Pounds (lbs)</SelectItem>
+                                <SelectItem value="kg">
+                                    Kilograms (kg)
+                                </SelectItem>
+                                <SelectItem value="lbs">
+                                    Pounds (lbs)
+                                </SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
                 </div>
-
                 {/* Vial Size Input */}
                 <div>
-                    <Label htmlFor="vial-size" className="text-sm font-medium text-deep-charcoal block mb-2">
+                    <Label
+                        htmlFor="vial-size"
+                        className="text-sm font-medium text-deep-charcoal block mb-2"
+                    >
                         Available Vial Size (mg)
                     </Label>
                     <Select value={vialSize} onValueChange={onVialSizeChange}>
@@ -193,18 +220,23 @@ WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toF
                         <SelectContent>
                             {selectedDrug === "tnk" ? (
                                 <>
-                                    <SelectItem value="50">50 mg vial</SelectItem>
+                                    <SelectItem value="50">
+                                        50 mg vial
+                                    </SelectItem>
                                 </>
                             ) : (
                                 <>
-                                    <SelectItem value="50">50 mg vial</SelectItem>
-                                    <SelectItem value="100">100 mg vial</SelectItem>
+                                    <SelectItem value="50">
+                                        50 mg vial
+                                    </SelectItem>
+                                    <SelectItem value="100">
+                                        100 mg vial
+                                    </SelectItem>
                                 </>
                             )}
                         </SelectContent>
                     </Select>
                 </div>
-
                 {/* Dose Calculation Results */}
                 {doseCalculation && (
                     <div className="space-y-6">
@@ -212,7 +244,10 @@ WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toF
                         <Alert className="border-vital-green bg-vital-green/10 border-2">
                             <Calculator className="h-5 w-5 text-vital-green" />
                             <AlertDescription className="text-vital-green font-medium text-base">
-                                <strong>✓ Dosing calculated successfully.</strong> Review all information before administration.
+                                <strong>
+                                    ✓ Dosing calculated successfully.
+                                </strong>{" "}
+                                Review all information before administration.
                             </AlertDescription>
                         </Alert>
 
@@ -230,85 +265,119 @@ WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toF
                                 {/* Patient & Drug Info - Clean Layout */}
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                     <div className="bg-clinical-slate/5 border border-clinical-slate/20 p-4 rounded-lg">
-                                        <h4 className="text-sm font-semibold text-clinical-slate mb-2 uppercase tracking-wide">Patient Information</h4>
+                                        <h4 className="text-sm font-semibold text-clinical-slate mb-2 uppercase tracking-wide">
+                                            Patient Information
+                                        </h4>
                                         <div className="space-y-1">
                                             <p className="text-lg font-bold text-deep-charcoal">
                                                 {patientWeight} {weightUnit}
                                                 {weightUnit === "lbs" && (
                                                     <span className="text-sm font-medium text-deep-charcoal/70 ml-2">
-                                                        ({(parseFloat(patientWeight) * 0.453592).toFixed(1)} kg)
+                                                        (
+                                                        {(
+                                                            parseFloat(
+                                                                patientWeight
+                                                            ) * 0.453592
+                                                        ).toFixed(1)}{" "}
+                                                        kg)
                                                     </span>
                                                 )}
                                             </p>
                                             <p className="text-sm text-deep-charcoal/80">
-                                                Drug: {selectedDrug === "tnk" ? "Tenecteplase (TNK)" : "Alteplase (tPA)"}
+                                                Drug:{" "}
+                                                {selectedDrug === "tnk"
+                                                    ? "Tenecteplase (TNK)"
+                                                    : "Alteplase (tPA)"}
                                             </p>
                                         </div>
                                     </div>
 
                                     <div className="bg-vital-green/5 border border-vital-green/20 p-4 rounded-lg">
-                                        <h4 className="text-sm font-semibold text-vital-green mb-2 uppercase tracking-wide">Total Dose Required</h4>
+                                        <h4 className="text-sm font-semibold text-vital-green mb-2 uppercase tracking-wide">
+                                            Total Dose Required
+                                        </h4>
                                         <p className="text-2xl font-bold text-deep-charcoal mb-1">
-                                            {doseCalculation.totalDose.toFixed(1)} mg
+                                            {doseCalculation.totalDose.toFixed(
+                                                1
+                                            )}{" "}
+                                            mg
                                         </p>
                                         <p className="text-sm text-deep-charcoal/80">
-                                            Volume: {doseCalculation.volume.toFixed(1)} mL
+                                            Volume:{" "}
+                                            {doseCalculation.volume.toFixed(1)}{" "}
+                                            mL
                                         </p>
                                     </div>
                                 </div>
 
                                 {/* Administration Steps - Logical Size */}
-                                {selectedDrug === "alteplase" && doseCalculation.pushDose && (
-                                    <div className="space-y-3">
-                                        <h4 className="text-lg font-semibold text-deep-charcoal text-center mb-3">
-                                            Administration Steps
-                                        </h4>
-                                        
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                            {/* Step 1 - Bolus */}
-                                            <div className="bg-urgent-amber/10 border-2 border-urgent-amber/30 p-4 rounded-lg">
-                                                <div className="flex items-center mb-2">
-                                                    <div className="bg-urgent-amber text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mr-2">
-                                                        1
-                                                    </div>
-                                                    <h5 className="text-sm font-semibold text-deep-charcoal uppercase">
-                                                        IV Bolus (10%)
-                                                    </h5>
-                                                </div>
-                                                <p className="text-xl font-bold text-deep-charcoal mb-1">
-                                                    {doseCalculation.pushDose.toFixed(1)} mg
-                                                </p>
-                                                <p className="text-sm text-deep-charcoal/80 mb-2">
-                                                    Volume: {doseCalculation.pushVolume!.toFixed(1)} mL
-                                                </p>
-                                                <p className="text-sm font-medium text-urgent-amber bg-urgent-amber/20 px-2 py-1 rounded">
-                                                    ⏱️ Give over 1-2 minutes
-                                                </p>
-                                            </div>
+                                {selectedDrug === "alteplase" &&
+                                    doseCalculation.pushDose && (
+                                        <div className="space-y-3">
+                                            <h4 className="text-lg font-semibold text-deep-charcoal text-center mb-3">
+                                                Administration Steps
+                                            </h4>
 
-                                            {/* Step 2 - Infusion */}
-                                            <div className="bg-clinical-slate/10 border-2 border-clinical-slate/30 p-4 rounded-lg">
-                                                <div className="flex items-center mb-2">
-                                                    <div className="bg-clinical-slate text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mr-2">
-                                                        2
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                {/* Step 1 - Bolus */}
+                                                <div className="bg-urgent-amber/10 border-2 border-urgent-amber/30 p-4 rounded-lg">
+                                                    <div className="flex items-center mb-2">
+                                                        <div className="bg-urgent-amber text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mr-2">
+                                                            1
+                                                        </div>
+                                                        <h5 className="text-sm font-semibold text-deep-charcoal uppercase">
+                                                            IV Bolus (10%)
+                                                        </h5>
                                                     </div>
-                                                    <h5 className="text-sm font-semibold text-deep-charcoal uppercase">
-                                                        IV Infusion (90%)
-                                                    </h5>
+                                                    <p className="text-xl font-bold text-deep-charcoal mb-1">
+                                                        {doseCalculation.pushDose.toFixed(
+                                                            1
+                                                        )}{" "}
+                                                        mg
+                                                    </p>
+                                                    <p className="text-sm text-deep-charcoal/80 mb-2">
+                                                        Volume:{" "}
+                                                        {doseCalculation.pushVolume!.toFixed(
+                                                            1
+                                                        )}{" "}
+                                                        mL
+                                                    </p>
+                                                    <p className="text-sm font-medium text-urgent-amber bg-urgent-amber/20 px-2 py-1 rounded">
+                                                        ⏱️ Give over 1-2 minutes
+                                                    </p>
                                                 </div>
-                                                <p className="text-xl font-bold text-deep-charcoal mb-1">
-                                                    {doseCalculation.infusionDose!.toFixed(1)} mg
-                                                </p>
-                                                <p className="text-sm text-deep-charcoal/80 mb-2">
-                                                    Volume: {doseCalculation.infusionVolume!.toFixed(1)} mL
-                                                </p>
-                                                <p className="text-sm font-medium text-clinical-slate bg-clinical-slate/20 px-2 py-1 rounded">
-                                                    ⏱️ Infuse over 60 minutes
-                                                </p>
+
+                                                {/* Step 2 - Infusion */}
+                                                <div className="bg-clinical-slate/10 border-2 border-clinical-slate/30 p-4 rounded-lg">
+                                                    <div className="flex items-center mb-2">
+                                                        <div className="bg-clinical-slate text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-sm mr-2">
+                                                            2
+                                                        </div>
+                                                        <h5 className="text-sm font-semibold text-deep-charcoal uppercase">
+                                                            IV Infusion (90%)
+                                                        </h5>
+                                                    </div>
+                                                    <p className="text-xl font-bold text-deep-charcoal mb-1">
+                                                        {doseCalculation.infusionDose!.toFixed(
+                                                            1
+                                                        )}{" "}
+                                                        mg
+                                                    </p>
+                                                    <p className="text-sm text-deep-charcoal/80 mb-2">
+                                                        Volume:{" "}
+                                                        {doseCalculation.infusionVolume!.toFixed(
+                                                            1
+                                                        )}{" "}
+                                                        mL
+                                                    </p>
+                                                    <p className="text-sm font-medium text-clinical-slate bg-clinical-slate/20 px-2 py-1 rounded">
+                                                        ⏱️ Infuse over 60
+                                                        minutes
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
 
                                 {/* TNK Administration - Reasonable Size */}
                                 {selectedDrug === "tnk" && (
@@ -330,7 +399,8 @@ WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toF
                                                     🌊 Flush with Normal Saline
                                                 </p>
                                                 <p className="text-xs text-deep-charcoal/70">
-                                                    • Immediately after administration
+                                                    • Immediately after
+                                                    administration
                                                 </p>
                                             </div>
                                         </div>
@@ -346,15 +416,23 @@ WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toF
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             <div>
                                                 <p className="text-lg font-bold text-deep-charcoal">
-                                                    {doseCalculation.waste.toFixed(1)} mg
+                                                    {doseCalculation.waste.toFixed(
+                                                        1
+                                                    )}{" "}
+                                                    mg
                                                 </p>
                                                 <p className="text-sm text-deep-charcoal/70">
-                                                    ({doseCalculation.wasteVolume.toFixed(1)} mL unused)
+                                                    (
+                                                    {doseCalculation.wasteVolume.toFixed(
+                                                        1
+                                                    )}{" "}
+                                                    mL unused)
                                                 </p>
                                             </div>
                                             <div className="text-xs text-deep-charcoal/70">
                                                 <p className="font-medium">
-                                                    ⚠️ Document waste per institutional policy
+                                                    ⚠️ Document waste per
+                                                    institutional policy
                                                 </p>
                                             </div>
                                         </div>
@@ -375,24 +453,35 @@ WASTE: ${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toF
                             </Button>
                         </div>
                     </div>
-                )}                        {/* Enhanced Safety Warning */}
-                        <Alert className="border-critical-crimson bg-critical-crimson/10 border-2 shadow-md">
-                            <AlertTriangle className="h-5 w-5 text-critical-crimson" />
-                            <AlertDescription className="text-deep-charcoal">
-                                <div className="space-y-2">
-                                    <p className="text-base font-semibold">
-                                        ⚠️ Critical Safety Check Required
-                                    </p>
-                                    <div className="text-sm space-y-1">
-                                        <p>✓ Always verify dosing calculations with a second clinician</p>
-                                        <p>✓ Confirm patient weight and drug selection</p>
-                                        <p>✓ Check for contraindications before administration</p>
-                                        <p>✓ This tool is for clinical decision support only</p>
-                                    </div>
-                                </div>
-                            </AlertDescription>
-                        </Alert>
-
+                )}{" "}
+                {/* Enhanced Safety Warning */}
+                <Alert className="border-critical-crimson bg-critical-crimson/10 border-2 shadow-md">
+                    <AlertTriangle className="h-5 w-5 text-critical-crimson" />
+                    <AlertDescription className="text-deep-charcoal">
+                        <div className="space-y-2">
+                            <p className="text-base font-semibold">
+                                ⚠️ Critical Safety Check Required
+                            </p>
+                            <div className="text-sm space-y-1">
+                                <p>
+                                    ✓ Always verify dosing calculations with a
+                                    second clinician
+                                </p>
+                                <p>
+                                    ✓ Confirm patient weight and drug selection
+                                </p>
+                                <p>
+                                    ✓ Check for contraindications before
+                                    administration
+                                </p>
+                                <p>
+                                    ✓ This tool is for clinical decision support
+                                    only
+                                </p>
+                            </div>
+                        </div>
+                    </AlertDescription>
+                </Alert>
                 {/* Navigation Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-between">
                     {onBack && (
