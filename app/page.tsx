@@ -502,10 +502,10 @@ export default function CodeStrokeProApp() {
                                             <div
                                                 className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-300 ${
                                                     isActive
-                                                        ? "bg-slate text-parchment shadow-clarity scale-110"
+                                                        ? "bg-clinical-slate text-parchment clarity-shadow scale-110"
                                                         : isCompleted
-                                                        ? "bg-vital text-parchment"
-                                                        : "bg-harbor text-charcoal"
+                                                        ? "bg-vital-green text-parchment"
+                                                        : "bg-harbor-gray text-deep-charcoal"
                                                 }`}
                                             >
                                                 {isCompleted ? (
@@ -517,8 +517,8 @@ export default function CodeStrokeProApp() {
                                             <span
                                                 className={`mt-1 text-xs font-medium text-center ${
                                                     isActive
-                                                        ? "text-slate"
-                                                        : "text-gray-600"
+                                                        ? "text-clinical-slate"
+                                                        : "text-deep-charcoal"
                                                 }`}
                                             >
                                                 {step.label}
@@ -596,14 +596,14 @@ export default function CodeStrokeProApp() {
                                                 className={`mt-2 text-xs font-medium ${
                                                     isActive
                                                         ? "text-clinical-slate"
-                                                        : "text-gray-600"
+                                                        : "text-deep-charcoal"
                                                 }`}
                                             >
                                                 {step.label}
                                             </span>
                                         </div>
                                         {index < 5 && (
-                                            <div className="w-12 h-0.5 bg-gray-300 mx-2" />
+                                            <div className="w-12 h-0.5 bg-harbor-gray mx-2" />
                                         )}
                                     </div>
                                 );
@@ -624,39 +624,41 @@ export default function CodeStrokeProApp() {
                         <CardContent className="p-4 md:p-8">
                             <div className="max-w-md mx-auto space-y-4 md:space-y-6">
                                 <div className="text-center">
-                                    <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-2">
+                                    <h3 className="text-base md:text-lg font-semibold text-deep-charcoal mb-2">
                                         When was the patient last seen normal?
                                     </h3>
-                                    <p className="text-gray-600 text-sm">
+                                    <p className="text-deep-charcoal/70 text-sm">
                                         Enter the time based on your current
                                         local time zone
                                     </p>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <div>
+                                    <div className="text-center">
                                         <Label
                                             htmlFor="lkw-time"
-                                            className="text-sm md:text-base font-medium"
+                                            className="text-sm md:text-base font-medium text-deep-charcoal block mb-2"
                                         >
                                             Last Known Well Time
                                         </Label>
-                                        <Input
-                                            id="lkw-time"
-                                            type="time"
-                                            onChange={(e) =>
-                                                setLKWTime(e.target.value)
-                                            }
-                                            className="w-full text-base md:text-lg p-3 md:p-4 border-2 border-blue-200 focus:border-blue-500 rounded-lg"
-                                        />
+                                        <div className="flex justify-center">
+                                            <Input
+                                                id="lkw-time"
+                                                type="time"
+                                                onChange={(e) =>
+                                                    setLKWTime(e.target.value)
+                                                }
+                                                className="w-auto text-center text-base md:text-lg p-3 md:p-4 border-2 border-harbor-gray focus:border-clinical-slate rounded-lg"
+                                            />
+                                        </div>
                                     </div>
 
                                     {timers.lkwTime && (
-                                        <div className="text-center p-3 md:p-4 bg-blue-50 border-2 border-blue-200 rounded-lg">
-                                            <p className="text-sm text-blue-700 mb-1">
+                                        <div className="text-center p-3 md:p-4 bg-vital-green/10 border-2 border-vital-green/30 rounded-lg clarity-shadow">
+                                            <p className="text-sm text-vital-green mb-1">
                                                 LKW Time Set
                                             </p>
-                                            <p className="text-base md:text-lg font-semibold text-blue-800">
+                                            <p className="text-base md:text-lg font-semibold text-deep-charcoal">
                                                 {timers.lkwTime.toLocaleTimeString(
                                                     [],
                                                     {
