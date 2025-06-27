@@ -1,8 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Activity, Stethoscope, Home } from "lucide-react";
+import {
+    Activity,
+    Stethoscope,
+    Home,
+    BookOpen,
+    X,
+    ExternalLink,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import Link from "next/link";
 
 // Import our modular components
@@ -70,6 +84,8 @@ export default function CodeStrokeProApp() {
         | "dosing"
         | "resources"
     >("lkw");
+
+    const [showResourcesPopup, setShowResourcesPopup] = useState(false);
 
     // Update current time every second
     useEffect(() => {
@@ -200,7 +216,7 @@ export default function CodeStrokeProApp() {
                                     <div className="bg-white/10 backdrop-blur-sm rounded p-2 border border-white/20">
                                         <div className="flex items-center justify-between">
                                             <div className="flex-1">
-                                                <h3 className="text-blue-200 text-xs font-medium">
+                                                <h3 className="text-parchment/80 text-xs font-medium">
                                                     4.5hr Window
                                                 </h3>
                                             </div>
@@ -239,15 +255,15 @@ export default function CodeStrokeProApp() {
                                                             <p
                                                                 className={`text-sm font-bold ${
                                                                     isExpired
-                                                                        ? "text-red-300"
-                                                                        : "text-white"
+                                                                        ? "text-critical-crimson"
+                                                                        : "text-parchment"
                                                                 }`}
                                                             >
                                                                 {isExpired
                                                                     ? "EXPIRED"
                                                                     : timeText}
                                                             </p>
-                                                            <p className="text-blue-200 text-xs">
+                                                            <p className="text-parchment/70 text-xs">
                                                                 LKW:{" "}
                                                                 {timers.lkwTime.toLocaleTimeString(
                                                                     [],
@@ -271,12 +287,12 @@ export default function CodeStrokeProApp() {
                                     <div className="bg-white/10 backdrop-blur-sm rounded p-2 border border-white/20">
                                         <div className="flex items-center justify-between">
                                             <div className="flex-1">
-                                                <h3 className="text-blue-200 text-xs font-medium">
+                                                <h3 className="text-parchment/80 text-xs font-medium">
                                                     Door-to-Needle
                                                 </h3>
                                             </div>
                                             <div className="text-right">
-                                                <p className="text-white text-sm font-bold">
+                                                <p className="text-parchment text-sm font-bold">
                                                     {(() => {
                                                         const diff = Math.max(
                                                             0,
@@ -308,7 +324,7 @@ export default function CodeStrokeProApp() {
                                                         return `${hours}h ${minutes}m ${seconds}s`;
                                                     })()}
                                                 </p>
-                                                <div className="inline-flex items-center gap-1 bg-red-600 text-white text-xs font-medium px-1.5 py-0.5 rounded">
+                                                <div className="inline-flex items-center gap-1 bg-critical-crimson text-white text-xs font-medium px-1.5 py-0.5 rounded">
                                                     <div className="w-1 h-1 bg-white rounded-full animate-pulse"></div>
                                                     CODE STROKE
                                                 </div>
@@ -403,6 +419,184 @@ export default function CodeStrokeProApp() {
                     />
                 )}
             </div>
+
+            {/* Floating Resources Button - Always Visible */}
+            <div className="fixed bottom-6 right-6 z-40">
+                <Dialog
+                    open={showResourcesPopup}
+                    onOpenChange={setShowResourcesPopup}
+                >
+                    <DialogTrigger asChild>
+                        <Button
+                            size="lg"
+                            className="bg-vital-green hover:bg-vital-green/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full w-14 h-14 p-0 group"
+                            title="Quick Resources"
+                        >
+                            <BookOpen className="h-6 w-6 group-hover:scale-110 transition-transform" />
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle className="flex items-center gap-2 text-xl text-deep-charcoal">
+                                <BookOpen className="h-5 w-5 text-vital-green" />
+                                Quick Clinical Resources
+                            </DialogTitle>
+                        </DialogHeader>
+
+                        <div className="space-y-6 py-4">
+                            {/* Emergency Guidelines */}
+                            <div className="space-y-3">
+                                <h3 className="text-lg font-medium text-deep-charcoal border-b border-harbor-gray pb-2">
+                                    Emergency Guidelines
+                                </h3>
+                                <div className="space-y-2">
+                                    <ResourcePopupLink
+                                        href="https://www.ahajournals.org/doi/10.1161/STROKEAHA.119.025225"
+                                        title="2019 AHA/ASA Guidelines for Early Management of Acute Ischemic Stroke"
+                                        description="Primary guidelines for thrombolytic therapy"
+                                    />
+                                    <ResourcePopupLink
+                                        href="https://www.stroke.org/-/media/stroke-files/professional-stroke-resource-library/2022-guideline-for-the-management-of-spontaneous-ich.pdf"
+                                        title="2022 Guideline for Management of Spontaneous ICH"
+                                        description="Hemorrhagic stroke management"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Drug Information */}
+                            <div className="space-y-3">
+                                <h3 className="text-lg font-medium text-deep-charcoal border-b border-harbor-gray pb-2">
+                                    Drug Information
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div className="bg-clinical-slate/10 border border-clinical-slate/30 rounded-lg p-3">
+                                        <h4 className="font-medium text-clinical-slate text-sm mb-2">
+                                            Alteplase (tPA)
+                                        </h4>
+                                        <ul className="text-xs text-deep-charcoal space-y-1">
+                                            <li>• 0.9 mg/kg (max 90 mg)</li>
+                                            <li>
+                                                • 10% bolus, 90% over 60 min
+                                            </li>
+                                            <li>• 3-4.5 hour window</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-vital-green/10 border border-vital-green/30 rounded-lg p-3">
+                                        <h4 className="font-medium text-vital-green text-sm mb-2">
+                                            Tenecteplase (TNK)
+                                        </h4>
+                                        <ul className="text-xs text-deep-charcoal space-y-1">
+                                            <li>• 0.25 mg/kg (max 25 mg)</li>
+                                            <li>
+                                                • Single bolus over 5 seconds
+                                            </li>
+                                            <li>• 3-4.5 hour window</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Quick Reference */}
+                            <div className="space-y-3">
+                                <h3 className="text-lg font-medium text-deep-charcoal border-b border-harbor-gray pb-2">
+                                    Quick Reference
+                                </h3>
+                                <div className="bg-urgent-amber/10 border border-urgent-amber/30 rounded-lg p-4">
+                                    <h4 className="font-medium text-urgent-amber text-sm mb-2">
+                                        Time Targets
+                                    </h4>
+                                    <ul className="text-xs text-deep-charcoal space-y-1">
+                                        <li>• Door-to-CT: &lt; 25 minutes</li>
+                                        <li>
+                                            • Door-to-Needle: &lt; 60 minutes
+                                        </li>
+                                        <li>• LKW-to-Needle: &lt; 4.5 hours</li>
+                                        <li>• Onset-to-Door: Minimize</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {/* Contraindications Checklist */}
+                            <div className="space-y-3">
+                                <h3 className="text-lg font-medium text-deep-charcoal border-b border-harbor-gray pb-2">
+                                    Major Contraindications
+                                </h3>
+                                <div className="bg-critical-crimson/10 border border-critical-crimson/30 rounded-lg p-4">
+                                    <ul className="text-xs text-deep-charcoal space-y-1">
+                                        <li>• Active internal bleeding</li>
+                                        <li>
+                                            • Recent surgery/trauma (&lt;14
+                                            days)
+                                        </li>
+                                        <li>• History of ICH</li>
+                                        <li>• BP &gt; 185/110 mmHg</li>
+                                        <li>• Platelets &lt; 100,000</li>
+                                        <li>
+                                            • INR &gt; 1.7 or PT &gt; 15 sec
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {/* Additional Resources */}
+                            <div className="space-y-3">
+                                <h3 className="text-lg font-medium text-deep-charcoal border-b border-harbor-gray pb-2">
+                                    Additional Resources
+                                </h3>
+                                <div className="space-y-2">
+                                    <ResourcePopupLink
+                                        href="https://www.ninds.nih.gov/"
+                                        title="NINDS - National Institute of Neurological Disorders"
+                                        description="Research and clinical information"
+                                    />
+                                    <ResourcePopupLink
+                                        href="https://www.stroke.org/"
+                                        title="American Stroke Association"
+                                        description="Patient and provider resources"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="pt-4 border-t border-harbor-gray">
+                            <p className="text-xs text-deep-charcoal/60 text-center">
+                                For complete clinical workflow, visit the
+                                Resources tab
+                            </p>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            </div>
         </div>
     );
 }
+
+// Helper component for Resource Popup Links
+const ResourcePopupLink = ({
+    href,
+    title,
+    description,
+}: {
+    href: string;
+    title: string;
+    description: string;
+}) => (
+    <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block bg-white border border-harbor-gray rounded-lg p-3 hover:bg-harbor-gray/10 transition-colors group"
+    >
+        <div className="flex items-start justify-between gap-2">
+            <div className="flex-1">
+                <h4 className="text-sm font-medium text-deep-charcoal group-hover:text-vital-green transition-colors">
+                    {title}
+                </h4>
+                <p className="text-xs text-deep-charcoal/60 mt-1">
+                    {description}
+                </p>
+            </div>
+            <ExternalLink className="h-4 w-4 text-deep-charcoal/40 group-hover:text-vital-green transition-colors flex-shrink-0" />
+        </div>
+    </a>
+);
