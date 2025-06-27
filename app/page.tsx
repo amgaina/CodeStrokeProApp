@@ -248,21 +248,21 @@ export default function CodeStrokeProApp() {
     const eligibilityStatus = getEligibilityStatus();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-white">
+        <div className="min-h-screen bg-parchment">
             {/* Enhanced Header - Mobile Optimized */}
-            <header className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white shadow-2xl border-b-4 border-blue-600">
+            <header className="bg-clinical-slate text-parchment clarity-shadow border-b border-harbor-gray">
                 <div className="container mx-auto px-4 py-4 md:py-6">
                     {/* Main Header Content */}
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex items-center space-x-3 md:space-x-4">
                             <div className="bg-white/10 p-2 md:p-3 rounded-full">
-                                <Stethoscope className="w-6 h-6 md:w-8 md:h-8 text-blue-200" />
+                                <Stethoscope className="w-6 h-6 md:w-8 md:h-8 text-parchment/80" />
                             </div>
                             <div className="text-center sm:text-left">
-                                <h1 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight">
+                                <h1 className="text-xl sm:text-2xl md:text-4xl font-semibold tracking-tight text-parchment">
                                     CodeStrokePro
                                 </h1>
-                                <p className="text-blue-200 mt-1 text-sm md:text-lg">
+                                <p className="text-parchment/80 mt-1 text-sm md:text-lg font-medium">
                                     Clinical Decision Support for Acute Stroke
                                     Care
                                 </p>
@@ -270,10 +270,10 @@ export default function CodeStrokeProApp() {
                         </div>
                         <div className="text-center sm:text-right">
                             <div className="bg-white/10 px-3 py-1 md:px-4 md:py-2 rounded-lg">
-                                <p className="text-blue-200 text-xs md:text-sm">
+                                <p className="text-parchment/80 text-xs md:text-sm font-medium">
                                     Funded by
                                 </p>
-                                <p className="font-semibold text-sm md:text-lg">
+                                <p className="font-semibold text-sm md:text-lg text-parchment">
                                     Living Well Foundation
                                 </p>
                             </div>
@@ -283,7 +283,7 @@ export default function CodeStrokeProApp() {
 
                 {/* Mobile-Optimized Timer Display in Header */}
                 {(timers.lkwTime || timers.arrivalTime) && (
-                    <div className="border-t border-blue-700 mt-4 md:mt-6 pt-4 md:pt-6">
+                    <div className="border-t border-clinical-slate/20 mt-4 md:mt-6 pt-4 md:pt-6">
                         {/* Mobile Layout - Stacked */}
                         <div className="block md:hidden space-y-3">
                             {/* 4.5 Hour Window Timer - Mobile */}
@@ -450,7 +450,7 @@ export default function CodeStrokeProApp() {
             <div className="container mx-auto px-4 py-6 md:py-8 max-w-6xl">
                 {/* Mobile-Optimized Progress Indicator */}
                 <div className="mb-6 md:mb-8">
-                    <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 border border-blue-100">
+                    <div className="bg-white rounded-xl clarity-shadow p-4 md:p-6 border border-harbor-gray">
                         {/* Mobile Progress - Horizontal Scroll */}
                         <div className="block md:hidden">
                             <div className="flex items-center gap-2 overflow-x-auto pb-2">
@@ -502,10 +502,10 @@ export default function CodeStrokeProApp() {
                                             <div
                                                 className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-300 ${
                                                     isActive
-                                                        ? "bg-blue-600 text-white shadow-lg scale-110"
+                                                        ? "bg-slate text-parchment shadow-clarity scale-110"
                                                         : isCompleted
-                                                        ? "bg-green-600 text-white"
-                                                        : "bg-gray-200 text-gray-600"
+                                                        ? "bg-vital text-parchment"
+                                                        : "bg-harbor text-charcoal"
                                                 }`}
                                             >
                                                 {isCompleted ? (
@@ -517,7 +517,7 @@ export default function CodeStrokeProApp() {
                                             <span
                                                 className={`mt-1 text-xs font-medium text-center ${
                                                     isActive
-                                                        ? "text-blue-600"
+                                                        ? "text-slate"
                                                         : "text-gray-600"
                                                 }`}
                                             >
@@ -580,10 +580,10 @@ export default function CodeStrokeProApp() {
                                             <div
                                                 className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
                                                     isActive
-                                                        ? "bg-blue-600 text-white shadow-lg scale-110"
+                                                        ? "bg-clinical-slate text-parchment clarity-shadow scale-110"
                                                         : isCompleted
-                                                        ? "bg-green-600 text-white"
-                                                        : "bg-gray-200 text-gray-600"
+                                                        ? "bg-vital-green text-parchment"
+                                                        : "bg-harbor-gray text-deep-charcoal"
                                                 }`}
                                             >
                                                 {isCompleted ? (
@@ -595,7 +595,7 @@ export default function CodeStrokeProApp() {
                                             <span
                                                 className={`mt-2 text-xs font-medium ${
                                                     isActive
-                                                        ? "text-blue-600"
+                                                        ? "text-clinical-slate"
                                                         : "text-gray-600"
                                                 }`}
                                             >
@@ -614,9 +614,9 @@ export default function CodeStrokeProApp() {
 
                 {/* Step 1: LKW Time Entry - Mobile Optimized */}
                 {currentStep === "lkw" && (
-                    <Card className="mb-6 md:mb-8 shadow-xl border-0 bg-white">
-                        <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-lg p-4 md:p-6">
-                            <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl">
+                    <Card className="mb-6 md:mb-8 clarity-shadow border border-harbor-gray bg-white">
+                        <CardHeader className="bg-clinical-slate text-parchment rounded-t-lg p-4 md:p-6">
+                            <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl font-medium">
                                 <Clock className="w-5 h-5 md:w-6 md:h-6" />
                                 Last Known Well Time Entry
                             </CardTitle>
@@ -672,7 +672,7 @@ export default function CodeStrokeProApp() {
                                 <div className="flex justify-center">
                                     <Button
                                         onClick={() => setCurrentStep("timers")}
-                                        className="bg-blue-600 hover:bg-blue-700 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                                        className="bg-clinical-slate hover:bg-clinical-slate/90 text-parchment btn-text text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
                                         disabled={!timers.lkwTime}
                                     >
                                         Continue to Code Stroke Timer
@@ -687,12 +687,14 @@ export default function CodeStrokeProApp() {
                 {currentStep === "timers" && (
                     <div className="space-y-4 md:space-y-6">
                         {/* Warning Banner */}
-                        <Alert className="border-orange-200 bg-orange-50 shadow-lg">
-                            <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
-                            <AlertDescription className="text-orange-800 font-medium text-sm md:text-base">
-                                <strong>Important:</strong> Do not close this
-                                application. Timers will reset if the page is
-                                closed.
+                        <Alert className="border-urgent-amber/30 bg-urgent-amber/10 clarity-shadow">
+                            <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-urgent-amber" />
+                            <AlertDescription className="text-deep-charcoal font-medium text-sm md:text-base">
+                                <strong className="text-urgent-amber">
+                                    Important:
+                                </strong>{" "}
+                                Do not close this application. Timers will reset
+                                if the page is closed.
                             </AlertDescription>
                         </Alert>
 
@@ -934,9 +936,9 @@ export default function CodeStrokeProApp() {
 
                 {/* Step 3: Enhanced Eligibility Screening - Mobile Optimized */}
                 {currentStep === "screening" && (
-                    <Card className="mb-6 md:mb-8 shadow-xl border-0 bg-white">
-                        <CardHeader className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4 md:p-6">
-                            <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl">
+                    <Card className="mb-6 md:mb-8 clarity-shadow border border-harbor-gray bg-white">
+                        <CardHeader className="bg-clinical-slate text-parchment p-4 md:p-6">
+                            <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl font-medium">
                                 <Shield className="w-5 h-5 md:w-6 md:h-6" />
                                 Thrombolytic Eligibility Screening
                             </CardTitle>
@@ -1798,10 +1800,10 @@ export default function CodeStrokeProApp() {
                             {/* Enhanced Results */}
                             <div className="mt-6 md:mt-8">
                                 {eligibilityStatus.status === "eligible" && (
-                                    <Alert className="border-green-200 bg-green-50 shadow-lg">
-                                        <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
-                                        <AlertDescription className="text-green-800 font-medium text-sm md:text-base">
-                                            <strong>
+                                    <Alert className="border-vital-green/30 bg-vital-green/10 clarity-shadow">
+                                        <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-vital-green" />
+                                        <AlertDescription className="text-deep-charcoal font-medium text-sm md:text-base">
+                                            <strong className="text-vital-green">
                                                 ✓ ELIGIBLE FOR THROMBOLYTIC
                                                 THERAPY
                                             </strong>
@@ -1825,8 +1827,8 @@ export default function CodeStrokeProApp() {
                                 )}
 
                                 {eligibilityStatus.status === "evaluate" && (
-                                    <Alert className="border-red-200 bg-red-50 shadow-lg">
-                                        <XCircle className="h-4 w-4 md:h-5 md:w-5 text-red-600" />
+                                    <Alert className="border-critical-crimson/30 bg-critical-crimson/10 clarity-shadow">
+                                        <XCircle className="h-4 w-4 md:h-5 md:w-5 text-critical-crimson" />
                                         <AlertDescription className="text-red-800 font-medium text-sm md:text-base">
                                             <strong>
                                                 ⚠ FURTHER EVALUATION NEEDED
@@ -2027,7 +2029,7 @@ export default function CodeStrokeProApp() {
                                     <div className="flex items-center space-x-3">
                                         <Input
                                             type="number"
-                                            placeholder="Patient Weight"
+                                            placeholder="Enter weight in kg or lbs"
                                             value={patientWeight}
                                             onChange={(e) =>
                                                 setPatientWeight(e.target.value)
@@ -2043,7 +2045,7 @@ export default function CodeStrokeProApp() {
                                             defaultValue={weightUnit}
                                         >
                                             <SelectTrigger className="w-[180px]">
-                                                <SelectValue placeholder="Select unit" />
+                                                <SelectValue placeholder="Weight unit" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="kg">
@@ -2098,115 +2100,138 @@ export default function CodeStrokeProApp() {
                                 <div className="space-y-4 md:space-y-6">
                                     {/* Dosage Information */}
                                     <div className="space-y-3 md:space-y-4">
-                                        <h3 className="text-base md:text-lg font-semibold text-gray-800 border-b pb-2">
+                                        <h3 className="text-base md:text-lg font-semibold text-deep-charcoal border-b border-harbor-gray pb-2">
                                             Dosage Information
                                         </h3>
 
                                         {selectedDrug === "tnk" ? (
-                                            <div className="p-3 md:p-4 border-2 border-gray-200 rounded-lg">
-                                                <p className="text-sm md:text-base">
-                                                    <strong>Total Dose:</strong>{" "}
-                                                    {doseCalculation.totalDose}{" "}
-                                                    mg
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>
-                                                        Total Volume:
-                                                    </strong>{" "}
-                                                    {doseCalculation.volume.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mL
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>Waste:</strong>{" "}
-                                                    {doseCalculation.waste} mg
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>
-                                                        Waste Volume:
-                                                    </strong>{" "}
-                                                    {doseCalculation.wasteVolume.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mL
-                                                </p>
+                                            <div className="p-4 md:p-6 border border-harbor-gray bg-white rounded-lg clarity-shadow">
+                                                <h4 className="text-lg font-semibold text-deep-charcoal mb-4">
+                                                    TNKase Dosing Result
+                                                </h4>
+                                                <div className="text-center mb-4">
+                                                    <div className="result-score text-clinical-slate">
+                                                        {
+                                                            doseCalculation.totalDose
+                                                        }{" "}
+                                                        mg
+                                                    </div>
+                                                    <p className="text-base text-deep-charcoal font-medium">
+                                                        Total TNKase Dose
+                                                    </p>
+                                                </div>
+                                                <div className="space-y-2 text-deep-charcoal">
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>
+                                                            Total Volume:
+                                                        </strong>{" "}
+                                                        {doseCalculation.volume.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mL
+                                                    </p>
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>Waste:</strong>{" "}
+                                                        {doseCalculation.waste}{" "}
+                                                        mg
+                                                    </p>
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>
+                                                            Waste Volume:
+                                                        </strong>{" "}
+                                                        {doseCalculation.wasteVolume.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mL
+                                                    </p>
+                                                </div>
                                             </div>
                                         ) : (
-                                            <div className="p-3 md:p-4 border-2 border-gray-200 rounded-lg">
-                                                <p className="text-sm md:text-base">
-                                                    <strong>Total Dose:</strong>{" "}
-                                                    {doseCalculation.totalDose.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mg
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>Push Dose:</strong>{" "}
-                                                    {doseCalculation.pushDose?.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mg
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>
-                                                        Infusion Dose:
-                                                    </strong>{" "}
-                                                    {doseCalculation.infusionDose?.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mg
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>
-                                                        Total Volume:
-                                                    </strong>{" "}
-                                                    {doseCalculation.volume.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mL
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>
-                                                        Push Volume:
-                                                    </strong>{" "}
-                                                    {doseCalculation.pushVolume?.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mL
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>
-                                                        Infusion Volume:
-                                                    </strong>{" "}
-                                                    {doseCalculation.infusionVolume?.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mL
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>Waste:</strong>{" "}
-                                                    {doseCalculation.waste.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mg
-                                                </p>
-                                                <p className="text-sm md:text-base">
-                                                    <strong>
-                                                        Waste Volume:
-                                                    </strong>{" "}
-                                                    {doseCalculation.wasteVolume.toFixed(
-                                                        2
-                                                    )}{" "}
-                                                    mL
-                                                </p>
+                                            <div className="p-4 md:p-6 border border-harbor-gray bg-white rounded-lg clarity-shadow">
+                                                <h4 className="text-lg font-semibold text-deep-charcoal mb-4">
+                                                    Alteplase Dosing Result
+                                                </h4>
+                                                <div className="text-center mb-4">
+                                                    <div className="result-score text-clinical-slate">
+                                                        {doseCalculation.totalDose.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mg
+                                                    </div>
+                                                    <p className="text-base text-deep-charcoal font-medium">
+                                                        Total Alteplase Dose
+                                                    </p>
+                                                </div>
+                                                <div className="space-y-2 text-deep-charcoal">
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>
+                                                            Push Dose:
+                                                        </strong>{" "}
+                                                        {doseCalculation.pushDose?.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mg
+                                                    </p>
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>
+                                                            Infusion Dose:
+                                                        </strong>{" "}
+                                                        {doseCalculation.infusionDose?.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mg
+                                                    </p>
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>
+                                                            Total Volume:
+                                                        </strong>{" "}
+                                                        {doseCalculation.volume.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mL
+                                                    </p>
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>
+                                                            Push Volume:
+                                                        </strong>{" "}
+                                                        {doseCalculation.pushVolume?.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mL
+                                                    </p>
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>
+                                                            Infusion Volume:
+                                                        </strong>{" "}
+                                                        {doseCalculation.infusionVolume?.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mL
+                                                    </p>
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>Waste:</strong>{" "}
+                                                        {doseCalculation.waste.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mg
+                                                    </p>
+                                                    <p className="text-sm md:text-base">
+                                                        <strong>
+                                                            Waste Volume:
+                                                        </strong>{" "}
+                                                        {doseCalculation.wasteVolume.toFixed(
+                                                            2
+                                                        )}{" "}
+                                                        mL
+                                                    </p>
+                                                </div>
                                             </div>
                                         )}
                                     </div>
 
                                     {/* Administration Guidelines */}
                                     <div className="space-y-3 md:space-y-4">
-                                        <h3 className="text-base md:text-lg font-semibold text-gray-800 border-b pb-2">
+                                        <h3 className="text-base md:text-lg font-semibold text-deep-charcoal border-b border-harbor-gray pb-2">
                                             Administration Guidelines
                                         </h3>
 
