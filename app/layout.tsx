@@ -1,14 +1,15 @@
-import type React from "react";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+// app/layout.tsx  (or app/root-layout.tsx)
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import Header from '@/components/home/header';
+import './globals.css';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-    title: "CodeStrokePro - Clinical Stroke Care Support",
+    title: 'CodeStrokePro – Clinical Stroke Care Support',
     description:
-        "Empowering Rural Healthcare Providers. Enhancing Stroke Care. Saving Lives.",
+        'Empowering rural healthcare providers, enhancing stroke care, and saving lives.',
 };
 
 export default function RootLayout({
@@ -17,8 +18,12 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
-            <body className={inter.className}>{children}</body>
+        <html lang="en" className={inter.variable}>
+            <body className="min-h-screen flex flex-col">
+                <Header />
+                {/* main grows to fill, footer (if any) comes after */}
+                <main className="flex-1">{children}</main>
+            </body>
         </html>
     );
 }

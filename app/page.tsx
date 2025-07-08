@@ -12,135 +12,16 @@ import {
     AlertTriangle,
     Stethoscope,
 } from "lucide-react";
+import SectionA from "@/components/home/sectionA";
 
 export default function HomePage() {
     return (
         <div className="flex flex-col min-h-screen bg-parchment">
-            {/* Header - Clinical Theme */}
-            <header className="w-full bg-clinical-slate text-parchment clarity-shadow border-b border-harbor-gray sticky top-0 z-50 backdrop-blur-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex items-center space-x-3">
-                            <div className="bg-white/10 p-2 rounded-full">
-                                <Stethoscope className="h-6 w-6 text-parchment/80" />
-                            </div>
-                            <h1 className="text-2xl font-medium text-parchment">
-                                CodeStroke Pro
-                            </h1>
-                        </div>
-                        <nav className="hidden md:flex items-center space-x-6">
-                            <Link
-                                href="/calculator"
-                                className="text-base text-parchment/80 hover:text-parchment transition-colors"
-                            >
-                                Calculator
-                            </Link>
-                            <Link
-                                href="#about"
-                                className="text-base text-parchment/80 hover:text-parchment transition-colors"
-                            >
-                                About
-                            </Link>
-                            <Link
-                                href="#resources"
-                                className="text-base text-parchment/80 hover:text-parchment transition-colors"
-                            >
-                                Resources
-                            </Link>
-                        </nav>
-                    </div>
-                </div>
-            </header>
 
             {/* Main Content */}
             <main className="flex-grow">
                 {/* Mission Section - NGO/Service-Oriented Theme */}
-                <section className="py-20 px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <p className="text-lg font-medium text-vital-green mb-2">
-                            A Public Service Initiative
-                        </p>
-                        <h2 className="text-4xl md:text-5xl font-medium text-deep-charcoal mb-6">
-                            Serving Communities Through Better Stroke Care
-                        </h2>
-                        <p className="text-xl text-deep-charcoal/70 max-w-3xl mx-auto mb-10">
-                            CodeStroke Pro is a non-commercial clinical decision
-                            support tool developed to serve healthcare providers
-                            and improve patient outcomes in acute stroke care.
-                            Our mission is to enhance community health through
-                            accessible, evidence-based tools that support timely
-                            and effective treatment decisions.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Button
-                                asChild
-                                size="lg"
-                                className="bg-clinical-slate hover:bg-clinical-slate/90 text-parchment px-8 py-4 text-lg clarity-shadow"
-                            >
-                                <Link href="/calculator">
-                                    Begin Clinical Workflow
-                                    <ChevronRight className="ml-2 h-5 w-5" />
-                                </Link>
-                            </Button>
-                            <Button
-                                asChild
-                                variant="outline"
-                                size="lg"
-                                className="border-harbor-gray text-deep-charcoal hover:bg-harbor-gray/20 px-8 py-4 text-lg"
-                            >
-                                <Link href="#resources">
-                                    Clinical Resources
-                                    <BookOpen className="ml-2 h-5 w-5" />
-                                </Link>
-                            </Button>
-                        </div>
-
-                        {/* Service Impact Banner */}
-                        <div className="mt-12 bg-gradient-to-r from-vital-green/10 to-clinical-slate/10 border border-vital-green/20 rounded-lg p-6 clarity-shadow">
-                            <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-vital-green/20 p-2 rounded-full">
-                                        <Activity className="h-5 w-5 text-vital-green" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-deep-charcoal">
-                                            Community Focus
-                                        </p>
-                                        <p className="text-xs text-deep-charcoal/70">
-                                            Serving Northeast Louisiana
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-clinical-slate/20 p-2 rounded-full">
-                                        <Shield className="h-5 w-5 text-clinical-slate" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-deep-charcoal">
-                                            Non-Commercial
-                                        </p>
-                                        <p className="text-xs text-deep-charcoal/70">
-                                            Open Access Tool
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-vital-green/20 p-2 rounded-full">
-                                        <Stethoscope className="h-5 w-5 text-vital-green" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-deep-charcoal">
-                                            Evidence-Based
-                                        </p>
-                                        <p className="text-xs text-deep-charcoal/70">
-                                            Clinical Guidelines
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <SectionA />
 
                 {/* Workflow Section - Clinical Theme */}
                 <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50 backdrop-blur-sm">

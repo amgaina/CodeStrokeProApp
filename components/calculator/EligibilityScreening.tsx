@@ -104,11 +104,8 @@ export default function EligibilityScreening({
             <CardContent className="p-4 md:p-8 space-y-4 md:space-y-6">
                 {/* Absolute Contraindications */}
                 <div className="space-y-3 md:space-y-4">
-                    <h3 className="text-base md:text-lg font-semibold text-gray-800 border-b pb-2">
-                        Absolute Contraindications
-                    </h3>
                     <p className="text-sm text-gray-600">
-                        Any "Yes" answer excludes thrombolytic therapy
+                        Any "Yes" answer to this category excludes thrombolytic therapy
                     </p>
 
                     {[
@@ -118,20 +115,19 @@ export default function EligibilityScreening({
                         },
                         {
                             key: "hemorrhage" as keyof EligibilityAnswers,
-                            label: "Does head CT show evidence of intracranial hemorrhage?",
+                            label: " Did head CT suggest or confirm any hemorrhage?",
                         },
                         {
                             key: "overTimeLimit" as keyof EligibilityAnswers,
-                            label: "Is symptom onset (LKW) more than 4.5 hours ago?",
+                            label: "Is the patient’s last known well more than 4.5 hours ago?",
                         },
                     ].map((question) => (
                         <div
                             key={question.key}
-                            className={`flex items-start space-x-3 p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                                answers[question.key]
-                                    ? "border-red-300 bg-red-50"
-                                    : "border-gray-200"
-                            }`}
+                            className={`flex items-start space-x-3 p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers[question.key]
+                                ? "border-red-300 bg-red-50"
+                                : "border-gray-200"
+                                }`}
                         >
                             <Checkbox
                                 id={question.key}
@@ -153,20 +149,16 @@ export default function EligibilityScreening({
 
                 {/* Relative Contraindications */}
                 <div className="space-y-3 md:space-y-4">
-                    <h3 className="text-base md:text-lg font-semibold text-gray-800 border-b pb-2">
-                        Relative Contraindications
-                    </h3>
                     <p className="text-sm text-gray-600">
                         Require careful evaluation and risk-benefit analysis
                     </p>
 
                     {/* Blood Pressure */}
                     <div
-                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                            answers.highBP
-                                ? "border-amber-300 bg-amber-50"
-                                : "border-gray-200"
-                        }`}
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.highBP
+                            ? "border-amber-300 bg-amber-50"
+                            : "border-gray-200"
+                            }`}
                     >
                         <div className="flex items-start space-x-3">
                             <Checkbox
@@ -181,19 +173,17 @@ export default function EligibilityScreening({
                                 htmlFor="highBP"
                                 className="text-sm font-medium cursor-pointer"
                             >
-                                Blood pressure &gt;185/110 mmHg on repeated
-                                measures?
+                                Is Blood pressure &gt;185/110 mmHg?
                             </Label>
                         </div>
                     </div>
 
                     {/* Glucose */}
                     <div
-                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                            answers.abnormalGlucose
-                                ? "border-amber-300 bg-amber-50"
-                                : "border-gray-200"
-                        }`}
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.abnormalGlucose
+                            ? "border-amber-300 bg-amber-50"
+                            : "border-gray-200"
+                            }`}
                     >
                         <div className="flex items-start space-x-3">
                             <Checkbox
@@ -218,11 +208,10 @@ export default function EligibilityScreening({
 
                     {/* Clinical Assessment */}
                     <div
-                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                            answers.rapidImprovement
-                                ? "border-amber-300 bg-amber-50"
-                                : "border-gray-200"
-                        }`}
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.rapidImprovement
+                            ? "border-amber-300 bg-amber-50"
+                            : "border-gray-200"
+                            }`}
                     >
                         <div className="flex items-start space-x-3">
                             <Checkbox
@@ -246,11 +235,10 @@ export default function EligibilityScreening({
                     </div>
 
                     <div
-                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                            answers.minorSymptoms
-                                ? "border-amber-300 bg-amber-50"
-                                : "border-gray-200"
-                        }`}
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.minorSymptoms
+                            ? "border-amber-300 bg-amber-50"
+                            : "border-gray-200"
+                            }`}
                     >
                         <div className="flex items-start space-x-3">
                             <Checkbox
@@ -276,11 +264,10 @@ export default function EligibilityScreening({
 
                     {/* Medications */}
                     <div
-                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                            answers.onMedications
-                                ? "border-amber-300 bg-amber-50"
-                                : "border-gray-200"
-                        }`}
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.onMedications
+                            ? "border-amber-300 bg-amber-50"
+                            : "border-gray-200"
+                            }`}
                     >
                         <div className="flex items-start space-x-3">
                             <Checkbox
@@ -357,11 +344,10 @@ export default function EligibilityScreening({
 
                     {/* Additional Contraindications - Collapsible */}
                     <div
-                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                            answers.contraindications
-                                ? "border-amber-300 bg-amber-50"
-                                : "border-gray-200"
-                        }`}
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.contraindications
+                            ? "border-amber-300 bg-amber-50"
+                            : "border-gray-200"
+                            }`}
                     >
                         <div className="flex items-start space-x-3">
                             <Checkbox
@@ -469,11 +455,10 @@ export default function EligibilityScreening({
                     )}
                     <Button
                         onClick={onNext}
-                        className={`text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto ${
-                            eligibilityStatus.status === "ineligible"
-                                ? "bg-gray-500 hover:bg-gray-600"
-                                : "bg-blue-600 hover:bg-blue-700"
-                        }`}
+                        className={`text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto ${eligibilityStatus.status === "ineligible"
+                            ? "bg-gray-500 hover:bg-gray-600"
+                            : "bg-blue-600 hover:bg-blue-700"
+                            }`}
                     >
                         {eligibilityStatus.status === "ineligible"
                             ? "Review Alternative Therapies"

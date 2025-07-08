@@ -1,178 +1,190 @@
-"use client";
+/**
+ * Author: Abhishek Amgain and Dinesh Chhantyal
+ * Version: 1.0.0
+ * File Description:
+ *     This file defines the LKWTimeEntry component for the CodeStroke Pro application.
+ *     It provides an interactive UI for clinicians to enter or select the patient's
+ *     Last-Known-Well (LKW) time, supporting quick presets, manual entry, local storage
+ *     persistence, and real-time eligibility countdown for acute stroke workflows.
+ */
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Clock } from "lucide-react";
+'use client';
 
-interface LKWTimeEntryProps {
+import { useState, useEffect, useMemo } from 'react';
+import { Clock } from 'lucide-react';
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardContent,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
+const LS_KEY = 'csp-lkw-time';
+
+/* quick presets */
+const presets = [
+    { label: 'Now', offset: 0 },
+    { label: '15 m', offset: 15 },
+    { label: '30 m', offset: 30 },
+    { label: '45 m', offset: 45 },
+    { label: '1 h', offset: 60 },
+];
+
+/* helpers */
+function fromClock(t: string, now = new Date()): Date | null {
+    const [h, m] = t.split(':').map(Number);
+    if (Number.isNaN(h) || Number.isNaN(m)) return null;
+    const d = new Date(now);
+    d.setHours(h, m, 0, 0);
+    if (d > now) d.setDate(d.getDate() - 1);
+    return d;
+}
+function clamp(d: Date, now = new Date()) {
+    const past48 = now.getTime() - 48 * 60 * 60 * 1e3;
+    return d.getTime() < past48 || d.getTime() > now.getTime() ? null : d;
+}
+
+/* props */
+interface Props {
     lkwTime: Date | null;
-    onTimeSet: (time: Date) => void;
+    onTimeSet: (d: Date | null) => void;
     onNext: () => void;
 }
 
-// Utility function to determine the most appropriate LKW date/time
-function calculateLKWDateTime(
-    timeInput: string,
-    currentTime: Date
-): Date | null {
-    const [hours, minutes] = timeInput.split(":").map(Number);
+/* component */
+export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
+    const [lkw, setLkw] = useState<Date | null>(null);
+    const [manual, setManual] = useState('');
 
-    // Create candidate dates for today and yesterday
-    const todayLKW = new Date(currentTime);
-    todayLKW.setHours(hours, minutes, 0, 0);
-
-    const yesterdayLKW = new Date(currentTime);
-    yesterdayLKW.setDate(yesterdayLKW.getDate() - 1);
-    yesterdayLKW.setHours(hours, minutes, 0, 0);
-
-    // Calculate time differences
-    const todayDiff = Math.abs(todayLKW.getTime() - currentTime.getTime());
-    const yesterdayDiff = Math.abs(
-        yesterdayLKW.getTime() - currentTime.getTime()
-    );
-
-    // Choose the date that makes more clinical sense
-    let lkwDateTime: Date;
-    const twelveHours = 12 * 60 * 60 * 1000;
-
-    if (todayLKW.getTime() > currentTime.getTime() + twelveHours) {
-        // Today's time is far in the future, use yesterday
-        lkwDateTime = yesterdayLKW;
-    } else if (todayDiff <= yesterdayDiff) {
-        // Today's time is closer or equal, use today
-        lkwDateTime = todayLKW;
-    } else {
-        // Yesterday's time is closer, use yesterday
-        lkwDateTime = yesterdayLKW;
-    }
-
-    // Clinical validation: LKW shouldn't be more than 48 hours ago
-    const fortyEightHoursAgo = new Date(
-        currentTime.getTime() - 48 * 60 * 60 * 1000
-    );
-    if (lkwDateTime < fortyEightHoursAgo) {
-        return null; // Don't set unreasonably old times
-    }
-
-    // Clinical validation: LKW shouldn't be more than 2 hours in the future
-    const twoHoursFromNow = new Date(
-        currentTime.getTime() + 2 * 60 * 60 * 1000
-    );
-    if (lkwDateTime > twoHoursFromNow) {
-        return null; // Don't set unreasonably future times
-    }
-
-    return lkwDateTime;
-}
-
-export default function LKWTimeEntry({
-    lkwTime,
-    onTimeSet,
-    onNext,
-}: LKWTimeEntryProps) {
-    const setLKWTime = (timeInput: string) => {
-        if (!timeInput) return;
-
-        const now = new Date();
-        const lkwDateTime = calculateLKWDateTime(timeInput, now);
-
-        if (lkwDateTime) {
-            onTimeSet(lkwDateTime);
+    /* hydrate */
+    useEffect(() => {
+        const iso = localStorage.getItem(LS_KEY);
+        if (iso) {
+            const d = new Date(iso);
+            if (!Number.isNaN(d.getTime())) {
+                setLkw(d);
+                setManual(d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+                onTimeSet(d);
+            }
         }
+    }, []);
+
+    /* persist */
+    useEffect(() => {
+        if (lkw) localStorage.setItem(LS_KEY, lkw.toISOString());
+    }, [lkw]);
+
+    /* preview */
+    const preview = useMemo(() => {
+        if (!lkw) return null;
+        const now = new Date();
+        const diff = 4.5 * 60 * 60 * 1e3 - (now.getTime() - lkw.getTime());
+        const overdue = diff < 0;
+        const abs = Math.abs(diff);
+        return {
+            overdue,
+            hrs: Math.floor(abs / 3_600_000),
+            mins: Math.floor((abs % 3_600_000) / 60_000),
+        };
+    }, [lkw]);
+
+    /* setters */
+    function setAndSync(d: Date | null) {
+        setLkw(d);
+        onTimeSet(d);
+        if (d) {
+            setManual(d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+        } else {
+            setManual('');
+            localStorage.removeItem(LS_KEY);
+        }
+    }
+    const choosePreset = (min: number) => setAndSync(new Date(Date.now() - min * 60_000));
+    const handleManual = (val: string) => {
+        setManual(val);
+        const d = clamp(fromClock(val) as Date);
+        if (d) setAndSync(d);
     };
 
+    /* UI */
     return (
-        <Card className="mb-6 md:mb-8 clarity-shadow border border-harbor-gray bg-white">
-            <CardHeader className="bg-clinical-slate text-parchment rounded-t-lg p-4 md:p-6">
-                <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl font-medium">
-                    <Clock className="w-5 h-5 md:w-6 md:h-6" />
-                    Last Known Well Time Entry
+        <Card className="border border-harbor-gray bg-white shadow-sm">
+            <CardHeader className="rounded-t-lg bg-clinical-slate px-4 py-3 md:px-6 md:py-4">
+                <CardTitle className="flex items-center gap-2 text-lg font-medium text-parchment md:text-xl">
+                    <Clock className="h-5 w-5 md:h-6 md:w-6" />
+                    Last-Known-Well Time
                 </CardTitle>
             </CardHeader>
-            <CardContent className="p-4 md:p-8">
-                <div className="max-w-md mx-auto space-y-4 md:space-y-6">
-                    <div className="text-center">
-                        <h3 className="text-base md:text-lg font-semibold text-deep-charcoal mb-2">
-                            When was the patient last seen normal?
-                        </h3>
-                        <p className="text-deep-charcoal/70 text-sm">
-                            Enter the time the patient was last known to be
-                            without neurological symptoms
-                        </p>
-                    </div>
 
-                    <div className="space-y-4">
-                        <div className="text-center">
-                            <Label
-                                htmlFor="lkw-time"
-                                className="text-sm md:text-base font-medium text-deep-charcoal block mb-2"
-                            >
-                                Last Known Well Time
-                            </Label>
-                            <div className="flex justify-center">
-                                <Input
-                                    id="lkw-time"
-                                    type="time"
-                                    onChange={(e) => setLKWTime(e.target.value)}
-                                    className="w-auto text-center text-base md:text-lg p-3 md:p-4 border-2 border-harbor-gray focus:border-clinical-slate rounded-lg"
-                                />
-                            </div>
-                        </div>
-
-                        {lkwTime && (
-                            <div className="text-center p-3 md:p-4 bg-vital-green/10 border-2 border-vital-green/30 rounded-lg clarity-shadow">
-                                <p className="text-sm text-vital-green mb-1">
-                                    LKW Time Set
-                                </p>
-                                <p className="text-base md:text-lg font-semibold text-deep-charcoal">
-                                    {lkwTime.toLocaleDateString([], {
-                                        weekday: "short",
-                                        month: "short",
-                                        day: "numeric",
-                                    })}{" "}
-                                    {lkwTime.toLocaleTimeString([], {
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        hour12: true,
-                                    })}
-                                </p>
-                                <p className="text-xs text-deep-charcoal/60 mt-1">
-                                    {(() => {
-                                        const now = new Date();
-                                        const timeDiff =
-                                            now.getTime() - lkwTime.getTime();
-                                        const hours = Math.floor(
-                                            timeDiff / (1000 * 60 * 60)
-                                        );
-                                        const minutes = Math.floor(
-                                            (timeDiff % (1000 * 60 * 60)) /
-                                                (1000 * 60)
-                                        );
-                                        const isToday =
-                                            lkwTime.toDateString() ===
-                                            now.toDateString();
-                                        const timeAgo = `${hours} hours ${minutes} minutes ago`;
-                                        return isToday
-                                            ? timeAgo
-                                            : `${timeAgo} (${lkwTime.toDateString()})`;
-                                    })()}
-                                </p>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="flex justify-center">
-                        <Button
-                            onClick={onNext}
-                            className="bg-clinical-slate hover:bg-clinical-slate/90 text-parchment btn-text text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
-                            disabled={!lkwTime}
-                        >
-                            Continue to Code Stroke Timer
-                        </Button>
-                    </div>
+            <CardContent className="space-y-6 px-4 py-6 md:px-8 md:py-8">
+                <div className="text-center space-y-1">
+                    <p className="text-base font-semibold text-deep-charcoal md:text-lg">
+                        When was the patient last seen normal?
+                    </p>
+                    <p className="mx-auto max-w-xs text-sm text-deep-charcoal/70">
+                        Tap a preset or enter a clock time.
+                    </p>
                 </div>
+
+                {/* presets */}
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+                    {presets.map(({ label, offset }) => (
+                        <Button
+                            key={label}
+                            size="sm"
+                            variant="outline"
+                            onClick={() => choosePreset(offset)}
+                            className="rounded-full text-xs sm:text-sm px-3 py-1.5"
+                        >
+                            {label}
+                        </Button>
+                    ))}
+                </div>
+
+                {/* manual input — spinner arrows hidden via appearance-none */}
+                <div className="flex justify-center">
+                    <Label htmlFor="lkw-time" className="sr-only">
+                        LKW time input
+                    </Label>
+                    <Input
+                        id="lkw-time"
+                        type="time"
+                        step="60"
+                        value={manual}
+                        onChange={(e) => handleManual(e.target.value)}
+                        className="appearance-none h-12 w-40 max-w-full rounded-lg border-2 border-harbor-gray bg-parchment/50 p-2 text-center text-lg font-mono tracking-wide focus:border-clinical-slate sm:h-14 sm:text-xl"
+                    />
+                </div>
+
+                {/* countdown */}
+                {preview && (
+                    <p
+                        className={`mx-auto max-w-xs rounded-md px-3 py-2 text-center text-sm font-semibold ${preview.overdue ? 'bg-critical-crimson/20 text-critical-crimson' : 'bg-vital-green/20 text-vital-green'
+                            }`}
+                    >
+                        {`${preview.hrs}h ${preview.mins}m ${preview.overdue ? 'past window' : 'left'}`}
+                    </p>
+                )}
+
+                <Button
+                    onClick={onNext}
+                    disabled={!lkw || preview?.overdue}
+                    className="mx-auto flex flex-end w-full rounded-lg bg-clinical-slate px-6 py-3 text-base text-parchment hover:bg-clinical-slate/90 sm:w-auto sm:text-lg"
+                >
+                    Continue
+                </Button>
+
+                {lkw && (
+                    <button
+                        onClick={() => setAndSync(null)}
+                        className="mx-auto block text-xs text-black underline hover:text-red-600"
+                    >
+                        Clear &amp; reset time
+                    </button>
+                )}
             </CardContent>
         </Card>
     );

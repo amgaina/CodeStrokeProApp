@@ -1,314 +1,222 @@
-"use client";
+/**
+ * Author: Abhishek Amgain and Dinesh Chhantyal
+ * Version: 1.0.0
+ * File Description:
+ *     This file defines the CodeStrokeTimers component for the CodeStroke Pro application.
+ *     It displays real-time timers for the 4.5-hour thrombolytic window and door-to-needle interval,
+ *     providing clinicians with actionable countdowns and elapsed time tracking during acute stroke workflows.
+ *     The component supports timer controls, visual status indicators, and navigation for workflow progression.
+ */
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Clock, Timer, AlertTriangle } from "lucide-react";
+'use client';
 
+import { useMemo } from 'react';
+import { Clock, Timer, RefreshCw } from 'lucide-react';
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardContent,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+
+/* ---------- types ---------- */
 interface TimerState {
     lkwTime: Date | null;
     arrivalTime: Date | null;
     currentTime: Date;
 }
-
-interface CodeStrokeTimersProps {
+interface Props {
     timers: TimerState;
-    onStartArrivalTimer: () => void;
+    onStartArrivalTimer: (preset?: Date) => void;
     onNext: () => void;
     onBack?: () => void;
 }
 
+/* ---------- helpers ---------- */
+const pad = (n: number) => String(n).padStart(2, '0');
+const fmt = (ms: number) => {
+    const h = Math.floor(ms / 3_600_000);
+    const m = Math.floor((ms % 3_600_000) / 60_000);
+    const s = Math.floor((ms % 60_000) / 1_000);
+    return `${h}h ${pad(m)}m ${pad(s)}s`;
+};
+
+/* ---------- component ---------- */
 export default function CodeStrokeTimers({
     timers,
     onStartArrivalTimer,
     onNext,
     onBack,
-}: CodeStrokeTimersProps) {
-    const formatTimeRemaining = (
-        targetTime: Date,
-        currentTime: Date
-    ): { text: string; isExpired: boolean } => {
-        const diff = targetTime.getTime() - currentTime.getTime();
-        const isExpired = diff <= 0;
+}: Props) {
+    /* ───── derived values ───── */
+    const thrombolytic = useMemo(() => {
+        if (!timers.lkwTime) return null;
+        const limit = new Date(timers.lkwTime.getTime() + 4.5 * 60 * 60 * 1e3);
+        const diff = limit.getTime() - timers.currentTime.getTime();
+        return { expired: diff <= 0, text: diff <= 0 ? 'EXPIRED' : fmt(diff) };
+    }, [timers.lkwTime, timers.currentTime]);
 
-        if (isExpired) {
-            return { text: "EXPIRED", isExpired: true };
-        }
+    const doorNeedle = useMemo(() => {
+        if (!timers.arrivalTime) return null;
+        const elapsed = Math.max(
+            0,
+            timers.currentTime.getTime() - timers.arrivalTime.getTime(),
+        );
+        return fmt(elapsed);
+    }, [timers.arrivalTime, timers.currentTime]);
 
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    /* ───── actions ───── */
+    const start = () => onStartArrivalTimer(); // now()
+    const restart = () => onStartArrivalTimer(undefined); // clear & now()
 
-        return { text: `${hours}h ${minutes}m ${seconds}s`, isExpired: false };
-    };
-
-    const formatElapsedTime = (startTime: Date, currentTime: Date): string => {
-        const diff = Math.max(0, currentTime.getTime() - startTime.getTime());
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        return `${hours}h ${minutes}m ${seconds}s`;
-    };
-
+    /* ───── UI ───── */
     return (
-        <div className="space-y-4 md:space-y-6">
-            {/* Clinical Warning */}
-            <Alert className="border-urgent-amber/30 bg-urgent-amber/10 clarity-shadow">
-                <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-urgent-amber" />
-                <AlertDescription className="text-deep-charcoal font-medium text-sm md:text-base">
-                    <strong className="text-urgent-amber">Important:</strong>
-                    Do not close this application. Timers will reset if the page
-                    is closed.
-                </AlertDescription>
-            </Alert>
+        <Card className="border border-harbor-gray bg-white shadow-sm">
+            {/* ---------- header ---------- */}
+            <CardHeader className="rounded-t-lg bg-clinical-slate px-4 py-3 md:px-6 md:py-4">
+                <CardTitle className="flex items-center gap-2 text-lg font-medium text-parchment md:text-xl">
+                    <Timer className="h-5 w-5 md:h-6 md:w-6" />
+                    Code-Stroke Timers
+                </CardTitle>
+            </CardHeader>
 
-            {/* Mobile Layout - Stacked */}
-            <div className="block lg:hidden space-y-4">
-                {/* 4.5 Hour Window Timer - Mobile */}
-                <Card className="shadow-xl border-0 bg-white">
-                    <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white p-4">
-                        <CardTitle className="flex items-center gap-2 text-base">
-                            <Clock className="w-4 h-4" />
-                            4.5 Hour Thrombolytic Window
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-4">
-                        {timers.lkwTime && (
-                            <div className="text-center">
-                                {(() => {
-                                    const fourHourLimit = new Date(
-                                        timers.lkwTime.getTime() +
-                                            4.5 * 60 * 60 * 1000
-                                    );
-                                    const timeRemaining = formatTimeRemaining(
-                                        fourHourLimit,
-                                        timers.currentTime
-                                    );
-                                    return (
-                                        <div
-                                            className={`p-4 rounded-xl ${
-                                                timeRemaining.isExpired
-                                                    ? "bg-red-50 border-2 border-red-200"
-                                                    : "bg-green-50 border-2 border-green-200"
-                                            }`}
-                                        >
-                                            <p
-                                                className={`text-xs mb-2 ${
-                                                    timeRemaining.isExpired
-                                                        ? "text-red-700"
-                                                        : "text-green-700"
-                                                }`}
-                                            >
-                                                {timeRemaining.isExpired
-                                                    ? "Thrombolytic Window Expired"
-                                                    : "Time Remaining for IV Thrombolytics"}
-                                            </p>
-                                            <p
-                                                className={`text-2xl md:text-4xl font-bold ${
-                                                    timeRemaining.isExpired
-                                                        ? "text-red-800"
-                                                        : "text-green-800"
-                                                }`}
-                                            >
-                                                {timeRemaining.text}
-                                            </p>
-                                            <p className="text-xs text-gray-600 mt-2">
-                                                LKW:{" "}
-                                                {timers.lkwTime.toLocaleTimeString(
-                                                    [],
-                                                    {
-                                                        hour: "2-digit",
-                                                        minute: "2-digit",
-                                                        hour12: true,
-                                                    }
-                                                )}
-                                            </p>
-                                        </div>
-                                    );
-                                })()}
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
-
-                {/* Door-to-Needle Timer - Mobile */}
-                <Card className="shadow-xl border-0 bg-white">
-                    <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4">
-                        <CardTitle className="flex items-center gap-2 text-base">
-                            <Timer className="w-4 h-4" />
-                            Door-to-Needle Timer
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-4">
-                        {!timers.arrivalTime ? (
-                            <div className="text-center space-y-4">
-                                <p className="text-gray-600 text-sm">
-                                    Start timer when patient arrives to
-                                    Emergency Department
-                                </p>
-                                <Button
-                                    onClick={onStartArrivalTimer}
-                                    className="w-full bg-red-600 hover:bg-red-700 text-base md:text-lg py-3 md:py-4"
-                                    size="lg"
+            {/* ---------- body ---------- */}
+            <CardContent className="space-y-6 px-4 py-6 md:px-8 md:py-8">
+                {/* inner-grid */}
+                <div className="grid gap-4 lg:grid-cols-2">
+                    {/* ===== 4.5-hour window ===== */}
+                    <div className="rounded-xl border border-harbor-gray/60 bg-white">
+                        <div className="rounded-t-xl bg-clinical-slate/90 px-4 py-2">
+                            <h3 className="flex items-center gap-2 text-sm font-medium text-parchment">
+                                <Clock className="h-4 w-4" />
+                                4.5 hour Thrombolytic Window
+                            </h3>
+                        </div>
+                        <div className="p-4 md:p-6 text-center">
+                            {thrombolytic ? (
+                                <div
+                                    className={`rounded-lg border-2 p-4 md:p-6
+                  ${thrombolytic.expired
+                                            ? 'border-critical-crimson/40 bg-critical-crimson/10'
+                                            : 'border-vital-green/30 bg-vital-green/10'
+                                        }`}
                                 >
-                                    <Timer className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-                                    START CODE STROKE
-                                </Button>
-                            </div>
-                        ) : (
-                            <div className="text-center p-4 bg-blue-50 border-2 border-blue-200 rounded-xl">
-                                <p className="text-xs text-blue-700 mb-2">
-                                    Time Since ED Arrival
-                                </p>
-                                <p className="text-2xl md:text-4xl font-bold text-blue-800">
-                                    {formatElapsedTime(
-                                        timers.arrivalTime,
-                                        timers.currentTime
-                                    )}
-                                </p>
-                                <Badge className="mt-2 bg-red-600 text-xs">
-                                    CODE STROKE ACTIVE
-                                </Badge>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
-            </div>
-
-            {/* Desktop Layout - Side by Side */}
-            <div className="hidden lg:grid lg:grid-cols-2 gap-6">
-                {/* 4.5 Hour Window Timer - Desktop */}
-                <Card className="shadow-xl border-0 bg-white">
-                    <CardHeader className="bg-gradient-to-r from-green-600 to-green-700 text-white">
-                        <CardTitle className="flex items-center gap-2">
-                            <Clock className="w-5 h-5" />
-                            4.5 Hour Thrombolytic Window
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                        {timers.lkwTime && (
-                            <div className="text-center">
-                                {(() => {
-                                    const fourHourLimit = new Date(
-                                        timers.lkwTime.getTime() +
-                                            4.5 * 60 * 60 * 1000
-                                    );
-                                    const timeRemaining = formatTimeRemaining(
-                                        fourHourLimit,
-                                        timers.currentTime
-                                    );
-                                    return (
-                                        <div
-                                            className={`p-6 rounded-xl ${
-                                                timeRemaining.isExpired
-                                                    ? "bg-red-50 border-2 border-red-200"
-                                                    : "bg-green-50 border-2 border-green-200"
+                                    <p
+                                        className={`mb-1 text-xs font-medium tracking-wide
+                    ${thrombolytic.expired
+                                                ? 'text-critical-crimson'
+                                                : 'text-vital-green'
                                             }`}
-                                        >
-                                            <p
-                                                className={`text-sm mb-2 ${
-                                                    timeRemaining.isExpired
-                                                        ? "text-red-700"
-                                                        : "text-green-700"
-                                                }`}
-                                            >
-                                                {timeRemaining.isExpired
-                                                    ? "Thrombolytic Window Expired"
-                                                    : "Time Remaining for IV Thrombolytics"}
-                                            </p>
-                                            <p
-                                                className={`text-4xl font-bold ${
-                                                    timeRemaining.isExpired
-                                                        ? "text-red-800"
-                                                        : "text-green-800"
-                                                }`}
-                                            >
-                                                {timeRemaining.text}
-                                            </p>
-                                            <p className="text-xs text-gray-600 mt-2">
-                                                LKW:{" "}
-                                                {timers.lkwTime.toLocaleTimeString(
-                                                    [],
-                                                    {
-                                                        hour: "2-digit",
-                                                        minute: "2-digit",
-                                                        hour12: true,
-                                                    }
-                                                )}
-                                            </p>
-                                        </div>
-                                    );
-                                })()}
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
+                                    >
+                                        {thrombolytic.expired
+                                            ? 'Window Expired'
+                                            : 'Time Remaining'}
+                                    </p>
 
-                {/* Door-to-Needle Timer - Desktop */}
-                <Card className="shadow-xl border-0 bg-white">
-                    <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-                        <CardTitle className="flex items-center gap-2">
-                            <Timer className="w-5 h-5" />
-                            Door-to-Needle Timer
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                        {!timers.arrivalTime ? (
-                            <div className="text-center space-y-4">
-                                <p className="text-gray-600">
-                                    Start timer when patient arrives to
-                                    Emergency Department
-                                </p>
-                                <Button
-                                    onClick={onStartArrivalTimer}
-                                    className="w-full bg-red-600 hover:bg-red-700 text-lg py-4"
-                                    size="lg"
-                                >
-                                    <Timer className="w-5 h-5 mr-2" />
-                                    START CODE STROKE
-                                </Button>
-                            </div>
-                        ) : (
-                            <div className="text-center p-6 bg-blue-50 border-2 border-blue-200 rounded-xl">
-                                <p className="text-sm text-blue-700 mb-2">
-                                    Time Since ED Arrival
-                                </p>
-                                <p className="text-4xl font-bold text-blue-800">
-                                    {formatElapsedTime(
-                                        timers.arrivalTime,
-                                        timers.currentTime
+                                    <p
+                                        className={`font-mono font-bold
+                    ${thrombolytic.expired
+                                                ? 'text-2xl md:text-4xl text-critical-crimson'
+                                                : 'text-2xl md:text-4xl text-vital-green'
+                                            }`}
+                                    >
+                                        {thrombolytic.text}
+                                    </p>
+
+                                    {timers.lkwTime && (
+                                        <p className="mt-2 text-xs text-deep-charcoal/60">
+                                            Last Well Known &nbsp;@
+                                            {timers.lkwTime.toLocaleTimeString([], {
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                hour12: true,
+                                            })}
+                                        </p>
                                     )}
+                                </div>
+                            ) : (
+                                <p className="text-sm text-deep-charcoal/70">
+                                    Set Last-Known-Well time first.
                                 </p>
-                                <Badge className="mt-2 bg-red-600">
-                                    CODE STROKE ACTIVE
-                                </Badge>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
-            </div>
+                            )}
+                        </div>
+                    </div>
 
-            {/* Navigation Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 justify-between">
-                {onBack && (
+                    {/* ===== Door-to-Needle ===== */}
+                    <div className="rounded-xl border border-harbor-gray/60 bg-white">
+                        <div className="rounded-t-xl bg-clinical-slate/90 px-4 py-2">
+                            <h3 className="flex items-center gap-2 text-sm font-medium text-parchment">
+                                <Timer className="h-4 w-4" />
+                                Door-to-Needle Timer
+                            </h3>
+                        </div>
+                        <div className="p-4 md:p-6 space-y-4 text-center">
+                            {!doorNeedle ? (
+                                <>
+                                    <p className="text-sm text-deep-charcoal/70">
+                                        Tap when patient arrives in the ED
+                                    </p>
+                                    <Button
+                                        size="lg"
+                                        onClick={start}
+                                        className="w-full rounded-lg bg-critical-crimson py-3 text-base text-parchment hover:bg-critical-crimson/80 md:py-4 md:text-lg"
+                                    >
+                                        <Timer className="mr-2 h-5 w-5" />
+                                        START CODE STROKE
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="rounded-lg border-2 border-blue-300/50 bg-blue-50 p-4 md:p-6">
+                                        <p className="mb-1 text-xs font-medium text-blue-700">
+                                            Time Since ED Arrival
+                                        </p>
+                                        <p className="font-mono text-2xl font-bold text-blue-800 md:text-4xl">
+                                            {doorNeedle}
+                                        </p>
+                                        <Badge className="mt-2 bg-critical-crimson text-[10px] md:text-xs">
+                                            CODE STROKE ACTIVE
+                                        </Badge>
+                                    </div>
+
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={restart}
+                                        className="w-full gap-2 rounded-lg text-xs md:text-sm"
+                                    >
+                                        <RefreshCw className="h-4 w-4" />
+                                        Restart Timer
+                                    </Button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* ===== nav buttons ===== */}
+                <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
+                    {onBack && (
+                        <Button
+                            variant="outline"
+                            onClick={onBack}
+                            className="w-full rounded-md px-6 py-3 text-base sm:w-auto sm:text-lg"
+                        >
+                            Back
+                        </Button>
+                    )}
+
                     <Button
-                        onClick={onBack}
-                        variant="outline"
-                        className="text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                        onClick={onNext}
+                        disabled={!doorNeedle || (thrombolytic?.expired ?? true)}
+                        className="w-full rounded-md bg-clinical-slate px-6 py-3 text-base text-parchment hover:bg-clinical-slate/90 disabled:opacity-40 sm:w-auto sm:text-lg"
                     >
-                        Back to LKW Time
+                        Continue to Eligibility
                     </Button>
-                )}
-                <Button
-                    onClick={onNext}
-                    className="bg-blue-600 hover:bg-blue-700 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
-                    disabled={!timers.arrivalTime}
-                >
-                    Continue to Eligibility Screening
-                </Button>
-            </div>
-        </div>
+                </div>
+            </CardContent>
+        </Card>
     );
 }

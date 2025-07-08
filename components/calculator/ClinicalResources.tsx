@@ -7,6 +7,7 @@ import { FileText, BookOpen, Eye, Users } from "lucide-react";
 interface ClinicalResourcesProps {
     onRestart: () => void;
     onBack?: () => void;
+    compact?: boolean;
 }
 
 export default function ClinicalResources({
