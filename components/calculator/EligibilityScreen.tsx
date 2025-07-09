@@ -23,7 +23,6 @@ import {
     AlertTriangle,
     FileText,
     Link as LinkIcon,
-    Stethoscope,
 } from 'lucide-react';
 
 /* ---------- types ---------- */
@@ -387,8 +386,8 @@ export default function EligibilityScreen({
                     <Button
                         onClick={onNext}
                         className={`w-full ${status.eligible
-                                ? 'bg-vital-green hover:bg-vital-green/90'
-                                : 'bg-harbor-gray hover:bg-harbor-gray/90'
+                            ? 'bg-vital-green hover:bg-vital-green/90'
+                            : 'bg-harbor-gray hover:bg-harbor-gray/90'
                             } text-white`}
                     >
                         {status.eligible

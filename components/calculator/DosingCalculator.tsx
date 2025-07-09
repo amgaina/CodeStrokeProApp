@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,13 +60,20 @@ export default function DosingCalculator({
         // Validate reasonable weight range (5-300 kg)
         if (weightInKg < 5 || weightInKg > 300) return null;
 
+
+        function getTnkDose(weightInKg: number): { totalDose: number; volume: number } {
+            if (weightInKg < 60) return { totalDose: 15, volume: 3.0 };
+            if (weightInKg < 70) return { totalDose: 17.5, volume: 3.5 };
+            if (weightInKg < 80) return { totalDose: 20, volume: 4.0 };
+            if (weightInKg < 90) return { totalDose: 22.5, volume: 4.5 };
+            /* ≥90 kg */
+            return { totalDose: 25, volume: 5.0 };
+        }
+
         if (selectedDrug === "tnk") {
-            // TNK: 0.25 mg/kg, max 25 mg
-            const totalDose = Math.min(weightInKg * 0.25, 25);
-            // TNK is reconstituted to 5 mg/mL (50mg in 10mL)
-            const volume = totalDose / 5; // 5 mg/mL concentration
+            const { totalDose, volume } = getTnkDose(weightInKg);
             const waste = Math.max(0, vial - totalDose);
-            const wasteVolume = waste / 5; // Also in 5 mg/mL concentration
+            const wasteVolume = waste / 5;
 
             return {
                 totalDose,
@@ -115,25 +121,24 @@ Patient Weight: ${patientWeight} ${weightUnit} (${weightInKg.toFixed(1)} kg)
 Calculated: ${new Date().toLocaleString()}
 
 DOSING INSTRUCTIONS:
-${
-    selectedDrug === "tnk"
-        ? `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
+${selectedDrug === "tnk"
+                ? `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
 - Volume: ${doseCalculation.volume.toFixed(1)} mL
 - Administration: IV push over 5-10 seconds`
-        : `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
+                : `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
 - Bolus (10%): ${doseCalculation.pushDose!.toFixed(
-              1
-          )} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)
+                    1
+                )} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)
 - Infusion (90%): ${doseCalculation.infusionDose!.toFixed(
-              1
-          )} mg (${doseCalculation.infusionVolume!.toFixed(
-              1
-          )} mL) over 60 minutes`
-}
+                    1
+                )} mg (${doseCalculation.infusionVolume!.toFixed(
+                    1
+                )} mL) over 60 minutes`
+            }
 
 WASTE: ${doseCalculation.waste.toFixed(
-            1
-        )} mg (${doseCalculation.wasteVolume.toFixed(1)} mL)
+                1
+            )} mg (${doseCalculation.wasteVolume.toFixed(1)} mL)
 
 ⚠️  VERIFY ALL CALCULATIONS BEFORE ADMINISTRATION
         `;
@@ -142,16 +147,15 @@ WASTE: ${doseCalculation.waste.toFixed(
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `stroke-dosing-${selectedDrug}-${
-            new Date().toISOString().split("T")[0]
-        }.txt`;
+        a.download = `stroke-dosing-${selectedDrug}-${new Date().toISOString().split("T")[0]
+            }.txt`;
         a.click();
         URL.revokeObjectURL(url);
     };
 
     return (
         <Card className="mb-6 md:mb-8 shadow-xl border-0 bg-white">
-            <CardHeader className="bg-gradient-to-r from-vital-green to-vital-green/90 text-white p-4 md:p-6">
+            <CardHeader className="bg-gradient-to-r bg-clinical-slate/90 text-white p-4 md:p-6">
                 <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl font-medium">
                     <Calculator className="w-5 h-5 md:w-6 md:h-6" />
                     {selectedDrug === "tnk" ? "Tenecteplase" : "Alteplase"}{" "}
@@ -220,18 +224,20 @@ WASTE: ${doseCalculation.waste.toFixed(
                         <SelectContent>
                             {selectedDrug === "tnk" ? (
                                 <>
-                                    <SelectItem value="50">
-                                        50 mg vial
-                                    </SelectItem>
+                                    <SelectContent>
+                                        {/* TNK vials – give each a distinct value */}
+                                        <SelectItem value="25">25 mg vial</SelectItem>
+                                        <SelectItem value="50">50 mg vial</SelectItem>
+                                    </SelectContent>
+
                                 </>
                             ) : (
                                 <>
-                                    <SelectItem value="50">
-                                        50 mg vial
-                                    </SelectItem>
-                                    <SelectItem value="100">
-                                        100 mg vial
-                                    </SelectItem>
+                                    <SelectContent>
+                                        {/* Alteplase vials – give each a distinct value */}
+                                        <SelectItem value="50">50 mg vial</SelectItem>
+                                        <SelectItem value="100">100 mg vial</SelectItem>
+                                    </SelectContent>
                                 </>
                             )}
                         </SelectContent>
@@ -379,34 +385,6 @@ WASTE: ${doseCalculation.waste.toFixed(
                                         </div>
                                     )}
 
-                                {/* TNK Administration - Reasonable Size */}
-                                {selectedDrug === "tnk" && (
-                                    <div className="bg-vital-green/10 border-2 border-vital-green/30 p-4 rounded-lg">
-                                        <h4 className="text-lg font-semibold text-deep-charcoal text-center mb-3">
-                                            Administration Instructions
-                                        </h4>
-                                        <div className="space-y-2">
-                                            <div className="bg-white/80 p-3 rounded border border-vital-green/20">
-                                                <p className="text-sm font-semibold text-deep-charcoal mb-1">
-                                                    💉 IV Push over 5-10 seconds
-                                                </p>
-                                                <p className="text-xs text-deep-charcoal/70">
-                                                    • Single bolus injection
-                                                </p>
-                                            </div>
-                                            <div className="bg-white/80 p-3 rounded border border-vital-green/20">
-                                                <p className="text-sm font-semibold text-deep-charcoal mb-1">
-                                                    🌊 Flush with Normal Saline
-                                                </p>
-                                                <p className="text-xs text-deep-charcoal/70">
-                                                    • Immediately after
-                                                    administration
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
                                 {/* Drug Waste Information */}
                                 {doseCalculation.waste > 0 && (
                                     <div className="bg-harbor-gray/10 border border-harbor-gray/30 p-4 rounded-lg">
@@ -441,6 +419,34 @@ WASTE: ${doseCalculation.waste.toFixed(
                             </div>
                         </div>
 
+                        {/* Enhanced Safety Warning */}
+                        <Alert className="border-critical-crimson bg-critical-crimson/10 border-2 shadow-md">
+                            <AlertDescription className="text-deep-charcoal">
+                                <div className="space-y-2">
+                                    <p className="text-base font-semibold">
+                                        ⚠️ Critical Safety Check Required
+                                    </p>
+                                    <div className="text-sm space-y-1">
+                                        <p>
+                                            ✓ Always verify dosing calculations with a
+                                            second clinician
+                                        </p>
+                                        <p>
+                                            ✓ Confirm patient weight and drug selection
+                                        </p>
+                                        <p>
+                                            ✓ Check for contraindications before
+                                            administration
+                                        </p>
+                                        <p>
+                                            ✓ This tool is for clinical decision support
+                                            only
+                                        </p>
+                                    </div>
+                                </div>
+                            </AlertDescription>
+                        </Alert>
+
                         {/* Download Card - Reasonable Size */}
                         <div className="text-center">
                             <Button
@@ -454,34 +460,6 @@ WASTE: ${doseCalculation.waste.toFixed(
                         </div>
                     </div>
                 )}{" "}
-                {/* Enhanced Safety Warning */}
-                <Alert className="border-critical-crimson bg-critical-crimson/10 border-2 shadow-md">
-                    <AlertTriangle className="h-5 w-5 text-critical-crimson" />
-                    <AlertDescription className="text-deep-charcoal">
-                        <div className="space-y-2">
-                            <p className="text-base font-semibold">
-                                ⚠️ Critical Safety Check Required
-                            </p>
-                            <div className="text-sm space-y-1">
-                                <p>
-                                    ✓ Always verify dosing calculations with a
-                                    second clinician
-                                </p>
-                                <p>
-                                    ✓ Confirm patient weight and drug selection
-                                </p>
-                                <p>
-                                    ✓ Check for contraindications before
-                                    administration
-                                </p>
-                                <p>
-                                    ✓ This tool is for clinical decision support
-                                    only
-                                </p>
-                            </div>
-                        </div>
-                    </AlertDescription>
-                </Alert>
                 {/* Navigation Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-between">
                     {onBack && (
@@ -495,7 +473,7 @@ WASTE: ${doseCalculation.waste.toFixed(
                     )}
                     <Button
                         onClick={onNext}
-                        className="bg-vital-green hover:bg-vital-green/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                        className="bg-clinical-slate hover:bg-clinical-slate/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
                         disabled={!doseCalculation}
                     >
                         Continue to Resources
