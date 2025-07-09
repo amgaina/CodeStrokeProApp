@@ -111,7 +111,7 @@ export default function DosingCalculator({
         if (!doseCalculation) return;
 
         const weight = parseFloat(patientWeight);
-        const weightInKg = weightUnit === "lbs" ? weight * 0.453592 : weight;
+        const weightInKg = weightUnit === "lbs" ? weight * 0.454545 : weight;
 
         const content = `
 STROKE THROMBOLYTIC DOSING CARD
@@ -349,7 +349,7 @@ WASTE: ${doseCalculation.waste.toFixed(
                                                         mL
                                                     </p>
                                                     <p className="text-sm font-medium text-urgent-amber bg-urgent-amber/20 px-2 py-1 rounded">
-                                                        ⏱️ Give over 1-2 minutes
+                                                        ⏱️ Give over 1 minute
                                                     </p>
                                                 </div>
 

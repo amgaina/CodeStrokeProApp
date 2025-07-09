@@ -12,12 +12,12 @@ import {
 
 interface StepProgressProps {
     currentStep:
-        | "lkw"
-        | "timers"
-        | "screening"
-        | "drugSelection"
-        | "dosing"
-        | "resources";
+    | "lkw"
+    | "timers"
+    | "screening"
+    | "drugSelection"
+    | "dosing"
+    | "resources";
     onStepChange?: (
         step:
             | "lkw"
@@ -82,71 +82,76 @@ export default function StepProgress({
                         </p>
                     </div>
                 )}
-                {/* Mobile Progress - Horizontal Scroll */}
-                <div className="block md:hidden">
-                    <div className="flex items-center gap-2 overflow-x-auto pb-2">
-                        {steps.map((step, index) => {
-                            const isActive = currentStep === step.key;
-                            const isCompleted = currentStepIndex > index;
-                            const IconComponent = step.icon;
 
-                            return (
-                                <div
-                                    key={step.key}
-                                    className="flex flex-col items-center min-w-0 flex-shrink-0"
-                                >
-                                    <button
-                                        onClick={() =>
-                                            onStepChange?.(step.key as any)
-                                        }
-                                        disabled={
-                                            !onStepChange ||
-                                            (!isCompleted && !isActive)
-                                        }
-                                        className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-300 ${
-                                            isActive
-                                                ? "bg-clinical-slate text-parchment clarity-shadow scale-110"
-                                                : isCompleted
-                                                ? "bg-vital-green text-parchment hover:bg-vital-green/80 cursor-pointer"
-                                                : "bg-harbor-gray text-deep-charcoal"
-                                        } ${
-                                            onStepChange &&
-                                            (isCompleted || isActive)
-                                                ? "hover:scale-105 active:scale-95"
-                                                : ""
-                                        }`}
-                                    >
-                                        {isCompleted ? (
-                                            <CheckCircle className="w-4 h-4" />
-                                        ) : (
-                                            <IconComponent className="w-4 h-4" />
-                                        )}
-                                    </button>
-                                    <span
-                                        className={`mt-1 text-xs font-medium text-center ${
-                                            isActive
-                                                ? "text-clinical-slate"
-                                                : "text-deep-charcoal"
-                                        }`}
-                                    >
-                                        {step.shortLabel}
-                                    </span>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-
-                {/* Desktop Progress - Full Width */}
-                <div className="hidden md:flex items-center justify-between">
+                {/* Mobile & Tablet (≤md) */}
+                <div className="flex md:hidden items-center gap-2 overflow-x-auto pb-2 snap-x snap-mandatory">
                     {steps.map((step, index) => {
                         const isActive = currentStep === step.key;
                         const isCompleted = currentStepIndex > index;
                         const IconComponent = step.icon;
 
                         return (
-                            <div key={step.key} className="flex items-center">
-                                <div className="flex flex-col items-center">
+                            <div
+                                key={step.key}
+                                className="flex flex-col items-center min-w-[72px] flex-shrink-0 snap-center"
+                            >
+                                <button
+                                    onClick={() =>
+                                        onStepChange?.(step.key as any)
+                                    }
+                                    disabled={
+                                        !onStepChange ||
+                                        (!isCompleted && !isActive)
+                                    }
+                                    className={`
+                                        transition-transform duration-300 rounded-full
+                                        w-10 h-10 sm:w-11 sm:h-11
+                                        flex items-center justify-center text-xs font-medium
+                                        ${isActive
+                                            ? "bg-clinical-slate text-parchment clarity-shadow scale-110"
+                                            : isCompleted
+                                                ? "bg-vital-green text-parchment hover:bg-vital-green/80 cursor-pointer"
+                                                : "bg-harbor-gray text-deep-charcoal"
+                                        }
+                                        ${onStepChange &&
+                                            (isCompleted || isActive)
+                                            ? "hover:scale-105 active:scale-95"
+                                            : ""
+                                        }
+                                    `}
+                                >
+                                    {isCompleted ? (
+                                        <CheckCircle className="w-4 h-4" />
+                                    ) : (
+                                        <IconComponent className="w-4 h-4" />
+                                    )}
+                                </button>
+                                <span
+                                    className={`mt-1 text-xs font-medium text-center ${isActive
+                                            ? "text-clinical-slate"
+                                            : "text-deep-charcoal"
+                                        }`}
+                                >
+                                    {step.shortLabel}
+                                </span>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                {/* Desktop (≥md) */}
+                <div className="hidden md:flex items-center overflow-x-auto">
+                    {steps.map((step, index) => {
+                        const isActive = currentStep === step.key;
+                        const isCompleted = currentStepIndex > index;
+                        const IconComponent = step.icon;
+
+                        return (
+                            <div
+                                key={step.key}
+                                className="flex items-center flex-1 min-w-[110px]"
+                            >
+                                <div className="flex flex-col items-center flex-shrink-0">
                                     <button
                                         onClick={() =>
                                             onStepChange?.(step.key as any)
@@ -155,42 +160,46 @@ export default function StepProgress({
                                             !onStepChange ||
                                             (!isCompleted && !isActive)
                                         }
-                                        className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
-                                            isActive
+                                        className={`
+                                            transition-transform duration-300 rounded-full
+                                            w-11 h-11 lg:w-12 lg:h-12 xl:w-14 xl:h-14
+                                            flex items-center justify-center text-sm font-medium
+                                            ${isActive
                                                 ? "bg-clinical-slate text-parchment clarity-shadow scale-110"
                                                 : isCompleted
-                                                ? "bg-vital-green text-parchment hover:bg-vital-green/80 cursor-pointer"
-                                                : "bg-harbor-gray text-deep-charcoal"
-                                        } ${
-                                            onStepChange &&
-                                            (isCompleted || isActive)
+                                                    ? "bg-vital-green text-parchment hover:bg-vital-green/80 cursor-pointer"
+                                                    : "bg-harbor-gray text-deep-charcoal"
+                                            }
+                                            ${onStepChange &&
+                                                (isCompleted || isActive)
                                                 ? "hover:scale-105 active:scale-95"
                                                 : ""
-                                        }`}
+                                            }
+                                        `}
                                     >
                                         {isCompleted ? (
-                                            <CheckCircle className="w-5 h-5" />
+                                            <CheckCircle className="w-5 h-5 lg:w-6 lg:h-6" />
                                         ) : (
-                                            <IconComponent className="w-5 h-5" />
+                                            <IconComponent className="w-5 h-5 lg:w-6 lg:h-6" />
                                         )}
                                     </button>
                                     <span
-                                        className={`mt-2 text-xs font-medium ${
-                                            isActive
+                                        className={`mt-2 text-xs font-medium whitespace-nowrap ${isActive
                                                 ? "text-clinical-slate"
                                                 : "text-deep-charcoal"
-                                        }`}
+                                            }`}
                                     >
                                         {step.label}
                                     </span>
                                 </div>
+
+                                {/* Connector */}
                                 {index < steps.length - 1 && (
                                     <div
-                                        className={`w-12 h-0.5 mx-2 ${
-                                            isCompleted
+                                        className={`flex-1 h-0.5 mx-1 lg:mx-2 ${isCompleted
                                                 ? "bg-vital-green"
                                                 : "bg-harbor-gray"
-                                        }`}
+                                            }`}
                                     />
                                 )}
                             </div>

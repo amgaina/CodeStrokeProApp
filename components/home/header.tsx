@@ -33,8 +33,9 @@ export default function Header() {
                 {/* Desktop nav */}
                 <nav className="hidden items-center space-x-6 md:flex">
                     {[
+                        { href: '/', label: 'Home' },
                         { href: '/calculator', label: 'Calculator' },
-                        { href: '#about', label: 'About' },
+                        { href: '/about', label: 'About' },
                         { href: '#resources', label: 'Resources' },
                     ].map(({ href, label }) => (
                         <Link
@@ -70,9 +71,10 @@ export default function Header() {
             >
                 <div className="space-y-2 px-4 pb-4">
                     {[
+                        { href: '/', label: 'Home' },
                         { href: '/calculator', label: 'Calculator' },
-                        { href: '#about', label: 'About' },
-                        { href: '#resources', label: 'Resources' },
+                        { href: '/about', label: 'About' },
+                        { href: '/resources', label: 'Resources' },
                     ].map(({ href, label }) => (
                         <Link
                             key={label}
