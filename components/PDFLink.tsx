@@ -88,24 +88,25 @@ export function PDFLink({
 
     if (variant === "button") {
         return (
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 w-full">
                 <Button
                     variant="outline"
                     onClick={handleView}
-                    className="text-clinical-slate hover:text-vital-green"
+                    className="text-clinical-slate hover:text-vital-green w-full min-h-[44px] px-3 py-2 text-sm font-medium"
                 >
-                    <FileText className="h-4 w-4 mr-2" />
-                    {title}
+                    <FileText className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="truncate flex-1 text-left">{title}</span>
+                    <ExternalLink className="h-3 w-3 ml-2 flex-shrink-0" />
                 </Button>
                 {showDownload && (
                     <Button
                         variant="outline"
-                        size="icon"
                         onClick={handleDownload}
-                        className="text-clinical-slate hover:text-vital-green"
+                        className="text-clinical-slate hover:text-vital-green w-full min-h-[44px] px-3 py-2 text-sm font-medium"
                         title="Download PDF"
                     >
-                        <Download className="h-4 w-4" />
+                        <Download className="h-4 w-4 mr-2 flex-shrink-0" />
+                        <span>Download PDF</span>
                     </Button>
                 )}
             </div>
@@ -114,26 +115,28 @@ export function PDFLink({
 
     // Default link variant
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full">
             <a
                 href={pdfUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-clinical-slate hover:text-vital-green transition-colors"
+                className="flex items-center gap-2 text-clinical-slate hover:text-vital-green transition-colors min-h-[44px] p-2 rounded-md hover:bg-gray-50 flex-1"
             >
-                <FileText className="h-5 w-5" />
-                <span className="underline underline-offset-2">{title}</span>
-                <ExternalLink className="h-4 w-4" />
+                <FileText className="h-5 w-5 flex-shrink-0" />
+                <span className="underline underline-offset-2 font-medium text-sm">
+                    {title}
+                </span>
+                <ExternalLink className="h-4 w-4 flex-shrink-0" />
             </a>
             {showDownload && (
                 <Button
                     variant="ghost"
-                    size="sm"
                     onClick={handleDownload}
-                    className="text-clinical-slate hover:text-vital-green p-1 h-auto"
+                    className="text-clinical-slate hover:text-vital-green min-h-[44px] px-4 py-2 w-full sm:w-auto"
                     title="Download PDF"
                 >
-                    <Download className="h-4 w-4" />
+                    <Download className="h-4 w-4 mr-2" />
+                    <span>Download</span>
                 </Button>
             )}
         </div>

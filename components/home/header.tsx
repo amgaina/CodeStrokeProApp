@@ -1,20 +1,19 @@
-
 /**
  * Author: Abhishek Amgain and Dinesh Chhantyal
  * Version: 1.0.0
- * File Description: 
+ * File Description:
  *     This file defines the Header component for the CodeStroke Pro application.
  *     It provides a responsive navigation bar with branding, navigation links,
  *     and animated mobile menu support using Framer Motion.
  */
 // File: /components/home/header.tsx
 
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Stethoscope, Menu, X } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import Link from "next/link";
+import { Stethoscope, Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Header() {
     const [open, setOpen] = useState(false);
@@ -33,10 +32,10 @@ export default function Header() {
                 {/* Desktop nav */}
                 <nav className="hidden items-center space-x-6 md:flex">
                     {[
-                        { href: '/', label: 'Home' },
-                        { href: '/calculator', label: 'Calculator' },
-                        { href: '/about', label: 'About' },
-                        { href: '#resources', label: 'Resources' },
+                        { href: "/", label: "Home" },
+                        { href: "/calculator", label: "Calculator" },
+                        { href: "/about", label: "About" },
+                        { href: "/resources", label: "Resources" },
                     ].map(({ href, label }) => (
                         <Link
                             key={label}
@@ -54,27 +53,31 @@ export default function Header() {
                     className="md:hidden inline-flex items-center justify-center rounded-md p-2 transition hover:bg-white/10 hover:text-parchment focus:outline-none focus:ring-2 focus:ring-parchment/50"
                     aria-label="Toggle navigation"
                 >
-                    {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    {open ? (
+                        <X className="h-6 w-6" />
+                    ) : (
+                        <Menu className="h-6 w-6" />
+                    )}
                 </button>
             </div>
 
             {/* Mobile nav (animated) */}
             <motion.nav
                 initial={false}
-                animate={open ? 'open' : 'closed'}
+                animate={open ? "open" : "closed"}
                 variants={{
-                    open: { height: 'auto', opacity: 1 },
+                    open: { height: "auto", opacity: 1 },
                     closed: { height: 0, opacity: 0 },
                 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 25 }}
+                transition={{ type: "spring", stiffness: 260, damping: 25 }}
                 className="overflow-hidden bg-clinical-slate md:hidden"
             >
                 <div className="space-y-2 px-4 pb-4">
                     {[
-                        { href: '/', label: 'Home' },
-                        { href: '/calculator', label: 'Calculator' },
-                        { href: '/about', label: 'About' },
-                        { href: '/resources', label: 'Resources' },
+                        { href: "/", label: "Home" },
+                        { href: "/calculator", label: "Calculator" },
+                        { href: "/about", label: "About" },
+                        { href: "/resources", label: "Resources" },
                     ].map(({ href, label }) => (
                         <Link
                             key={label}

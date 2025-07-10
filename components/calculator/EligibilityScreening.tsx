@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/collapsible";
 import { Shield, AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
+import { PDFLink } from "../PDFLink";
 
 interface EligibilityAnswers {
     underAge: boolean;
@@ -183,9 +184,18 @@ export default function EligibilityScreening({
                                     Is BP &gt;185/110?
                                 </Label>
                                 {answers.highBP && (
-                                    <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-xs text-blue-700">
-                                        📄 If yes, include a link to the
-                                        PDF-antihypertensives
+                                    <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded">
+                                        <p className="text-sm text-blue-700 font-medium mb-3">
+                                            📄 Reference Guide Available:
+                                        </p>
+                                        <div className="w-full">
+                                            <PDFLink
+                                                filename="antihypertensives.pdf"
+                                                title="Antihypertensives Guide"
+                                                variant="button"
+                                                showDownload={true}
+                                            />
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -504,12 +514,18 @@ export default function EligibilityScreening({
                                                 </div>
                                             </div>
 
-                                            <div className="mt-3 pt-3 border-t border-gray-300">
-                                                <p className="text-xs text-blue-600 italic">
-                                                    📄 Include PDF link to
-                                                    inclusion and exclusion
-                                                    criteria decision tree here
+                                            <div className="mt-4 pt-4 border-t border-gray-300">
+                                                <p className="text-sm text-blue-700 font-medium mb-3">
+                                                    📄 Clinical Reference Guide:
                                                 </p>
+                                                <div className="w-full">
+                                                    <PDFLink
+                                                        filename="inclusion-and-exclusion-criteria-decision-tree.pdf"
+                                                        title="Inclusion & Exclusion Criteria Decision Tree"
+                                                        variant="button"
+                                                        showDownload={true}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
                                     </CollapsibleContent>
@@ -593,7 +609,10 @@ export default function EligibilityScreening({
                     )}
                     <Button
                         onClick={() => {
-                            if (eligibilityStatus.status === "eligible") {
+                            if (
+                                eligibilityStatus.status === "eligible" ||
+                                eligibilityStatus.status === "evaluate"
+                            ) {
                                 onNext();
                             }
                         }}
