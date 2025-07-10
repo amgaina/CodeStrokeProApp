@@ -4,27 +4,27 @@
    Central controller for the CodeStroke Pro workflow
    ──────────────────────────────────────────────────────────── */
 
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { BookOpen } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from "react";
+import { BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 /* modular steps */
-import LKWTimeEntry from '@/components/calculator/LKWTimeEntry';
-import CodeStrokeTimers from '@/components/calculator/CodeStrokeTimers';
-import EligibilityScreening from '@/components/calculator/EligibilityScreening';
-import DrugSelection from '@/components/calculator/DrugSelection';
-import DosingCalculator from '@/components/calculator/DosingCalculator';
-import ClinicalResources from '@/components/calculator/ClinicalResources';
-import StepProgress from '@/components/calculator/StepProgress';
+import LKWTimeEntry from "@/components/calculator/LKWTimeEntry";
+import CodeStrokeTimers from "@/components/calculator/CodeStrokeTimers";
+import EligibilityScreening from "@/components/calculator/EligibilityScreening";
+import DrugSelection from "@/components/calculator/DrugSelection";
+import DosingCalculator from "@/components/calculator/DosingCalculator";
+import ClinicalResources from "@/components/calculator/ClinicalResources";
+import StepProgress from "@/components/calculator/StepProgress";
 
 /* ─────────── types & constants ─────────── */
 interface TimerState {
@@ -33,14 +33,21 @@ interface TimerState {
     currentTime: Date;
 }
 interface EligibilityAnswers {
-    underAge: boolean; hemorrhage: boolean; overTimeLimit: boolean;
-    onMedications: boolean; contraindications: boolean; highBP: boolean;
-    abnormalGlucose: boolean; rapidImprovement: boolean; minorSymptoms: boolean;
-    recentSurgery: boolean; activeBleed: boolean;
+    underAge: boolean;
+    hemorrhage: boolean;
+    overTimeLimit: boolean;
+    onMedications: boolean;
+    contraindications: boolean;
+    highBP: boolean;
+    abnormalGlucose: boolean;
+    rapidImprovement: boolean;
+    minorSymptoms: boolean;
+    recentSurgery: boolean;
+    activeBleed: boolean;
 }
 
-const LKW_KEY = 'csp-lkw-time';
-const ARRIVAL_KEY = 'csp-arrival-time';
+const LKW_KEY = "csp-lkw-time";
+const ARRIVAL_KEY = "csp-arrival-time";
 
 /* ─────────── component ─────────── */
 export default function CodeStrokeProApp() {
@@ -51,36 +58,54 @@ export default function CodeStrokeProApp() {
         currentTime: new Date(),
     });
 
-    const [answers, setAnswers] = useState<EligibilityAnswers>({   // default → all false
-        underAge: false, hemorrhage: false, overTimeLimit: false,
-        onMedications: false, contraindications: false, highBP: false,
-        abnormalGlucose: false, rapidImprovement: false, minorSymptoms: false,
-        recentSurgery: false, activeBleed: false,
+    const [answers, setAnswers] = useState<EligibilityAnswers>({
+        // default → all false
+        underAge: false,
+        hemorrhage: false,
+        overTimeLimit: false,
+        onMedications: false,
+        contraindications: false,
+        highBP: false,
+        abnormalGlucose: false,
+        rapidImprovement: false,
+        minorSymptoms: false,
+        recentSurgery: false,
+        activeBleed: false,
     });
-    const [selectedDrug, setSelectedDrug] = useState<'tnk' | 'alteplase' | null>(null);
-    const [vialSize, setVialSize] = useState('');
-    const [ptWeight, setPtWeight] = useState('');
-    const [weightUnit, setWeightUnit] = useState<'kg' | 'lbs'>('kg');
-    const [step, setStep] = useState<'lkw' | 'timers' | 'screening' | 'drugSelection' | 'dosing' | 'resources'>('lkw');
+    const [selectedDrug, setSelectedDrug] = useState<
+        "tnk" | "alteplase" | null
+    >(null);
+    const [vialSize, setVialSize] = useState("");
+    const [ptWeight, setPtWeight] = useState("");
+    const [weightUnit, setWeightUnit] = useState<"kg" | "lbs">("kg");
+    const [step, setStep] = useState<
+        | "lkw"
+        | "timers"
+        | "screening"
+        | "drugSelection"
+        | "dosing"
+        | "resources"
+    >("lkw");
     const [showResources, setShowResources] = useState(false);
 
     /* ---------------- clocks ---------------- */
     /* live “now” tick each second */
     useEffect(() => {
-        const id = setInterval(() =>
-            setTimers(p => ({ ...p, currentTime: new Date() }))
-            , 1_000);
+        const id = setInterval(
+            () => setTimers((p) => ({ ...p, currentTime: new Date() })),
+            1_000
+        );
         return () => clearInterval(id);
     }, []);
 
     /* hydrate timers from localStorage once */
     useEffect(() => {
-        if (typeof window === 'undefined') return;
+        if (typeof window === "undefined") return;
 
         const lkwIso = localStorage.getItem(LKW_KEY);
         const arrIso = localStorage.getItem(ARRIVAL_KEY);
 
-        setTimers(p => ({
+        setTimers((p) => ({
             ...p,
             lkwTime: lkwIso ? new Date(lkwIso) : null,
             arrivalTime: arrIso ? new Date(arrIso) : null,
@@ -89,7 +114,7 @@ export default function CodeStrokeProApp() {
 
     /* persist changes */
     useEffect(() => {
-        if (typeof window === 'undefined') return;
+        if (typeof window === "undefined") return;
 
         /* LKW */
         if (timers.lkwTime) {
@@ -109,39 +134,52 @@ export default function CodeStrokeProApp() {
     /* ---------------- handlers ---------------- */
     /* from LKW component */
     const handleLKWSet = (d: Date | null) => {
-        setTimers(p => ({
+        setTimers((p) => ({
             ...p,
             lkwTime: d,
-            arrivalTime: d ? p.arrivalTime : null,   // clear door-needle when LKW cleared
+            arrivalTime: d ? p.arrivalTime : null, // clear door-needle when LKW cleared
         }));
     };
 
     /* from Door-to-Needle card */
     const handleArrivalStart = (preset?: Date) =>
-        setTimers(p => ({ ...p, arrivalTime: preset ?? new Date() }));
+        setTimers((p) => ({ ...p, arrivalTime: preset ?? new Date() }));
 
     /* restart everything (resources page) */
     const handleRestartAll = () => {
         localStorage.removeItem(LKW_KEY);
         localStorage.removeItem(ARRIVAL_KEY);
-        setTimers({ lkwTime: null, arrivalTime: null, currentTime: new Date() });
-        setAnswers(Object.fromEntries(Object.keys(answers).map(k => [k, false])) as unknown as EligibilityAnswers);
+        setTimers({
+            lkwTime: null,
+            arrivalTime: null,
+            currentTime: new Date(),
+        });
+        setAnswers(
+            Object.fromEntries(
+                Object.keys(answers).map((k) => [k, false])
+            ) as unknown as EligibilityAnswers
+        );
         setSelectedDrug(null);
-        setVialSize('');
-        setPtWeight('');
-        setWeightUnit('kg');
-        setStep('lkw');
+        setVialSize("");
+        setPtWeight("");
+        setWeightUnit("kg");
+        setStep("lkw");
     };
 
     /* ---------------- header (simple, always visible) ---------------- */
-    const HeaderTimer = () => (
+    const HeaderTimer = () =>
         (timers.lkwTime || timers.arrivalTime) && (
             <div className="flex flex-wrap items-center justify-center gap-3 py-2">
                 {/* 4.5-h window */}
                 {timers.lkwTime && (
                     <CountdownPill
-                        bg="bg-white/15" border="border-white/30"
-                        limit={new Date(timers.lkwTime.getTime() + 4.5 * 60 * 60 * 1000)}
+                        bg="bg-white/15"
+                        border="border-white/30"
+                        limit={
+                            new Date(
+                                timers.lkwTime.getTime() + 4.5 * 60 * 60 * 1000
+                            )
+                        }
                         now={timers.currentTime}
                         label="4.5 h Window"
                         expiredClass="text-critical-crimson"
@@ -151,12 +189,13 @@ export default function CodeStrokeProApp() {
                 {/* Door-Needle */}
                 {timers.arrivalTime && (
                     <ElapsedPill
-                        since={timers.arrivalTime} now={timers.currentTime}
-                        label="Door-to-Needle" />
+                        since={timers.arrivalTime}
+                        now={timers.currentTime}
+                        label="Door-to-Needle"
+                    />
                 )}
             </div>
-        )
-    );
+        );
 
     /* ---------------- JSX ---------------- */
     return (
@@ -171,42 +210,42 @@ export default function CodeStrokeProApp() {
             <main className="container mx-auto max-w-6xl px-4 py-6 md:py-8">
                 <StepProgress currentStep={step} onStepChange={setStep} />
 
-                {step === 'lkw' && (
+                {step === "lkw" && (
                     <LKWTimeEntry
                         lkwTime={timers.lkwTime}
                         onTimeSet={handleLKWSet}
-                        onNext={() => setStep('timers')}
+                        onNext={() => setStep("timers")}
                     />
                 )}
 
-                {step === 'timers' && (
+                {step === "timers" && (
                     <CodeStrokeTimers
                         timers={timers}
                         onStartArrivalTimer={handleArrivalStart}
-                        onNext={() => setStep('screening')}
-                        onBack={() => setStep('lkw')}
+                        onNext={() => setStep("screening")}
+                        onBack={() => setStep("lkw")}
                     />
                 )}
 
-                {step === 'screening' && (
+                {step === "screening" && (
                     <EligibilityScreening
                         answers={answers}
                         onAnswerChange={setAnswers}
-                        onNext={() => setStep('drugSelection')}
-                        onBack={() => setStep('timers')}
+                        onNext={() => setStep("drugSelection")}
+                        onBack={() => setStep("timers")}
                     />
                 )}
 
-                {step === 'drugSelection' && (
+                {step === "drugSelection" && (
                     <DrugSelection
                         selectedDrug={selectedDrug}
                         onDrugSelect={setSelectedDrug}
-                        onNext={() => setStep('dosing')}
-                        onBack={() => setStep('screening')}
+                        onNext={() => setStep("dosing")}
+                        onBack={() => setStep("screening")}
                     />
                 )}
 
-                {step === 'dosing' && selectedDrug && (
+                {step === "dosing" && selectedDrug && (
                     <DosingCalculator
                         selectedDrug={selectedDrug}
                         patientWeight={ptWeight}
@@ -215,15 +254,15 @@ export default function CodeStrokeProApp() {
                         onWeightChange={setPtWeight}
                         onWeightUnitChange={setWeightUnit}
                         onVialSizeChange={setVialSize}
-                        onNext={() => setStep('resources')}
-                        onBack={() => setStep('drugSelection')}
+                        onNext={() => setStep("resources")}
+                        onBack={() => setStep("drugSelection")}
                     />
                 )}
 
-                {step === 'resources' && (
+                {step === "resources" && (
                     <ClinicalResources
                         onRestart={handleRestartAll}
-                        onBack={() => setStep('dosing')}
+                        onBack={() => setStep("dosing")}
                     />
                 )}
             </main>
@@ -248,7 +287,10 @@ export default function CodeStrokeProApp() {
                                 Quick Clinical Resources
                             </DialogTitle>
                         </DialogHeader>
-                        <ClinicalResources compact onRestart={handleRestartAll} />
+                        <ClinicalResources
+                            compact
+                            onRestart={handleRestartAll}
+                        />
                     </DialogContent>
                 </Dialog>
             </div>
@@ -258,10 +300,21 @@ export default function CodeStrokeProApp() {
 
 /* ────────── tiny helper sub-components just for the header ────────── */
 function CountdownPill({
-    limit, now, label, bg, border, expiredClass, activeClass,
+    limit,
+    now,
+    label,
+    bg,
+    border,
+    expiredClass,
+    activeClass,
 }: {
-    limit: Date; now: Date; label: string;
-    bg: string; border: string; expiredClass: string; activeClass: string;
+    limit: Date;
+    now: Date;
+    label: string;
+    bg: string;
+    border: string;
+    expiredClass: string;
+    activeClass: string;
 }) {
     const diff = limit.getTime() - now.getTime();
     const expired = diff <= 0;
@@ -270,19 +323,37 @@ function CountdownPill({
     const s = Math.abs(Math.floor((diff % 60_000) / 1_000));
 
     return (
-        <div className={`flex items-center gap-3 rounded-lg ${bg} ${border} px-3 py-1.5`}>
+        <div
+            className={`flex items-center gap-3 rounded-lg ${bg} ${border} px-3 py-1.5`}
+        >
             <div className="text-center">
-                <div className="text-xs uppercase tracking-wide text-parchment/70">{label}</div>
-                <div className={`font-mono text-lg font-bold ${expired ? expiredClass : activeClass}`}>
-                    {expired ? 'EXPIRED' : `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`}
+                <div className="text-xs uppercase tracking-wide text-parchment/70">
+                    {label}
+                </div>
+                <div
+                    className={`font-mono text-lg font-bold ${
+                        expired ? expiredClass : activeClass
+                    }`}
+                >
+                    {expired
+                        ? "EXPIRED"
+                        : `${h}:${String(m).padStart(2, "0")}:${String(
+                              s
+                          ).padStart(2, "0")}`}
                 </div>
             </div>
         </div>
     );
 }
 
-function ElapsedPill({ since, now, label }: {
-    since: Date; now: Date; label: string;
+function ElapsedPill({
+    since,
+    now,
+    label,
+}: {
+    since: Date;
+    now: Date;
+    label: string;
 }) {
     const diff = now.getTime() - since.getTime();
     const h = Math.floor(diff / 3_600_000);
@@ -292,9 +363,14 @@ function ElapsedPill({ since, now, label }: {
     return (
         <div className="flex items-center gap-3 rounded-lg bg-critical-crimson/20 px-3 py-1.5">
             <div className="text-center">
-                <div className="text-xs uppercase tracking-wide text-parchment/70">{label}</div>
+                <div className="text-xs uppercase tracking-wide text-parchment/70">
+                    {label}
+                </div>
                 <div className="font-mono text-lg font-bold text-parchment">
-                    {`${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`}
+                    {`${h}:${String(m).padStart(2, "0")}:${String(s).padStart(
+                        2,
+                        "0"
+                    )}`}
                 </div>
             </div>
             <div className="flex items-center gap-1">

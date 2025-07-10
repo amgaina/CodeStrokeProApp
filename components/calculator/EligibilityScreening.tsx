@@ -22,6 +22,10 @@ interface EligibilityAnswers {
     contraindications: boolean;
     highBP: boolean;
     abnormalGlucose: boolean;
+    rapidImprovement: boolean;
+    minorSymptoms: boolean;
+    recentSurgery: boolean;
+    activeBleed: boolean;
 }
 
 interface EligibilityScreeningProps {
@@ -54,7 +58,13 @@ export default function EligibilityScreening({
         color: string;
     } => {
         // Absolute contraindications - Patient NOT eligible (cannot proceed)
-        if (answers.underAge || answers.hemorrhage || answers.overTimeLimit) {
+        if (
+            answers.underAge ||
+            answers.hemorrhage ||
+            answers.overTimeLimit ||
+            answers.activeBleed ||
+            answers.recentSurgery
+        ) {
             return {
                 status: "ineligible",
                 message: "Patient is NOT eligible for thrombolytic therapy",
@@ -73,7 +83,12 @@ export default function EligibilityScreening({
         }
 
         // Relative contraindications - Further evaluation needed to discuss risks vs benefits
-        if (answers.onMedications || answers.contraindications) {
+        if (
+            answers.onMedications ||
+            answers.contraindications ||
+            answers.rapidImprovement ||
+            answers.minorSymptoms
+        ) {
             return {
                 status: "evaluate",
                 message:
@@ -574,11 +589,8 @@ export default function EligibilityScreening({
                             <>
                                 <br />
                                 <span className="text-sm text-critical-crimson/80 mt-2 block">
-                                    <strong>Action Required:</strong> Consider
-                                    alternative therapies such as mechanical
-                                    thrombectomy, blood pressure management, or
-                                    supportive care. Consult stroke team
-                                    immediately.
+                                    Further evaluation needed to discuss risks
+                                    vs benefit of thrombolytic therapy
                                 </span>
                             </>
                         )}
