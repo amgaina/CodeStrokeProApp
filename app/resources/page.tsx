@@ -10,7 +10,8 @@ export default function ResourcesPage() {
                     Clinical Resources
                 </h1>
                 <p className="text-deep-charcoal/70">
-                    Access important stroke care protocols and reference materials
+                    Access important stroke care protocols and reference
+                    materials
                 </p>
             </div>
 

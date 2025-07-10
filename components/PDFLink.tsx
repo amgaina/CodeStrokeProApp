@@ -13,26 +13,26 @@ interface PDFLinkProps {
     showDownload?: boolean;
 }
 
-export function PDFLink({ 
-    filename, 
-    title, 
-    description, 
-    size, 
+export function PDFLink({
+    filename,
+    title,
+    description,
+    size,
     variant = "link",
-    showDownload = true 
+    showDownload = true,
 }: PDFLinkProps) {
     const pdfUrl = `/pdfs/${filename}`;
-    
+
     const handleDownload = (e: React.MouseEvent) => {
         e.preventDefault();
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = pdfUrl;
         link.download = filename;
         link.click();
     };
 
     const handleView = () => {
-        window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+        window.open(pdfUrl, "_blank", "noopener,noreferrer");
     };
 
     if (variant === "card") {
@@ -43,12 +43,18 @@ export function PDFLink({
                         <div className="flex items-start gap-3">
                             <FileText className="h-6 w-6 text-critical-crimson flex-shrink-0 mt-1" />
                             <div>
-                                <h3 className="font-medium text-deep-charcoal">{title}</h3>
+                                <h3 className="font-medium text-deep-charcoal">
+                                    {title}
+                                </h3>
                                 {description && (
-                                    <p className="text-sm text-deep-charcoal/70 mt-1">{description}</p>
+                                    <p className="text-sm text-deep-charcoal/70 mt-1">
+                                        {description}
+                                    </p>
                                 )}
                                 {size && (
-                                    <p className="text-xs text-deep-charcoal/50 mt-1">Size: {size}</p>
+                                    <p className="text-xs text-deep-charcoal/50 mt-1">
+                                        Size: {size}
+                                    </p>
                                 )}
                             </div>
                         </div>
