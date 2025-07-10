@@ -1,138 +1,224 @@
-import PDFLink from "@/components/PDFLink";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+    FileText,
+    BookOpen,
+    AlertTriangle,
+    Activity,
+    Heart,
+    Shield,
+    Stethoscope,
+    BookMarked,
+} from "lucide-react";
+import { PDFLink } from "@/components/PDFLink";
+import Link from "next/link";
 
 export default function ResourcesPage() {
+    const resources = [
+        {
+            filename:
+                "additional-resources--badge-buddies--and-auxilliary-labels.pdf",
+            title: "Additional Resources and Printables",
+            description:
+                "Additional Resources, Badge Buddies, and auxiliary labels",
+            category: "Printables",
+            icon: FileText,
+        },
+        {
+            filename: "post-thrombolytic-monitoring.pdf",
+            title: "Post-thrombolytic monitoring guidelines",
+            description: "Post Thrombolytic Monitoring protocols",
+            category: "Monitoring",
+            icon: Activity,
+        },
+        {
+            filename: "antihypertensives.pdf",
+            title: "BP management & antihypertensive use",
+            description:
+                "Blood pressure management strategies and antihypertensive protocols",
+            category: "Management",
+            icon: Heart,
+        },
+        {
+            filename:
+                "acute-management-of-hemorrhagic-stroke-and-post-tpa-hemorrhagic-conversion.pdf",
+            title: "Signs of hemorrhagic conversion Cerebral edema or ICH management",
+            description:
+                "Acute management of hemorrhagic stroke and post-TPA hemorrhagic conversion",
+            category: "Emergency",
+            icon: AlertTriangle,
+        },
+        {
+            filename: "tpa-assocaited-angioedema-management.pdf",
+            title: "Management of TPA-Induced Angioedema",
+            description: "Management protocols for TPA-induced angioedema",
+            category: "Emergency",
+            icon: AlertTriangle,
+        },
+        {
+            filename:
+                "management-of--tia-and-patients-ineligible-for-thrombolytic-therapy-and-secondary-stroke-prevention.pdf",
+            title: "Management of TIA and Patient's Ineligible For Thrombolytic Therapy and Secondary Stroke Prevention",
+            description:
+                "Management of TIA and secondary stroke prevention protocols",
+            category: "Management",
+            icon: Stethoscope,
+        },
+        {
+            filename: "supportive-care.pdf",
+            title: "Supportive Care",
+            description:
+                "Comprehensive supportive care protocols for stroke patients",
+            category: "Care",
+            icon: Shield,
+        },
+        {
+            filename:
+                "additional-resources--badge-buddies--and-auxilliary-labels.pdf",
+            title: "Printables",
+            description:
+                "Additional Resources, Badge Buddies, and auxiliary labels",
+            category: "Printables",
+            icon: FileText,
+        },
+        {
+            filename: "ems-tipsheet.pdf",
+            title: "EMS Tipsheet",
+            description: "Emergency medical services quick reference guide",
+            category: "EMS",
+            icon: Stethoscope,
+        },
+        {
+            filename:
+                "patient-education-and-counseling-for-thrombolytic-therapy.pdf",
+            title: "For Patients: Patient Education and Counseling for Thrombolytic Therapy",
+            description: "Patient education materials for thrombolytic therapy",
+            category: "Education",
+            icon: BookOpen,
+        },
+        {
+            filename: "alteplase.pdf",
+            title: "Alteplase Guidelines",
+            description: "Detailed protocols for alteplase administration",
+            category: "Medication",
+            icon: BookMarked,
+        },
+        {
+            filename: "tenecteplase.pdf",
+            title: "Tenecteplase Guidelines",
+            description: "Detailed protocols for tenecteplase administration",
+            category: "Medication",
+            icon: BookMarked,
+        },
+        {
+            filename: "inclusion-and-exclusion-criteria-decision-tree.pdf",
+            title: "Inclusion & Exclusion Criteria Decision Tree",
+            description: "Decision tree for thrombolytic therapy eligibility",
+            category: "Assessment",
+            icon: FileText,
+        },
+        {
+            filename: "validated-stroke-assessment-tools.pdf",
+            title: "Validated Stroke Assessment Tools",
+            description:
+                "Evidence-based assessment tools for stroke evaluation",
+            category: "Assessment",
+            icon: FileText,
+        },
+    ];
+
     return (
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold text-deep-charcoal mb-2">
-                    Clinical Resources
-                </h1>
-                <p className="text-deep-charcoal/70">
-                    Access important stroke care protocols and reference
-                    materials
-                </p>
-            </div>
+        <div className="min-h-screen bg-parchment">
+            <div className="container mx-auto px-4 py-8 max-w-7xl">
+                <div className="mb-8 text-center">
+                    <h1 className="text-3xl md:text-4xl font-bold text-deep-charcoal mb-4">
+                        Clinical Resources & Guidelines
+                    </h1>
+                    <p className="text-deep-charcoal/70 text-lg max-w-3xl mx-auto">
+                        Comprehensive collection of evidence-based stroke care
+                        protocols, monitoring guidelines, and educational
+                        resources for healthcare professionals.
+                    </p>
+                </div>
 
-            <div className="grid gap-6">
-                {/* Stroke Protocols */}
-                <Card className="clarity-shadow">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <AlertCircle className="h-5 w-5 text-critical-crimson" />
-                            Stroke Protocols
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <PDFLink
-                            filename="acute-stroke-protocol.pdf"
-                            title="Acute Stroke Protocol"
-                            description="Complete protocol for acute stroke management"
-                            size="2.1 MB"
-                            variant="card"
-                        />
-                        <PDFLink
-                            filename="thrombolytic-checklist.pdf"
-                            title="Thrombolytic Therapy Checklist"
-                            description="Pre-treatment checklist and contraindications"
-                            size="1.5 MB"
-                            variant="card"
-                        />
-                    </CardContent>
-                </Card>
+                <div className="space-y-4 md:space-y-6">
+                    <Card className="mb-6 md:mb-8 clarity-shadow border border-harbor-gray bg-white">
+                        <CardHeader className="bg-clinical-slate text-parchment p-4 md:p-6">
+                            <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl font-medium">
+                                <BookOpen className="w-5 h-5 md:w-6 md:h-6" />
+                                Clinical Resources & Guidelines
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4 md:p-8 space-y-4 md:space-y-6">
+                            {/* All Resources Section */}
+                            <div className="space-y-3 md:space-y-4">
+                                <div className="text-center">
+                                    <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-2">
+                                        Clinical Resources & Guidelines
+                                    </h3>
+                                    <p className="text-gray-600 text-sm">
+                                        Evidence-based protocols for stroke
+                                        management and care
+                                    </p>
+                                </div>
 
-                {/* Quick Reference */}
-                <Card className="clarity-shadow">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <BookOpen className="h-5 w-5 text-vital-green" />
-                            Quick Reference
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <PDFLink
-                            filename="nihss-scale.pdf"
-                            title="NIHSS Scale Reference"
-                            description="Complete National Institutes of Health Stroke Scale"
-                            size="850 KB"
-                            variant="card"
-                        />
-                        <PDFLink
-                            filename="drug-dosing-chart.pdf"
-                            title="Drug Dosing Chart"
-                            description="Quick reference for stroke medication dosing"
-                            size="650 KB"
-                            variant="card"
-                        />
-                    </CardContent>
-                </Card>
-
-                {/* Educational Materials */}
-                <Card className="clarity-shadow">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <FileText className="h-5 w-5 text-clinical-slate" />
-                            Educational Materials
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <PDFLink
-                            filename="stroke-recognition-guide.pdf"
-                            title="Stroke Recognition Guide"
-                            description="Patient and family education materials"
-                            size="1.8 MB"
-                            variant="card"
-                        />
-                        <PDFLink
-                            filename="post-stroke-care.pdf"
-                            title="Post-Stroke Care Guidelines"
-                            description="Comprehensive discharge planning guide"
-                            size="2.3 MB"
-                            variant="card"
-                        />
-                    </CardContent>
-                </Card>
-
-                {/* Simple Links Examples */}
-                <Card className="clarity-shadow">
-                    <CardHeader>
-                        <CardTitle>Alternative Display Styles</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div>
-                            <h3 className="font-medium mb-2">Simple Links:</h3>
-                            <div className="space-y-2">
-                                <PDFLink
-                                    filename="emergency-contacts.pdf"
-                                    title="Emergency Contacts"
-                                    variant="link"
-                                />
-                                <PDFLink
-                                    filename="lab-values-reference.pdf"
-                                    title="Lab Values Reference"
-                                    variant="link"
-                                />
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {resources.map((resource, index) => {
+                                        const IconComponent = resource.icon;
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="p-3 md:p-4 border-2 border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-300 bg-white"
+                                            >
+                                                <div className="flex items-start gap-3 mb-3">
+                                                    <div className="w-8 h-8 md:w-10 md:h-10 bg-clinical-slate/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                        <IconComponent className="w-4 h-4 md:w-5 md:h-5 text-clinical-slate" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <span className="text-xs bg-clinical-slate/10 text-clinical-slate px-2 py-1 rounded">
+                                                                {
+                                                                    resource.category
+                                                                }
+                                                            </span>
+                                                        </div>
+                                                        <h4 className="font-semibold text-gray-800 text-sm mb-1">
+                                                            {resource.title}
+                                                        </h4>
+                                                        <p className="text-xs text-gray-600 mb-3">
+                                                            {
+                                                                resource.description
+                                                            }
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="w-full">
+                                                    <PDFLink
+                                                        filename={
+                                                            resource.filename
+                                                        }
+                                                        title={resource.title}
+                                                        variant="button"
+                                                        showDownload={true}
+                                                    />
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <h3 className="font-medium mb-2">Button Style:</h3>
-                            <div className="flex flex-wrap gap-2">
-                                <PDFLink
-                                    filename="quick-checklist.pdf"
-                                    title="Quick Checklist"
-                                    variant="button"
-                                />
-                                <PDFLink
-                                    filename="medication-guide.pdf"
-                                    title="Medication Guide"
-                                    variant="button"
-                                />
+                            {/* Navigation Button */}
+                            <div className="flex justify-center">
+                                <Link href="/calculator">
+                                    <Button className="bg-vital-green hover:bg-vital-green/90 text-white text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto">
+                                        Go to Calculator
+                                    </Button>
+                                </Link>
                             </div>
-                        </div>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
         </div>
     );
