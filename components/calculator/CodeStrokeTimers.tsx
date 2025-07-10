@@ -11,7 +11,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Clock, Timer, RefreshCw, ChevronDown, ChevronUp } from "lucide-react";
+import {
+    Clock,
+    Timer,
+    RefreshCw,
+    ChevronDown,
+    ChevronUp,
+    X,
+} from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -75,6 +82,7 @@ export default function CodeStrokeTimers({
     /* ───── state ───── */
     const [showTimeSelection, setShowTimeSelection] = useState(false);
     const [customTime, setCustomTime] = useState("");
+    const [isRestarting, setIsRestarting] = useState(false);
 
     /* ───── derived values ───── */
     const thrombolytic = useMemo(() => {
@@ -95,13 +103,23 @@ export default function CodeStrokeTimers({
 
     /* ───── actions ───── */
     const start = () => onStartArrivalTimer(); // now()
-    const restart = () => onStartArrivalTimer(undefined); // clear & now()
+    const handleRestartClick = () => {
+        setIsRestarting(true);
+        setShowTimeSelection(true);
+    };
+
+    const cancelRestart = () => {
+        setIsRestarting(false);
+        setShowTimeSelection(false);
+        setCustomTime("");
+    };
 
     /* arrival time selection actions */
     const selectPreset = (offsetMinutes: number) => {
         const arrivalTime = new Date(Date.now() - offsetMinutes * 60_000);
         onStartArrivalTimer(arrivalTime);
         setShowTimeSelection(false);
+        setIsRestarting(false);
     };
 
     const handleCustomTimeSubmit = () => {
@@ -110,6 +128,7 @@ export default function CodeStrokeTimers({
         if (arrivalTime) {
             onStartArrivalTimer(arrivalTime);
             setShowTimeSelection(false);
+            setIsRestarting(false);
             setCustomTime("");
         }
     };
@@ -303,6 +322,95 @@ export default function CodeStrokeTimers({
                                         </div>
                                     )}
                                 </>
+                            ) : isRestarting ? (
+                                <>
+                                    <div className="mb-4">
+                                        <p className="text-sm font-medium text-deep-charcoal/80 mb-2">
+                                            Change Arrival Time
+                                        </p>
+                                        <p className="text-xs text-deep-charcoal/60">
+                                            Current:{" "}
+                                            {timers.arrivalTime?.toLocaleTimeString(
+                                                [],
+                                                {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                    hour12: true,
+                                                }
+                                            )}
+                                        </p>
+                                    </div>
+
+                                    <div className="p-4 bg-clinical-slate/5 rounded-lg border border-clinical-slate/10 space-y-4">
+                                        <div className="space-y-2">
+                                            <p className="text-xs font-medium text-deep-charcoal/80">
+                                                Quick Presets
+                                            </p>
+                                            <div className="flex flex-wrap justify-center gap-2">
+                                                {arrivalPresets.map(
+                                                    ({ label, offset }) => (
+                                                        <Button
+                                                            key={label}
+                                                            size="sm"
+                                                            variant="outline"
+                                                            onClick={() =>
+                                                                selectPreset(
+                                                                    offset
+                                                                )
+                                                            }
+                                                            className="rounded-full text-xs px-3 py-1.5 border-clinical-slate/30 hover:bg-clinical-slate/10"
+                                                        >
+                                                            {label}
+                                                        </Button>
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label
+                                                htmlFor="custom-restart-time"
+                                                className="text-xs font-medium text-deep-charcoal/80"
+                                            >
+                                                Or Enter Specific Time
+                                            </Label>
+                                            <div className="flex gap-2">
+                                                <Input
+                                                    id="custom-restart-time"
+                                                    type="time"
+                                                    step="60"
+                                                    value={customTime}
+                                                    onChange={(e) =>
+                                                        handleCustomTimeChange(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    className="flex-1 text-center font-mono border-clinical-slate/30 focus:border-harbor-gray"
+                                                />
+                                                <Button
+                                                    size="sm"
+                                                    onClick={
+                                                        handleCustomTimeSubmit
+                                                    }
+                                                    disabled={!customTime}
+                                                    className="px-4 bg-clinical-slate text-parchment hover:bg-clinical-slate/90 disabled:opacity-40"
+                                                >
+                                                    Set
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={cancelRestart}
+                                        className="w-full gap-2 rounded-lg text-xs md:text-sm"
+                                    >
+                                        <X className="h-4 w-4" />
+                                        Cancel
+                                    </Button>
+                                </>
                             ) : (
                                 <>
                                     <div className="rounded-lg border-2 border-blue-300/50 bg-blue-50 p-4 md:p-6">
@@ -334,11 +442,11 @@ export default function CodeStrokeTimers({
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={restart}
+                                        onClick={handleRestartClick}
                                         className="w-full gap-2 rounded-lg text-xs md:text-sm"
                                     >
                                         <RefreshCw className="h-4 w-4" />
-                                        Restart Timer
+                                        Change Arrival Time
                                     </Button>
                                 </>
                             )}
