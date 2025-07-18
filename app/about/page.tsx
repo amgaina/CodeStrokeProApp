@@ -9,7 +9,7 @@ export default function AboutPage() {
             {/* Header Section */}
             <header className="bg-white shadow-sm">
                 <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-3xl font-bold text-vital-green text-center">
+                    <h1 className="text-3xl font-bold text-clinical-slate text-center">
                         About CodeStroke Pro
                     </h1>
                 </div>
@@ -20,7 +20,7 @@ export default function AboutPage() {
                 {/* Funding Section */}
                 <section className="mb-12">
                     <div className="bg-white p-6 rounded-lg shadow">
-                        <h2 className="text-2xl font-semibold text-vital-green mb-4">Funding & Development</h2>
+                        <h2 className="text-2xl font-semibold text-clinical-slate mb-4">Funding & Development</h2>
                         <p className="text-gray-600 mb-4">
                             This project was funded by a grant from the Living Well Foundation.
                         </p>
@@ -40,14 +40,14 @@ export default function AboutPage() {
                             of the communities we serve.
                         </p>
                         <p className="mt-4 text-gray-600 text-center">
-                            <span className="font-semibold text-vital-green">Mission Statement: </span><span className="italic">"Empowering Rural Healthcare Providers. Enhancing Stroke Care. Saving Lives."</span>
+                            <span className="font-semibold text-clinical-slate">Mission Statement: </span><span className="italic">"Empowering Rural Healthcare Providers. Enhancing Stroke Care. Saving Lives."</span>
                         </p>
                     </div>
                 </section>
 
                 {/* Logos Section */}
                 <section className="mb-12">
-                    <h2 className="text-xl font-medium text-vital-green mb-6 text-center">Thanks To:</h2>
+                    <h2 className="text-xl font-medium text-clinical-slate mb-6 text-center">Thanks To:</h2>
                     <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
                         <div className="bg-white p-4 rounded-lg shadow-sm flex justify-center items-center h-32 w-64">
                             <Image

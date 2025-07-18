@@ -1,7 +1,7 @@
 import { Mail, FileText } from "lucide-react";
 
 export default function AppFooter() {
-    const updatedTime = "July 15, 2025"
+    const updatedTime = "March 26, 2025"
     return (
         <footer className="bg-clinical-slate text-gray-200 mt-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -17,7 +17,7 @@ export default function AppFooter() {
                                 <Mail className="h-5 w-5 text-blue-400 mr-3 mt-0.5 flex-shrink-0" />
                                 <div>
                                     <p className="font-medium">Email</p>
-                                    <p className="text-gray-400">support@stroke.org</p>
+                                    <p className="text-gray-400">rsep0963@gmail.com</p>
                                 </div>
                             </li>
                         </ul>

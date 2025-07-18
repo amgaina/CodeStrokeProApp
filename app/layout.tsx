@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import Header from '@/components/home/header';
 import Footer from '@/components/home/footer';
 import './globals.css';
+import DisclaimerGate from '@/components/disclaimerGate';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -21,10 +22,12 @@ export default function RootLayout({
     return (
         <html lang="en" className={inter.variable}>
             <body className="min-h-screen flex flex-col">
-                <Header />
-                {/* main grows to fill, footer (if any) comes after */}
-                <main className="flex-1">{children}</main>
-                <Footer />
+                <DisclaimerGate>
+                    <Header />
+                    {/* main grows to fill, footer (if any) comes after */}
+                    <main className="flex-1">{children}</main>
+                    <Footer />
+                </DisclaimerGate>
             </body>
         </html>
     );
