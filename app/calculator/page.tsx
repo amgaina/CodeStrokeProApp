@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -82,6 +82,7 @@ export default function CodeStrokeProApp() {
         "lkw" | "timers" | "screening" | "drugSelection" | "dosing"
     >("lkw");
     const [showResources, setShowResources] = useState(false);
+    const mainRef = useRef<HTMLDivElement>(null);
 
     /* ---------------- clocks ---------------- */
     /* live “now” tick each second */
@@ -125,6 +126,16 @@ export default function CodeStrokeProApp() {
             localStorage.removeItem(ARRIVAL_KEY);
         }
     }, [timers.lkwTime, timers.arrivalTime]);
+
+    /* Scroll to top on step change */
+    useEffect(() => {
+        if (mainRef.current) {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
+        }
+    }, [step]);
 
     /* ---------------- handlers ---------------- */
     /* from LKW component */
@@ -194,7 +205,7 @@ export default function CodeStrokeProApp() {
 
     /* ---------------- JSX ---------------- */
     return (
-        <div className="min-h-screen bg-parchment">
+        <div ref={mainRef} className="min-h-screen bg-parchment">
             {/* ================= HEADER ================= */}
             <header className="sticky top-0 z-50 border-b border-harbor-gray bg-clinical-slate text-parchment/95 backdrop-blur-sm">
                 {/* timers */}
