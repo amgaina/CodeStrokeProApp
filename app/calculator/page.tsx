@@ -279,7 +279,7 @@ export default function CodeStrokeProApp() {
                             <BookOpen className="h-6 w-6" />
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                    <DialogContent className="w-[80vw] md:w-[80vw] md:max-w-[80vw] max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
                             <DialogTitle className="flex items-center gap-2 text-xl text-deep-charcoal">
                                 <BookOpen className="h-5 w-5 text-vital-green" />

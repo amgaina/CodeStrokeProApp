@@ -410,7 +410,7 @@ export default function EligibilityScreening({
                                 }
                                 className="mt-1"
                             />
-                            <div className="flex-1">
+                            <div className="flex-1 max-w-[80%]">
                                 <Label
                                     htmlFor="contraindications"
                                     className="text-sm font-medium cursor-pointer"
@@ -431,7 +431,7 @@ export default function EligibilityScreening({
                                         )}
                                         View Contraindication List
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="mt-4">
+                                    <CollapsibleContent className="mt-4 ">
                                         <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
                                             <div className="space-y-4 text-xs text-gray-700">
                                                 <div>

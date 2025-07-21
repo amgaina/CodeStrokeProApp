@@ -92,10 +92,12 @@ export function PDFLink({
                 <Button
                     variant="outline"
                     onClick={handleView}
-                    className="text-clinical-slate hover:text-vital-green w-full min-h-[44px] px-3 py-2 text-sm font-medium"
+                    className="text-clinical-slate hover:text-vital-green w-full min-h-[44px] px-3 py-2 text-sm font-medium h-max max-w-xs"
                 >
                     <FileText className="h-4 w-4 mr-2 flex-shrink-0" />
-                    <span className="truncate flex-1 text-left">{title}</span>
+                    <span className="truncate overflow-hidden text-ellipsis text-left w-full">
+                        {title}
+                    </span>
                     <ExternalLink className="h-3 w-3 ml-2 flex-shrink-0" />
                 </Button>
                 {showDownload && (
