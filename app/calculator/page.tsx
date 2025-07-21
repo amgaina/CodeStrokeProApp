@@ -79,12 +79,7 @@ export default function CodeStrokeProApp() {
     const [ptWeight, setPtWeight] = useState("");
     const [weightUnit, setWeightUnit] = useState<"kg" | "lbs">("kg");
     const [step, setStep] = useState<
-        | "lkw"
-        | "timers"
-        | "screening"
-        | "drugSelection"
-        | "dosing"
-        | "resources"
+        "lkw" | "timers" | "screening" | "drugSelection" | "dosing"
     >("lkw");
     const [showResources, setShowResources] = useState(false);
 
@@ -254,15 +249,9 @@ export default function CodeStrokeProApp() {
                         onWeightChange={setPtWeight}
                         onWeightUnitChange={setWeightUnit}
                         onVialSizeChange={setVialSize}
-                        onNext={() => setStep("resources")}
-                        onBack={() => setStep("drugSelection")}
-                    />
-                )}
-
-                {step === "resources" && (
-                    <ClinicalResources
                         onRestart={handleRestartAll}
-                        onBack={() => setStep("dosing")}
+                        onShowResources={() => setShowResources(true)}
+                        onBack={() => setStep("drugSelection")}
                     />
                 )}
             </main>
@@ -279,7 +268,6 @@ export default function CodeStrokeProApp() {
                             <BookOpen className="h-6 w-6" />
                         </Button>
                     </DialogTrigger>
-
                     <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
                             <DialogTitle className="flex items-center gap-2 text-xl text-deep-charcoal">

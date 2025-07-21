@@ -16,8 +16,7 @@ interface StepProgressProps {
     | "timers"
     | "screening"
     | "drugSelection"
-    | "dosing"
-    | "resources";
+    | "dosing";
     onStepChange?: (
         step:
             | "lkw"
@@ -25,7 +24,6 @@ interface StepProgressProps {
             | "screening"
             | "drugSelection"
             | "dosing"
-            | "resources"
     ) => void;
 }
 
@@ -58,12 +56,6 @@ export default function StepProgress({
             label: "Dosing",
             icon: Calculator,
             shortLabel: "Dose",
-        },
-        {
-            key: "resources",
-            label: "Resources",
-            icon: BookOpen,
-            shortLabel: "Resources",
         },
     ];
 
