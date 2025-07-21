@@ -34,6 +34,7 @@ export default function Header() {
                     {[
                         { href: "/", label: "Home" },
                         { href: "/calculator", label: "Calculator" },
+                        { href: "/fast-calc", label: "Quick Calc" },
                         { href: "/about", label: "About" },
                         { href: "/resources", label: "Resources" },
                     ].map(({ href, label }) => (
@@ -76,6 +77,7 @@ export default function Header() {
                     {[
                         { href: "/", label: "Home" },
                         { href: "/calculator", label: "Calculator" },
+                        { href: "/fast-calc", label: "Quick Calc" },
                         { href: "/about", label: "About" },
                         { href: "/resources", label: "Resources" },
                     ].map(({ href, label }) => (

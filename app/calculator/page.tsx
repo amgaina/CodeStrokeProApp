@@ -331,15 +331,14 @@ function CountdownPill({
                     {label}
                 </div>
                 <div
-                    className={`font-mono text-lg font-bold ${
-                        expired ? expiredClass : activeClass
-                    }`}
+                    className={`font-mono text-lg font-bold ${expired ? expiredClass : activeClass
+                        }`}
                 >
                     {expired
                         ? "EXPIRED"
                         : `${h}:${String(m).padStart(2, "0")}:${String(
-                              s
-                          ).padStart(2, "0")}`}
+                            s
+                        ).padStart(2, "0")}`}
                 </div>
             </div>
         </div>
