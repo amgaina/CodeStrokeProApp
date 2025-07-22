@@ -24,7 +24,7 @@ export default function Header() {
                 {/* Brand */}
                 <Link href="/" className="flex items-center space-x-3">
                     {/* Logo: switches based on theme */}
-                    <span className="rounded-full bg-white/10 p-0.5">
+                    <span className="rounded-ful">
                         <img
                             src="/logo/logo-light.png"
                             alt="CodeStroke Pro Logo"
