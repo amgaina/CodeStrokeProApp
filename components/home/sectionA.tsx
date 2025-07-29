@@ -27,20 +27,19 @@ export default function Mission() {
         >
             <div className="mx-auto max-w-4xl text-center">
                 {/* Tagline */}
-                <p className="mb-2 text-base font-semibold tracking-wide text-vital-green">
-                    Public-Service Initiative
+                <p className="mb-2 text-base font-semibold tracking-wide text-clinical-slate">
+                    Developed by pharmacists
                 </p>
 
                 {/* Heading */}
                 <h2 className="mb-6 text-3xl font-semibold leading-tight text-deep-charcoal sm:text-4xl">
-                    Rapid, Reliable Stroke Care
+                    EMPOWERING RURAL HEALTHCARE PROVIDERS: ENHANCING STROKE CARE: SAVING LIVES
                 </h2>
 
                 {/* Body */}
                 <p className="mx-auto mb-10 max-w-2xl text-base leading-relaxed text-deep-charcoal/80">
-                    CodeStroke Pro is a free, evidence-based tool guiding clinicians through
-                    eligibility, dosing, and monitoring—helping teams treat stroke patients faster
-                    and safer.
+                    This project was funded by a grant from the Living Well Foundation, whose commitment to improving healthcare accessibility helps us provide
+                    essential stroke care resources to those who need them most.
                 </p>
 
                 {/* CTAs */}
@@ -62,7 +61,7 @@ export default function Mission() {
                         size="lg"
                         className="border-harbor-gray text-deep-charcoal hover:bg-harbor-gray/20 px-8 py-4"
                     >
-                        <Link href="#resources">
+                        <Link href="/resources">
                             Resources
                             <BookOpen className="ml-2 h-5 w-5" />
                         </Link>
@@ -70,12 +69,12 @@ export default function Mission() {
                 </div>
 
                 {/* Stats banner */}
-                <div className="mt-12 rounded-lg border border-vital-green/20 bg-gradient-to-r from-vital-green/10 to-clinical-slate/10 p-6">
+                <div className="mt-12 rounded-lg border border-clinical-slate/20 bg-gradient-to-r from-clinical-slate/10 to-clinical-slate/10 p-6">
                     <dl className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                         {/* Community */}
                         <div className="flex flex-col items-center sm:flex-row sm:text-left">
-                            <span className="mb-2 rounded-full bg-vital-green/20 p-2 sm:mb-0 sm:mr-3">
-                                <Activity className="h-5 w-5 text-vital-green" />
+                            <span className="mb-2 rounded-full bg-clinical-slate/20 p-2 sm:mb-0 sm:mr-3">
+                                <Activity className="h-5 w-5 text-clinical-slate" />
                             </span>
                             <div>
                                 <dt className="text-sm font-medium text-deep-charcoal">
@@ -102,8 +101,8 @@ export default function Mission() {
 
                         {/* Evidence-based */}
                         <div className="flex flex-col items-center sm:flex-row sm:text-left">
-                            <span className="mb-2 rounded-full bg-vital-green/20 p-2 sm:mb-0 sm:mr-3">
-                                <Stethoscope className="h-5 w-5 text-vital-green" />
+                            <span className="mb-2 rounded-full bg-clinical-slate/20 p-2 sm:mb-0 sm:mr-3">
+                                <Stethoscope className="h-5 w-5 text-clinical-slate" />
                             </span>
                             <div>
                                 <dt className="text-sm font-medium text-deep-charcoal">
