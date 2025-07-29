@@ -11,21 +11,9 @@ import {
 } from "lucide-react";
 
 interface StepProgressProps {
-    currentStep:
-    | "lkw"
-    | "timers"
-    | "screening"
-    | "drugSelection"
-    | "dosing"
-    | "resources";
+    currentStep: "lkw" | "timers" | "screening" | "drugSelection" | "dosing";
     onStepChange?: (
-        step:
-            | "lkw"
-            | "timers"
-            | "screening"
-            | "drugSelection"
-            | "dosing"
-            | "resources"
+        step: "lkw" | "timers" | "screening" | "drugSelection" | "dosing"
     ) => void;
 }
 
@@ -59,12 +47,6 @@ export default function StepProgress({
             icon: Calculator,
             shortLabel: "Dose",
         },
-        {
-            key: "resources",
-            label: "Resources",
-            icon: BookOpen,
-            shortLabel: "Resources",
-        },
     ];
 
     const currentStepIndex = steps.findIndex(
@@ -84,7 +66,7 @@ export default function StepProgress({
                 )}
 
                 {/* Mobile & Tablet (≤md) */}
-                <div className="flex md:hidden items-center gap-2 overflow-x-auto pb-2 snap-x snap-mandatory">
+                <div className="flex md:hidden items-center gap-2 overflow-x-auto pb-2 snap-x snap-mandatory justify-center">
                     {steps.map((step, index) => {
                         const isActive = currentStep === step.key;
                         const isCompleted = currentStepIndex > index;
@@ -93,7 +75,7 @@ export default function StepProgress({
                         return (
                             <div
                                 key={step.key}
-                                className="flex flex-col items-center min-w-[72px] flex-shrink-0 snap-center"
+                                className="flex flex-col items-center w-20 flex-shrink-0 snap-center"
                             >
                                 <button
                                     onClick={() =>
@@ -105,18 +87,22 @@ export default function StepProgress({
                                     }
                                     className={`
                                         transition-transform duration-300 rounded-full
-                                        w-10 h-10 sm:w-11 sm:h-11
+                                        ${
+                                            index == 0 ? "w-10" : "w-20"
+                                        } h-10 sm:w-11 sm:h-11
                                         flex items-center justify-center text-xs font-medium
-                                        ${isActive
-                                            ? "bg-clinical-slate text-parchment clarity-shadow scale-110"
-                                            : isCompleted
+                                        ${
+                                            isActive
+                                                ? "bg-clinical-slate text-parchment clarity-shadow scale-110"
+                                                : isCompleted
                                                 ? "bg-vital-green text-parchment hover:bg-vital-green/80 cursor-pointer"
                                                 : "bg-harbor-gray text-deep-charcoal"
                                         }
-                                        ${onStepChange &&
+                                        ${
+                                            onStepChange &&
                                             (isCompleted || isActive)
-                                            ? "hover:scale-105 active:scale-95"
-                                            : ""
+                                                ? "hover:scale-105 active:scale-95"
+                                                : ""
                                         }
                                     `}
                                 >
@@ -127,10 +113,11 @@ export default function StepProgress({
                                     )}
                                 </button>
                                 <span
-                                    className={`mt-1 text-xs font-medium text-center ${isActive
+                                    className={`mt-1 text-xs font-medium text-center ${
+                                        isActive
                                             ? "text-clinical-slate"
                                             : "text-deep-charcoal"
-                                        }`}
+                                    }`}
                                 >
                                     {step.shortLabel}
                                 </span>
@@ -149,7 +136,11 @@ export default function StepProgress({
                         return (
                             <div
                                 key={step.key}
-                                className="flex items-center flex-1 min-w-[110px]"
+                                className={`flex items-center ${
+                                    index === steps.length - 1
+                                        ? "min-w-content"
+                                        : "flex-1 min-w-[110px]"
+                                }`}
                             >
                                 <div className="flex flex-col items-center flex-shrink-0">
                                     <button
@@ -164,16 +155,18 @@ export default function StepProgress({
                                             transition-transform duration-300 rounded-full
                                             w-11 h-11 lg:w-12 lg:h-12 xl:w-14 xl:h-14
                                             flex items-center justify-center text-sm font-medium
-                                            ${isActive
-                                                ? "bg-clinical-slate text-parchment clarity-shadow scale-110"
-                                                : isCompleted
+                                            ${
+                                                isActive
+                                                    ? "bg-clinical-slate text-parchment clarity-shadow scale-110"
+                                                    : isCompleted
                                                     ? "bg-vital-green text-parchment hover:bg-vital-green/80 cursor-pointer"
                                                     : "bg-harbor-gray text-deep-charcoal"
                                             }
-                                            ${onStepChange &&
+                                            ${
+                                                onStepChange &&
                                                 (isCompleted || isActive)
-                                                ? "hover:scale-105 active:scale-95"
-                                                : ""
+                                                    ? "hover:scale-105 active:scale-95"
+                                                    : ""
                                             }
                                         `}
                                     >
@@ -184,10 +177,11 @@ export default function StepProgress({
                                         )}
                                     </button>
                                     <span
-                                        className={`mt-2 text-xs font-medium whitespace-nowrap ${isActive
+                                        className={`mt-2 text-xs font-medium whitespace-nowrap ${
+                                            isActive
                                                 ? "text-clinical-slate"
                                                 : "text-deep-charcoal"
-                                            }`}
+                                        }`}
                                     >
                                         {step.label}
                                     </span>
@@ -196,10 +190,11 @@ export default function StepProgress({
                                 {/* Connector */}
                                 {index < steps.length - 1 && (
                                     <div
-                                        className={`flex-1 h-0.5 mx-1 lg:mx-2 ${isCompleted
+                                        className={`flex-1 h-0.5 mx-1 lg:mx-2 ${
+                                            isCompleted
                                                 ? "bg-vital-green"
                                                 : "bg-harbor-gray"
-                                            }`}
+                                        }`}
                                     />
                                 )}
                             </div>

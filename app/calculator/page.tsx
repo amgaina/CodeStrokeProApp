@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -79,14 +79,10 @@ export default function CodeStrokeProApp() {
     const [ptWeight, setPtWeight] = useState("");
     const [weightUnit, setWeightUnit] = useState<"kg" | "lbs">("kg");
     const [step, setStep] = useState<
-        | "lkw"
-        | "timers"
-        | "screening"
-        | "drugSelection"
-        | "dosing"
-        | "resources"
+        "lkw" | "timers" | "screening" | "drugSelection" | "dosing"
     >("lkw");
     const [showResources, setShowResources] = useState(false);
+    const mainRef = useRef<HTMLDivElement>(null);
 
     /* ---------------- clocks ---------------- */
     /* live “now” tick each second */
@@ -130,6 +126,16 @@ export default function CodeStrokeProApp() {
             localStorage.removeItem(ARRIVAL_KEY);
         }
     }, [timers.lkwTime, timers.arrivalTime]);
+
+    /* Scroll to top on step change */
+    useEffect(() => {
+        if (mainRef.current) {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
+        }
+    }, [step]);
 
     /* ---------------- handlers ---------------- */
     /* from LKW component */
@@ -199,7 +205,7 @@ export default function CodeStrokeProApp() {
 
     /* ---------------- JSX ---------------- */
     return (
-        <div className="min-h-screen bg-parchment">
+        <div ref={mainRef} className="min-h-screen bg-parchment">
             {/* ================= HEADER ================= */}
             <header className="sticky top-0 z-50 border-b border-harbor-gray bg-clinical-slate text-parchment/95 backdrop-blur-sm">
                 {/* timers */}
@@ -254,15 +260,9 @@ export default function CodeStrokeProApp() {
                         onWeightChange={setPtWeight}
                         onWeightUnitChange={setWeightUnit}
                         onVialSizeChange={setVialSize}
-                        onNext={() => setStep("resources")}
-                        onBack={() => setStep("drugSelection")}
-                    />
-                )}
-
-                {step === "resources" && (
-                    <ClinicalResources
                         onRestart={handleRestartAll}
-                        onBack={() => setStep("dosing")}
+                        onShowResources={() => setShowResources(true)}
+                        onBack={() => setStep("drugSelection")}
                     />
                 )}
             </main>
@@ -279,8 +279,7 @@ export default function CodeStrokeProApp() {
                             <BookOpen className="h-6 w-6" />
                         </Button>
                     </DialogTrigger>
-
-                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                    <DialogContent className="w-[80vw] md:w-[80vw] md:max-w-[80vw] max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
                             <DialogTitle className="flex items-center gap-2 text-xl text-deep-charcoal">
                                 <BookOpen className="h-5 w-5 text-vital-green" />

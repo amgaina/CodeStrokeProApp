@@ -19,12 +19,22 @@ export default function Header() {
     const [open, setOpen] = useState(false);
 
     return (
-        <header className="sticky top-0 z-50 w-full backdrop-blur-sm border-b border-harbor-gray bg-clinical-slate text-parchment clarity-shadow">
+        <header className="sticky top-0 z-50 w-full backdrop-blur-sm border-b border-harbor-gray bg-clinical-slate py-1 text-parchment clarity-shadow">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 {/* Brand */}
                 <Link href="/" className="flex items-center space-x-3">
-                    <span className="rounded-full bg-white/10 p-2">
-                        <Stethoscope className="h-6 w-6 text-parchment/80" />
+                    {/* Logo: switches based on theme */}
+                    <span className="rounded-ful">
+                        <img
+                            src="/logo/logo-light.png"
+                            alt="CodeStroke Pro Logo"
+                            className="h-14 w-14 block dark:hidden"
+                        />
+                        <img
+                            src="/logo/logo-dark.png"
+                            alt="CodeStroke Pro Logo Dark"
+                            className="h-14 w-14 hidden dark:block"
+                        />
                     </span>
                     <span className="text-2xl font-medium">CodeStroke Pro</span>
                 </Link>

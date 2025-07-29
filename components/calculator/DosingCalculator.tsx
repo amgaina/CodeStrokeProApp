@@ -33,7 +33,8 @@ interface DosingCalculatorProps {
     onWeightChange: (weight: string) => void;
     onWeightUnitChange: (unit: "kg" | "lbs") => void;
     onVialSizeChange: (size: string) => void;
-    onNext: () => void;
+    onRestart: () => void;
+    onShowResources: () => void;
     onBack?: () => void;
 }
 
@@ -45,7 +46,8 @@ export default function DosingCalculator({
     onWeightChange,
     onWeightUnitChange,
     onVialSizeChange,
-    onNext,
+    onRestart,
+    onShowResources,
     onBack,
 }: DosingCalculatorProps) {
     const calculateDose = (): DoseCalculation | null => {
@@ -60,8 +62,10 @@ export default function DosingCalculator({
         // Validate reasonable weight range (5-300 kg)
         if (weightInKg < 5 || weightInKg > 300) return null;
 
-
-        function getTnkDose(weightInKg: number): { totalDose: number; volume: number } {
+        function getTnkDose(weightInKg: number): {
+            totalDose: number;
+            volume: number;
+        } {
             if (weightInKg < 60) return { totalDose: 15, volume: 3.0 };
             if (weightInKg < 70) return { totalDose: 17.5, volume: 3.5 };
             if (weightInKg < 80) return { totalDose: 20, volume: 4.0 };
@@ -121,24 +125,25 @@ Patient Weight: ${patientWeight} ${weightUnit} (${weightInKg.toFixed(1)} kg)
 Calculated: ${new Date().toLocaleString()}
 
 DOSING INSTRUCTIONS:
-${selectedDrug === "tnk"
-                ? `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
+${
+    selectedDrug === "tnk"
+        ? `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
 - Volume: ${doseCalculation.volume.toFixed(1)} mL
 - Administration: IV push over 5-10 seconds`
-                : `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
+        : `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
 - Bolus (10%): ${doseCalculation.pushDose!.toFixed(
-                    1
-                )} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)
+              1
+          )} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)
 - Infusion (90%): ${doseCalculation.infusionDose!.toFixed(
-                    1
-                )} mg (${doseCalculation.infusionVolume!.toFixed(
-                    1
-                )} mL) over 60 minutes`
-            }
+              1
+          )} mg (${doseCalculation.infusionVolume!.toFixed(
+              1
+          )} mL) over 60 minutes`
+}
 
 WASTE: ${doseCalculation.waste.toFixed(
-                1
-            )} mg (${doseCalculation.wasteVolume.toFixed(1)} mL)
+            1
+        )} mg (${doseCalculation.wasteVolume.toFixed(1)} mL)
 
 ⚠️  VERIFY ALL CALCULATIONS BEFORE ADMINISTRATION
         `;
@@ -147,8 +152,9 @@ WASTE: ${doseCalculation.waste.toFixed(
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `stroke-dosing-${selectedDrug}-${new Date().toISOString().split("T")[0]
-            }.txt`;
+        a.download = `stroke-dosing-${selectedDrug}-${
+            new Date().toISOString().split("T")[0]
+        }.txt`;
         a.click();
         URL.revokeObjectURL(url);
     };
@@ -226,17 +232,24 @@ WASTE: ${doseCalculation.waste.toFixed(
                                 <>
                                     <SelectContent>
                                         {/* TNK vials – give each a distinct value */}
-                                        <SelectItem value="25">25 mg vial</SelectItem>
-                                        <SelectItem value="50">50 mg vial</SelectItem>
+                                        <SelectItem value="25">
+                                            25 mg vial
+                                        </SelectItem>
+                                        <SelectItem value="50">
+                                            50 mg vial
+                                        </SelectItem>
                                     </SelectContent>
-
                                 </>
                             ) : (
                                 <>
                                     <SelectContent>
                                         {/* Alteplase vials – give each a distinct value */}
-                                        <SelectItem value="50">50 mg vial</SelectItem>
-                                        <SelectItem value="100">100 mg vial</SelectItem>
+                                        <SelectItem value="50">
+                                            50 mg vial
+                                        </SelectItem>
+                                        <SelectItem value="100">
+                                            100 mg vial
+                                        </SelectItem>
                                     </SelectContent>
                                 </>
                             )}
@@ -428,19 +441,20 @@ WASTE: ${doseCalculation.waste.toFixed(
                                     </p>
                                     <div className="text-sm space-y-1">
                                         <p>
-                                            ✓ Always verify dosing calculations with a
-                                            second clinician
+                                            ✓ Always verify dosing calculations
+                                            with a second clinician
                                         </p>
                                         <p>
-                                            ✓ Confirm patient weight and drug selection
+                                            ✓ Confirm patient weight and drug
+                                            selection
                                         </p>
                                         <p>
                                             ✓ Check for contraindications before
                                             administration
                                         </p>
                                         <p>
-                                            ✓ This tool is for clinical decision support
-                                            only
+                                            ✓ This tool is for clinical decision
+                                            support only
                                         </p>
                                     </div>
                                 </div>
@@ -461,7 +475,7 @@ WASTE: ${doseCalculation.waste.toFixed(
                     </div>
                 )}{" "}
                 {/* Navigation Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 justify-between">
+                <div className="flex flex-col sm:flex-row gap-3 justify-between mt-6">
                     {onBack && (
                         <Button
                             onClick={onBack}
@@ -472,11 +486,18 @@ WASTE: ${doseCalculation.waste.toFixed(
                         </Button>
                     )}
                     <Button
-                        onClick={onNext}
-                        className="bg-clinical-slate hover:bg-clinical-slate/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
-                        disabled={!doseCalculation}
+                        onClick={onShowResources}
+                        variant="outline"
+                        className="border-vital-green text-vital-green hover:bg-vital-green/10 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
                     >
-                        Continue to Resources
+                        View Resources
+                    </Button>
+                    <Button
+                        onClick={onRestart}
+                        variant="destructive"
+                        className="bg-critical-crimson text-white hover:bg-critical-crimson/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                    >
+                        Start New Session
                     </Button>
                 </div>
             </CardContent>
