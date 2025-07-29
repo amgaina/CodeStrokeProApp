@@ -58,6 +58,13 @@ interface Props {
 export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
     const [lkw, setLkw] = useState<Date | null>(null);
     const [manual, setManual] = useState('');
+    const [now, setNow] = useState(new Date());
+
+    useEffect(() => {
+        const timerId = setInterval(() => setNow(new Date()), 1000);
+        // The cleanup function clears the interval when the component is removed.
+        return () => clearInterval(timerId);
+    }, []);
 
     /* hydrate */
     useEffect(() => {
@@ -77,19 +84,23 @@ export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
         if (lkw) localStorage.setItem(LS_KEY, lkw.toISOString());
     }, [lkw]);
 
-    /* preview */
+    // Memoized calculation for the countdown preview. Re-runs when LKW or 'now' changes.
     const preview = useMemo(() => {
         if (!lkw) return null;
-        const now = new Date();
-        const diff = 4.5 * 60 * 60 * 1e3 - (now.getTime() - lkw.getTime());
-        const overdue = diff < 0;
-        const abs = Math.abs(diff);
+        // Thrombolysis window is 4.5 hours.
+        const windowMs = 4.5 * 60 * 60 * 1000;
+        const elapsedMs = now.getTime() - lkw.getTime();
+        const remainingMs = windowMs - elapsedMs;
+        const overdue = remainingMs < 0;
+        const absMs = Math.abs(remainingMs);
+
         return {
             overdue,
-            hrs: Math.floor(abs / 3_600_000),
-            mins: Math.floor((abs % 3_600_000) / 60_000),
+            hrs: Math.floor(absMs / 3_600_000),
+            mins: Math.floor((absMs % 3_600_000) / 60_000),
+            secs: Math.floor((absMs % 60_000) / 1000),
         };
-    }, [lkw]);
+    }, [lkw, now]);
 
     /* setters */
     function setAndSync(d: Date | null) {

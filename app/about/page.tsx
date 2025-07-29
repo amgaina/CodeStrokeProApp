@@ -66,26 +66,28 @@ export default function AboutPage() {
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {/* Investigator 1 */}
                                 <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                    <h3 className="text-xl font-semibold text-clinical-slate mb-2">Angela Moore, PharmD, BSN, RN</h3>
-                                    <p className="text-gray-600 mb-1">Clinical Assistant Professor</p>
-                                    <p className="text-gray-600">Lab Coordinator</p>
-                                </div>
-                                
-                                {/* Investigator 2 */}
-                                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                    <h3 className="text-xl font-semibold text-clinical-slate mb-2">Ashley Barbo, Pharm.D.</h3>
-                                    <p className="text-gray-600 mb-1">Clinical Associate Professor</p>
-                                    <p className="text-gray-600">Lab Coordinator</p>
-                                </div>
-                                
-                                {/* Investigator 3 */}
-                                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                    <h3 className="text-xl font-semibold text-clinical-slate mb-2">Emily McGee, PharmD, BCPS, NREMT</h3>
+                                    <h3 className="text-xl font-semibold text-clinical-slate mb-2">Emily McGee, PharmD, BCPS, BCEMP, NREMT</h3>
                                     <p className="text-gray-600 mb-1">Assistant Clinical Professor</p>
                                     <p className="text-gray-600 mb-1">University of Louisiana at Monroe</p>
                                     <p className="text-gray-600">Emergency Medicine Clinical Pharmacist</p>
                                     <p className="text-gray-600">Ochsner LSU Health Shreveport</p>
                                 </div>
+
+                                {/* Investigator 2 */}
+                                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                                    <h3 className="text-xl font-semibold text-clinical-slate mb-2">Angela Moore, PharmD, BSN, RN</h3>
+                                    <p className="text-gray-600 mb-1">Clinical Assistant Professor</p>
+                                    <p className="text-gray-600">Lab Coordinator</p>
+                                </div>
+
+                                {/* Investigator 3 */}
+                                <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                                    <h3 className="text-xl font-semibold text-clinical-slate mb-2">Ashley Barbo, Pharm.D.</h3>
+                                    <p className="text-gray-600 mb-1">Clinical Associate Professor</p>
+                                    <p className="text-gray-600">Lab Coordinator</p>
+                                </div>
+
+
                             </div>
                         </CardContent>
                     </Card>
