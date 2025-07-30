@@ -125,6 +125,14 @@ export default function ResourcesPage() {
             category: "Assessment",
             icon: FileText,
         },
+        {
+            filename: "wake-up-stroke.pdf",
+            title: "Wake-Up Stroke Protocol",
+            description:
+                "Wake-up stroke assessment and management: Quick Guide",
+            category: "Essentials",
+            icon: FileText,
+        },
     ];
 
     return (

@@ -490,7 +490,7 @@ WASTE: ${doseCalculation.waste.toFixed(
                         variant="outline"
                         className="border-vital-green text-vital-green hover:bg-vital-green/10 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
                     >
-                        View Resources
+                        Post-Thrombolytic Monitoring & Additional Resources
                     </Button>
                     <Button
                         onClick={onRestart}
