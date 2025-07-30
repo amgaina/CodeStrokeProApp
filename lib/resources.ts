@@ -22,15 +22,15 @@ const videos = [
     },
 ];
 const resources = [
-    {
-        filename:
-            "additional-resources--badge-buddies--and-auxilliary-labels.pdf",
-        title: "Additional Resources and Printables",
-        description:
-            "Additional Resources, Badge Buddies, and auxiliary labels",
-        category: "Printables",
-        icon: FileText,
-    },
+    // {
+    //     filename:
+    //         "additional-resources--badge-buddies--and-auxilliary-labels.pdf",
+    //     title: "Additional Resources and Printables",
+    //     description:
+    //         "Additional Resources, Badge Buddies, and auxiliary labels",
+    //     category: "Printables",
+    //     icon: FileText,
+    // },
     {
         filename: "post-thrombolytic-monitoring.pdf",
         title: "Post-thrombolytic monitoring guidelines",
@@ -79,15 +79,15 @@ const resources = [
         category: "Care",
         icon: Shield,
     },
-    {
-        filename:
-            "additional-resources--badge-buddies--and-auxilliary-labels.pdf",
-        title: "Printables",
-        description:
-            "Additional Resources, Badge Buddies, and auxiliary labels",
-        category: "Printables",
-        icon: FileText,
-    },
+    // {
+    //     filename:
+    //         "additional-resources--badge-buddies--and-auxilliary-labels.pdf",
+    //     title: "Printables",
+    //     description:
+    //         "Additional Resources, Badge Buddies, and auxiliary labels",
+    //     category: "Printables",
+    //     icon: FileText,
+    // },
     {
         filename: "ems-tipsheet.pdf",
         title: "EMS Tipsheet",

@@ -98,6 +98,14 @@ export default function ClinicalResources({
             category: "Assessment",
             icon: FileText,
         },
+        {
+            filename: "wake-up-stroke.pdf",
+            title: "Wake-Up Stroke Protocol",
+            description:
+                "Wake-up stroke assessment and management: Quick Guide",
+            category: "Essentials",
+            icon: Users,
+        },
     ];
 
     const additionalResources = [
@@ -126,13 +134,6 @@ export default function ClinicalResources({
             title: "Inclusion & Exclusion Criteria Decision Tree",
             description: "Decision tree for thrombolytic therapy eligibility",
             category: "Assessment",
-        },
-        {
-            filename: "wake-up-stroke.pdf",
-            title: "Wake-Up Stroke Protocol",
-            description:
-                "Wake-up stroke assessment and management: Quick Guide",
-            category: "Essentials",
         },
     ];
 
@@ -198,7 +199,7 @@ export default function ClinicalResources({
                     </div>
 
                     {/* Additional Resources Section */}
-                    <div className="space-y-3 md:space-y-4">
+                    {/* <div className="space-y-3 md:space-y-4">
                         <div className="text-center">
                             <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-2">
                                 Additional Resources & Printables
@@ -210,7 +211,7 @@ export default function ClinicalResources({
                         </div>
 
                         <div className="grid grid-cols-1 gap-4">
-                            {additionalResources.map((resource, index) => (
+                            {additionalResources?.map((resource, index) => (
                                 <div
                                     key={index}
                                     className="p-3 md:p-4 border-2 border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-300 bg-white"
@@ -244,7 +245,7 @@ export default function ClinicalResources({
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     <Card className="mb-6 md:mb-8 clarity-shadow border border-harbor-gray bg-white">
                         <CardHeader className="bg-clinical-slate text-parchment p-4 md:p-6">
