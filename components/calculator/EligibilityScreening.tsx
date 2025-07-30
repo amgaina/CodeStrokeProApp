@@ -48,7 +48,7 @@ export default function EligibilityScreening({
     onNext,
     onBack,
 }: EligibilityScreeningProps) {
-    const [medicationsExpanded, setMedicationsExpanded] = useState(false);
+    const [medicationsExpanded, setMedicationsExpanded] = useState(true);
     const [contraindicationsExpanded, setContraindicationsExpanded] =
         useState(false);
     const [
