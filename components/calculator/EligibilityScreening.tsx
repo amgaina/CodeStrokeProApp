@@ -13,6 +13,12 @@ import {
 import { Shield, AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { PDFLink } from "../PDFLink";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 
 interface EligibilityAnswers {
     underAge: boolean;
@@ -26,6 +32,7 @@ interface EligibilityAnswers {
     minorSymptoms: boolean;
     recentSurgery: boolean;
     activeBleed: boolean;
+    antiplateletAgents: boolean;
 }
 
 interface EligibilityScreeningProps {
@@ -43,6 +50,12 @@ export default function EligibilityScreening({
 }: EligibilityScreeningProps) {
     const [medicationsExpanded, setMedicationsExpanded] = useState(false);
     const [contraindicationsExpanded, setContraindicationsExpanded] =
+        useState(false);
+    const [
+        relativeContraindicationsExpanded,
+        setRelativeContraindicationsExpanded,
+    ] = useState(true);
+    const [showRelativeContraDialog, setShowRelativeContraDialog] =
         useState(false);
 
     const updateAnswer = (key: keyof EligibilityAnswers, value: boolean) => {
@@ -344,6 +357,72 @@ export default function EligibilityScreening({
                                             </div>
                                         </div>
 
+                                        <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                                            <h4 className="font-semibold text-blue-800 mb-2 text-sm">
+                                                Clinical Note
+                                            </h4>
+                                            <p className="text-xs text-blue-700">
+                                                Patients taking any of the above
+                                                medications — especially oral
+                                                anticoagulants — may require
+                                                additional labs (INR, aPTT,
+                                                anti-Xa levels) and physician
+                                                consultation before proceeding
+                                                with thrombolytic therapy.
+                                            </p>
+                                        </div>
+                                    </CollapsibleContent>
+                                </Collapsible>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Antiplatelet Agents Contraindications */}
+                    <div
+                        className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
+                            answers.antiplateletAgents
+                                ? "border-amber-300 bg-amber-50"
+                                : "border-gray-200"
+                        }`}
+                    >
+                        <div className="flex items-start space-x-3">
+                            <Checkbox
+                                id="antiplateletAgents"
+                                checked={answers.antiplateletAgents}
+                                onCheckedChange={(checked) => {
+                                    updateAnswer(
+                                        "antiplateletAgents",
+                                        checked === true
+                                    );
+                                    setShowRelativeContraDialog(
+                                        checked === true
+                                    );
+                                }}
+                                className="mt-1"
+                            />
+                            <div className="flex-1 max-w-[80%]">
+                                <Label
+                                    htmlFor="antiplateletAgents"
+                                    className="text-sm font-medium cursor-pointer"
+                                >
+                                    Is the patient currently taking any of the
+                                    following medications?
+                                </Label>
+
+                                <Collapsible
+                                    open={relativeContraindicationsExpanded}
+                                    onOpenChange={
+                                        setRelativeContraindicationsExpanded
+                                    }
+                                >
+                                    <CollapsibleTrigger className="flex items-center gap-2 mt-2 text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                        {relativeContraindicationsExpanded ? (
+                                            <ChevronUp className="w-4 h-4" />
+                                        ) : (
+                                            <ChevronDown className="w-4 h-4" />
+                                        )}
+                                        View Antiplatelet Agent List
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="mt-4 ">
                                         <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
                                             <h4 className="font-semibold text-yellow-800 mb-2 text-sm">
                                                 Antiplatelet Agents (Not
@@ -369,27 +448,39 @@ export default function EligibilityScreening({
                                                 <p>• Ticlopidine</p>
                                             </div>
                                         </div>
-
-                                        <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-                                            <h4 className="font-semibold text-blue-800 mb-2 text-sm">
-                                                Clinical Note
-                                            </h4>
-                                            <p className="text-xs text-blue-700">
-                                                Patients taking any of the above
-                                                medications — especially oral
-                                                anticoagulants — may require
-                                                additional labs (INR, aPTT,
-                                                anti-Xa levels) and physician
-                                                consultation before proceeding
-                                                with thrombolytic therapy.
-                                            </p>
-                                        </div>
                                     </CollapsibleContent>
                                 </Collapsible>
                             </div>
                         </div>
+                        <Dialog
+                            open={showRelativeContraDialog}
+                            onOpenChange={setShowRelativeContraDialog}
+                        >
+                            <DialogContent>
+                                <DialogHeader className="mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <AlertTriangle className="w-5 h-5 text-yellow-500" />
+                                        <DialogTitle className="text-yellow-900 text-lg font-semibold">
+                                            Antiplatelet Agents Notice
+                                        </DialogTitle>
+                                    </div>
+                                </DialogHeader>
+                                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex items-center gap-3">
+                                    <div>
+                                        <p className="text-sm text-yellow-800 font-medium mb-2">
+                                            These don't usually preclude
+                                            thrombolytic therapy alone,
+                                            <span className="block">
+                                                but combined with anticoagulants
+                                                or in high-risk patients, may
+                                                influence bleeding risk:
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
                     </div>
-
                     {/* Additional Contraindications - Collapsible */}
                     <div
                         className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${

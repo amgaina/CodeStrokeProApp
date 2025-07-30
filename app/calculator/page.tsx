@@ -44,6 +44,7 @@ interface EligibilityAnswers {
     minorSymptoms: boolean;
     recentSurgery: boolean;
     activeBleed: boolean;
+    relativeContraindications: boolean;
 }
 
 const LKW_KEY = "csp-lkw-time";
@@ -71,6 +72,7 @@ export default function CodeStrokeProApp() {
         minorSymptoms: false,
         recentSurgery: false,
         activeBleed: false,
+        relativeContraindications: false,
     });
     const [selectedDrug, setSelectedDrug] = useState<
         "tnk" | "alteplase" | null
@@ -330,14 +332,15 @@ function CountdownPill({
                     {label}
                 </div>
                 <div
-                    className={`font-mono text-lg font-bold ${expired ? expiredClass : activeClass
-                        }`}
+                    className={`font-mono text-lg font-bold ${
+                        expired ? expiredClass : activeClass
+                    }`}
                 >
                     {expired
                         ? "EXPIRED"
                         : `${h}:${String(m).padStart(2, "0")}:${String(
-                            s
-                        ).padStart(2, "0")}`}
+                              s
+                          ).padStart(2, "0")}`}
                 </div>
             </div>
         </div>
