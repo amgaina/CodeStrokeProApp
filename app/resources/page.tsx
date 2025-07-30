@@ -226,6 +226,66 @@ export default function ResourcesPage() {
                             </div>
                         </CardContent>
                     </Card>
+
+                    {/* Medication Preparation Videos */}
+                    <Card className="mb-6 md:mb-8 clarity-shadow border border-harbor-gray bg-white">
+                        <CardHeader className="bg-clinical-slate text-parchment p-4 md:p-6">
+                            <CardTitle className="flex items-center gap-2 md:gap-3 text-lg md:text-xl font-medium">
+                                <BookOpen className="w-5 h-5 md:w-6 md:h-6" />
+                                Medication Preparation Videos
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4 md:p-8 space-y-4 md:space-y-6">
+                            <div className="space-y-3 md:space-y-4">
+                                <div className="text-center">
+                                    <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-2">
+                                        Medication Preparation Videos
+                                    </h3>
+                                    <p className="text-gray-600 text-sm">
+                                        Step-by-step video guides for preparing
+                                        stroke medications.
+                                    </p>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {/* Alteplase Video */}
+                                    <div className="p-3 md:p-4 border-2 border-gray-200 rounded-lg bg-white">
+                                        <h4 className="font-semibold text-gray-800 text-sm mb-2">
+                                            Alteplase Preparation How-to Video
+                                        </h4>
+                                        <div className="w-full rounded mb-2 overflow-hidden">
+                                            <iframe
+                                                src="https://ulmwarhawks-my.sharepoint.com/personal/emmcgee_ulm_edu/_layouts/15/embed.aspx?UniqueId=fef61651-fa72-4dc7-87c8-c6f54fc4fcd4&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create"
+                                                width="100%"
+                                                height="360"
+                                                frameBorder="0"
+                                                scrolling="no"
+                                                allowFullScreen
+                                                title="Alteplase Preparation How to Video.mp4"
+                                            ></iframe>
+                                        </div>
+                                    </div>
+                                    {/* TNK Video */}
+                                    <div className="p-3 md:p-4 border-2 border-gray-200 rounded-lg bg-white">
+                                        <h4 className="font-semibold text-gray-800 text-sm mb-2">
+                                            Tenecteplase (TNK) Preparation
+                                            How-to Video
+                                        </h4>
+                                        <div className="w-full rounded mb-2 overflow-hidden">
+                                            <iframe
+                                                src="https://ulmwarhawks-my.sharepoint.com/personal/emmcgee_ulm_edu/_layouts/15/embed.aspx?UniqueId=f8b7799a-06d4-4fe4-8f28-4901f9b0351a&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create"
+                                                width="100%"
+                                                height="360"
+                                                frameBorder="0"
+                                                scrolling="no"
+                                                allowFullScreen
+                                                title="TNK prep how to.mp4"
+                                            ></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </div>
