@@ -45,6 +45,7 @@ interface EligibilityAnswers {
     recentSurgery: boolean;
     activeBleed: boolean;
     relativeContraindications: boolean;
+    antiplateletAgents: boolean;
 }
 
 const LKW_KEY = "csp-lkw-time";
@@ -73,6 +74,7 @@ export default function CodeStrokeProApp() {
         recentSurgery: false,
         activeBleed: false,
         relativeContraindications: false,
+        antiplateletAgents: false,
     });
     const [selectedDrug, setSelectedDrug] = useState<
         "tnk" | "alteplase" | null

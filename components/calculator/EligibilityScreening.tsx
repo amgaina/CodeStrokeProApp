@@ -100,7 +100,8 @@ export default function EligibilityScreening({
             answers.onMedications ||
             answers.contraindications ||
             answers.rapidImprovement ||
-            answers.minorSymptoms
+            answers.minorSymptoms ||
+            answers.antiplateletAgents
         ) {
             return {
                 status: "evaluate",
