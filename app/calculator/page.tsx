@@ -265,6 +265,7 @@ export default function CodeStrokeProApp() {
                         onRestart={handleRestartAll}
                         onShowResources={() => setShowResources(true)}
                         onBack={() => setStep("drugSelection")}
+                        additionalResources={true}
                     />
                 )}
             </main>

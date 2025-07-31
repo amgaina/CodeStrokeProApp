@@ -36,6 +36,7 @@ interface DosingCalculatorProps {
     onRestart: () => void;
     onShowResources: () => void;
     onBack?: () => void;
+    additionalResources?: boolean;
 }
 
 export default function DosingCalculator({
@@ -49,6 +50,7 @@ export default function DosingCalculator({
     onRestart,
     onShowResources,
     onBack,
+    additionalResources,
 }: DosingCalculatorProps) {
     const calculateDose = (): DoseCalculation | null => {
         const weight = parseFloat(patientWeight);
@@ -485,13 +487,18 @@ WASTE: ${doseCalculation.waste.toFixed(
                             Back to Drug Selection
                         </Button>
                     )}
-                    <Button
-                        onClick={onShowResources}
-                        variant="outline"
-                        className="border-vital-green text-vital-green hover:bg-vital-green/10 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
-                    >
-                        Post-Thrombolytic Monitoring & Additional Resources
-                    </Button>
+                    {additionalResources && (
+                        <Button
+                            onClick={onShowResources}
+                            variant="outline"
+                            className="w-full sm:w-auto px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 text-sm sm:text-base md:text-lg border-vital-green text-vital-green hover:bg-vital-green/10 flex items-center justify-center text-center whitespace-normal break-words"
+                        >
+                            <span className="block text-center leading-snug">
+                                Post-Thrombolytic Monitoring &amp; Additional
+                                Resources
+                            </span>
+                        </Button>
+                    )}
                     <Button
                         onClick={onRestart}
                         variant="destructive"
