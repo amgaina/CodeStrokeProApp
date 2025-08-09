@@ -131,7 +131,7 @@ export default function ResourcesPage() {
                                                 <iframe
                                                     src={video.src}
                                                     width="100%"
-                                                    height="360"
+                                                    height="320"
                                                     frameBorder="0"
                                                     scrolling="no"
                                                     allowFullScreen
