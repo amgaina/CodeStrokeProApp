@@ -4,13 +4,17 @@ import React from 'react';
 // Define the props for the component
 interface LegalDisclaimerModalProps {
     onAgree: () => void;
+    onDisagree: () => void; // ADDED: Prop for the disagree action
 }
 
-export default function LegalDisclaimerModal({ onAgree }: LegalDisclaimerModalProps) {
-    // A simple function to redirect the user away if they disagree.
+export default function LegalDisclaimerModal({
+    onAgree,
+    onDisagree, // ADDED: Destructure the new prop
+}: LegalDisclaimerModalProps) {
+
+    // MODIFIED: The function now calls the onDisagree prop instead of redirecting.
     const handleDisagree = () => {
-        // This will redirect the user to a blank page, effectively leaving the site.
-        window.location.href = 'about:blank';
+        onDisagree();
     };
 
     return (
@@ -32,7 +36,7 @@ export default function LegalDisclaimerModal({ onAgree }: LegalDisclaimerModalPr
                         or the standard of care.
                     </p>
                     <p className="mb-3">
-                        2. This information is current as of 06/26/2025. While reasonable
+                        2. This information is current as of 08/07/2025. While reasonable
                         efforts are made to maintain the accuracy and relevance of the
                         information presented, it is the responsibility of the prescriber and
                         care team to verify all data and ensure appropriate treatment is
@@ -73,7 +77,7 @@ export default function LegalDisclaimerModal({ onAgree }: LegalDisclaimerModalPr
                     </button>
                     <button
                         onClick={onAgree}
-                        className="rounded-md bg-clinical-slate hover:bg-clinical-slate/90 px-6 py-2 text-sm font-semibold text-white shadow-sm"
+                        className="rounded-md bg-clinical-slate px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-clinical-slate/90"
                     >
                         Agree and Continue
                     </button>

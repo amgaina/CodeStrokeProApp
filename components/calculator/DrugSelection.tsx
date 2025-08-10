@@ -8,6 +8,7 @@ import { Stethoscope, Info, CheckCircle } from "lucide-react";
 interface DrugSelectionProps {
     selectedDrug: "tnk" | "alteplase" | null;
     onDrugSelect: (drug: "tnk" | "alteplase") => void;
+    isQuickCalc?: boolean;
     onNext: () => void;
     onBack?: () => void;
 }
@@ -16,6 +17,7 @@ export default function DrugSelection({
     selectedDrug,
     onDrugSelect,
     onNext,
+    isQuickCalc = false,
     onBack,
 }: DrugSelectionProps) {
     return (
@@ -142,13 +144,15 @@ export default function DrugSelection({
                                 Back to Screening
                             </Button>
                         )}
-                        <Button
-                            onClick={onNext}
-                            className="bg-clinical-slate hover:bg-clinical-slate/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
-                            disabled={!selectedDrug}
-                        >
-                            Continue to Dosing Calculator
-                        </Button>
+                        {!isQuickCalc && (
+                            <Button
+                                onClick={onNext}
+                                className="bg-clinical-slate hover:bg-clinical-slate/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                                disabled={!selectedDrug}
+                            >
+                                Continue to Dosing Calculator
+                            </Button>
+                        )}
                     </div>
                 </div>
             </CardContent>

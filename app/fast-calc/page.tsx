@@ -86,6 +86,7 @@ export default function DosingFlow({
                             <DrugSelection
                                 selectedDrug={selectedDrug}
                                 onDrugSelect={handleDrugSelect}
+                                isQuickCalc={true}
                                 onNext={() => { }}
                                 onBack={onBackToScreening}
                             />
@@ -107,9 +108,9 @@ export default function DosingFlow({
                                 weightUnit={weightUnit}
                                 vialSize={vialSize}
                                 onWeightChange={setPtWeight}
+                                isQuickCalc={true}
                                 onWeightUnitChange={setWeightUnit}
                                 onVialSizeChange={setVialSize}
-                                onNext={handleComplete}
                                 onBack={handleBackFromDosing}
                             />
                         </motion.div>

@@ -7,7 +7,7 @@ import { BookOpen } from "lucide-react";
 export default function AboutPage() {
     const updatedTime = "July 15, 2025";
     return (
-        <div className="min-h-screen bg-parchment">
+        <div className="min-h-screen bg-parchment animate-fade-in-up animation-delay-1">
             <div className="container mx-auto px-4 py-8 max-w-7xl">
                 {/* Updated Header Section */}
                 <div className="mb-8 text-center">

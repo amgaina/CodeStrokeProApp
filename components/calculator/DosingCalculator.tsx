@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Calculator, AlertTriangle, Download } from "lucide-react";
+import { jsPDF } from "jspdf";
 
 interface DoseCalculation {
     totalDose: number;
@@ -30,11 +31,12 @@ interface DosingCalculatorProps {
     patientWeight: string;
     weightUnit: "kg" | "lbs";
     vialSize: string;
+    isQuickCalc?: boolean;
     onWeightChange: (weight: string) => void;
     onWeightUnitChange: (unit: "kg" | "lbs") => void;
     onVialSizeChange: (size: string) => void;
-    onRestart: () => void;
-    onShowResources: () => void;
+    onRestart?: () => void;
+    onShowResources?: () => void;
     onBack?: () => void;
     additionalResources?: boolean;
 }
@@ -48,6 +50,7 @@ export default function DosingCalculator({
     onWeightUnitChange,
     onVialSizeChange,
     onRestart,
+    isQuickCalc = false,
     onShowResources,
     onBack,
     additionalResources,
@@ -113,52 +116,81 @@ export default function DosingCalculator({
 
     const doseCalculation = calculateDose();
 
-    const generateDosingCard = () => {
+    const generatePdfDosingCard = () => {
         if (!doseCalculation) return;
+
+        const doc = new jsPDF();
+        const primaryColor = '#2E3A40';
+        const secondaryColor = '#4A90E2';
+        const accentColor = '#E74C3C';
 
         const weight = parseFloat(patientWeight);
         const weightInKg = weightUnit === "lbs" ? weight * 0.454545 : weight;
+        const drugName = selectedDrug === "tnk" ? "Tenecteplase (TNK)" : "Alteplase (tPA)";
+        const currentDate = new Date().toLocaleString();
 
-        const content = `
-STROKE THROMBOLYTIC DOSING CARD
-================================
-Drug: ${selectedDrug === "tnk" ? "Tenecteplase (TNK)" : "Alteplase (tPA)"}
-Patient Weight: ${patientWeight} ${weightUnit} (${weightInKg.toFixed(1)} kg)
-Calculated: ${new Date().toLocaleString()}
+        // Add header
+        doc.setFillColor(46, 58, 64); // #2E3A40
+        doc.rect(0, 0, 210, 30, 'F');
+        doc.setFontSize(18);
+        doc.setTextColor(255, 255, 255);
+        doc.text('STROKE THROMBOLYTIC DOSING CARD', 105, 20, { align: 'center' });
 
-DOSING INSTRUCTIONS:
-${
-    selectedDrug === "tnk"
-        ? `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
-- Volume: ${doseCalculation.volume.toFixed(1)} mL
-- Administration: IV push over 5-10 seconds`
-        : `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg
-- Bolus (10%): ${doseCalculation.pushDose!.toFixed(
-              1
-          )} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)
-- Infusion (90%): ${doseCalculation.infusionDose!.toFixed(
-              1
-          )} mg (${doseCalculation.infusionVolume!.toFixed(
-              1
-          )} mL) over 60 minutes`
-}
+        // Add drug info section
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.setFont('helvetica', 'bold');
+        doc.text('DRUG INFORMATION', 15, 45);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Drug: ${drugName}`, 15, 55);
+        doc.text(`Patient Weight: ${patientWeight} ${weightUnit} (${weightInKg.toFixed(1)} kg)`, 15, 65);
+        doc.text(`Calculated: ${currentDate}`, 15, 75);
 
-WASTE: ${doseCalculation.waste.toFixed(
-            1
-        )} mg (${doseCalculation.wasteVolume.toFixed(1)} mL)
+        // Add dosing instructions section
+        doc.setFont('helvetica', 'bold');
+        doc.text('DOSING INSTRUCTIONS', 15, 90);
+        doc.setFont('helvetica', 'normal');
 
-⚠️  VERIFY ALL CALCULATIONS BEFORE ADMINISTRATION
-        `;
+        let yPos = 100;
+        if (selectedDrug === "tnk") {
+            doc.text(`- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`, 20, yPos);
+            yPos += 10;
+            doc.text(`- Volume: ${doseCalculation.volume.toFixed(1)} mL`, 20, yPos);
+            yPos += 10;
+            doc.text('- Administration: IV push over 5-10 seconds', 20, yPos);
+            yPos += 15;
+        } else {
+            doc.text(`- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`, 20, yPos);
+            yPos += 10;
+            doc.text(`- Bolus (10%): ${doseCalculation.pushDose!.toFixed(1)} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)`, 20, yPos);
+            yPos += 10;
+            doc.text(`- Infusion (90%): ${doseCalculation.infusionDose!.toFixed(1)} mg (${doseCalculation.infusionVolume!.toFixed(1)} mL) over 60 minutes`, 20, yPos);
+            yPos += 15;
+        }
 
-        const blob = new Blob([content], { type: "text/plain" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `stroke-dosing-${selectedDrug}-${
-            new Date().toISOString().split("T")[0]
-        }.txt`;
-        a.click();
-        URL.revokeObjectURL(url);
+        // Add waste information
+        doc.setFont('helvetica', 'bold');
+        doc.text('WASTE DOCUMENTATION', 15, yPos);
+        yPos += 10;
+        doc.setFont('helvetica', 'normal');
+        doc.text(`${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toFixed(1)} mL unused)`, 20, yPos);
+        yPos += 15;
+
+        // Add warning section
+        doc.setFillColor(231, 76, 60); // #E74C3C
+        doc.rect(15, yPos, 180, 20, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.text('VERIFY ALL CALCULATIONS BEFORE ADMINISTRATION', 105, yPos + 12, { align: 'center' });
+        yPos += 30;
+
+        // Add footer
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.text('This document is generated by CodeStrokePro Calculator', 105, 285, { align: 'center' });
+
+        // Save the PDF
+        doc.save(`stroke-dosing-${selectedDrug}-${new Date().toISOString().split('T')[0]}.pdf`);
     };
 
     return (
@@ -189,7 +221,7 @@ WASTE: ${doseCalculation.waste.toFixed(
                             min="1"
                             max={weightUnit === "kg" ? "300" : "660"}
                             step="0.1"
-                            className="text-base p-3 border-2 border-harbor-gray focus:border-vital-green"
+                            className="text-base p-3 border-2 border-harbor-gray focus:border-clin"
                         />
                     </div>
                     <div>
@@ -264,7 +296,7 @@ WASTE: ${doseCalculation.waste.toFixed(
                         {/* Success Alert */}
                         <Alert className="border-vital-green bg-vital-green/10 border-2">
                             <Calculator className="h-5 w-5 text-vital-green" />
-                            <AlertDescription className="text-vital-green font-medium text-base">
+                            <AlertDescription className="text-clin font-medium text-base">
                                 <strong>
                                     ✓ Dosing calculated successfully.
                                 </strong>{" "}
@@ -278,7 +310,7 @@ WASTE: ${doseCalculation.waste.toFixed(
                                 <h3 className="text-xl font-semibold text-clinical-slate mb-2">
                                     Dosing Instructions
                                 </h3>
-                                <div className="h-0.5 w-24 bg-vital-green mx-auto rounded-full"></div>
+                                <div className="h-0.5 w-24 bg-clin mx-auto rounded-full"></div>
                             </div>
 
                             {/* Critical Information Cards */}
@@ -313,8 +345,8 @@ WASTE: ${doseCalculation.waste.toFixed(
                                         </div>
                                     </div>
 
-                                    <div className="bg-vital-green/5 border border-vital-green/20 p-4 rounded-lg">
-                                        <h4 className="text-sm font-semibold text-vital-green mb-2 uppercase tracking-wide">
+                                    <div className="bg-clin/5 border border-clin/20 p-4 rounded-lg">
+                                        <h4 className="text-sm font-semibold text-clin mb-2 uppercase tracking-wide">
                                             Total Dose Required
                                         </h4>
                                         <p className="text-2xl font-bold text-deep-charcoal mb-1">
@@ -463,19 +495,18 @@ WASTE: ${doseCalculation.waste.toFixed(
                             </AlertDescription>
                         </Alert>
 
-                        {/* Download Card - Reasonable Size */}
-                        <div className="text-center">
+                        {/* Download Options */}
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Button
-                                onClick={generateDosingCard}
-                                variant="outline"
-                                className="border-clinical-slate text-clinical-slate hover:bg-clinical-slate/10 px-6 py-2"
+                                onClick={generatePdfDosingCard}
+                                className="bg-[#2E3A40] text-white hover:bg-[#2E3A40]/90 px-6 py-2"
                             >
                                 <Download className="w-4 h-4 mr-2" />
-                                Download Dosing Reference Card
+                                Download PDF Version
                             </Button>
                         </div>
                     </div>
-                )}{" "}
+                )}
                 {/* Navigation Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-between mt-6">
                     {onBack && (
@@ -491,7 +522,7 @@ WASTE: ${doseCalculation.waste.toFixed(
                         <Button
                             onClick={onShowResources}
                             variant="outline"
-                            className="w-full sm:w-auto px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 text-sm sm:text-base md:text-lg border-vital-green text-vital-green hover:bg-vital-green/10 flex items-center justify-center text-center whitespace-normal break-words"
+                            className="w-full sm:w-auto px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 text-sm sm:text-base md:text-lg border-clin text-clin hover:bg-clin/10 flex items-center justify-center text-center whitespace-normal break-words"
                         >
                             <span className="block text-center leading-snug">
                                 Post-Thrombolytic Monitoring &amp; Additional
@@ -499,13 +530,15 @@ WASTE: ${doseCalculation.waste.toFixed(
                             </span>
                         </Button>
                     )}
-                    <Button
-                        onClick={onRestart}
-                        variant="destructive"
-                        className="bg-critical-crimson text-white hover:bg-critical-crimson/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
-                    >
-                        Start New Session
-                    </Button>
+                    {doseCalculation && !isQuickCalc && (
+                        <Button
+                            onClick={onRestart}
+                            variant="destructive"
+                            className="bg-critical-crimson text-white hover:bg-critical-crimson/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                        >
+                            Start New Session
+                        </Button>
+                    )}
                 </div>
             </CardContent>
         </Card>
