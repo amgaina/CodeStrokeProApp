@@ -105,6 +105,22 @@ export default function CodeStrokeProApp() {
         const lkwIso = localStorage.getItem(LKW_KEY);
         const arrIso = localStorage.getItem(ARRIVAL_KEY);
 
+        // if the time difference from now is more than 12 hours, reset
+        if (
+            lkwIso &&
+            Math.abs(new Date().getTime() - new Date(lkwIso).getTime()) >
+                12 * 60 * 60 * 1000
+        ) {
+            localStorage.removeItem(LKW_KEY);
+        }
+        if (
+            arrIso &&
+            Math.abs(new Date().getTime() - new Date(arrIso).getTime()) >
+                12 * 60 * 60 * 1000
+        ) {
+            localStorage.removeItem(ARRIVAL_KEY);
+        }
+
         setTimers((p) => ({
             ...p,
             lkwTime: lkwIso ? new Date(lkwIso) : null,
