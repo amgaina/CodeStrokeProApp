@@ -123,7 +123,7 @@ export default function Header() {
                     </div>
 
                     {/* Assessment Tools Dropdown */}
-                    <NavDropdown label="Assessment Scales">
+                    <NavDropdown label="Assessment Tools">
                         <Link
                             href="/nihss"
                             className="block px-4 py-2 text-sm text-clinical-slate hover:bg-gray-100"
