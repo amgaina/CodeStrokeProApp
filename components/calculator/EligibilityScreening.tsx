@@ -136,7 +136,8 @@ export default function EligibilityScreening({
                         Absolute Contraindications
                     </h3>
                     <p className="text-sm text-gray-600">
-                        Any "Yes" answer excludes thrombolytic therapy
+                        Any checked box indicates a yes answer. Any yes excludes
+                        thrombolytic therapy.
                     </p>
 
                     {[
@@ -185,7 +186,8 @@ export default function EligibilityScreening({
                         Relative Contraindications
                     </h3>
                     <p className="text-sm text-gray-600">
-                        Require careful evaluation and risk-benefit analysis
+                        Any checked box indicates a yes answer. Require careful
+                        evaluation and risk-benefit analysis.
                     </p>
 
                     {/* Blood Pressure */}
