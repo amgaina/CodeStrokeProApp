@@ -3,7 +3,7 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, RefreshCcw, Check } from "lucide-react";
+import { AlertTriangle, RefreshCcw, Check, FileText } from "lucide-react";
 
 interface NIHSSScoreProps {
   totalScore: number;
@@ -17,6 +17,8 @@ interface NIHSSScoreProps {
   progress?: number;
   completedQuestions?: number;
   totalQuestions?: number;
+  // Add download PDF functionality
+  onDownloadPdf?: () => void;
 }
 
 export default function NIHSSScore({
@@ -27,7 +29,8 @@ export default function NIHSSScore({
   onReset,
   progress = 0,
   completedQuestions = 0,
-  totalQuestions = 11
+  totalQuestions = 11,
+  onDownloadPdf
 }: NIHSSScoreProps) {
   // Map color string to actual color class
   const getColorClass = (colorName: string) => {
@@ -96,16 +99,29 @@ export default function NIHSSScore({
               />
             </div>
             
-            {showReset && onReset && (
-              <Button
-                variant="outline"
-                onClick={onReset}
-                className="flex items-center gap-2 border-2 mt-2"
-              >
-                <RefreshCcw className="h-4 w-4" />
-                Reset Assessment
-              </Button>
-            )}
+            <div className="flex gap-2 mt-2">
+              {showReset && onReset && (
+                <Button
+                  variant="outline"
+                  onClick={onReset}
+                  className="flex items-center gap-2 border-2"
+                >
+                  <RefreshCcw className="h-4 w-4" />
+                  Reset Assessment
+                </Button>
+              )}
+              
+              {onDownloadPdf && (
+                <Button
+                  onClick={onDownloadPdf}
+                  variant="outline"
+                  className="flex items-center gap-2 border-2"
+                >
+                  <FileText className="h-4 w-4" />
+                  Download PDF Report
+                </Button>
+              )}
+            </div>
           </div>
         </div>
         

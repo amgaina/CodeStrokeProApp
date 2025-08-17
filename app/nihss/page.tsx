@@ -3,10 +3,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Shield, Info } from "lucide-react";
+import { Shield, Info, FileText, Download } from "lucide-react";
 import NIHSSTimer from "@/components/nihss/NIHSSTimer";
 import NIHSSQuestion from "@/components/nihss/NIHSSQuestion";
 import NIHSSScore from "@/components/nihss/NIHSSScore";
+import useNIHSSPdf from "@/hooks/use-nihss-pdf";
 
 interface ScoreRecord {
     [key: string]: number | null;
@@ -81,6 +82,13 @@ export default function NIHSSCalculator() {
         }
     }, []);
 
+    // Use our custom PDF generation hook
+    const { generatePDF } = useNIHSSPdf({
+        scores,
+        totalScore,
+        severity,
+    });
+
     return (
         <div ref={mainRef} className="min-h-screen bg-parchment">
             {/* Sticky score panel - always visible */}
@@ -147,6 +155,19 @@ export default function NIHSSCalculator() {
                                 </div>
                             </div>
 
+                            {/* Download button */}
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={generatePDF}
+                                className="h-7 px-2 text-sm flex items-center gap-1"
+                            >
+                                <Download className="h-3.5 w-3.5" />
+                                <span className="hidden md:inline">
+                                    Download
+                                </span>
+                            </Button>
+
                             {/* Reset button */}
                             <Button
                                 size="sm"
@@ -190,6 +211,7 @@ export default function NIHSSCalculator() {
                     totalQuestions={Object.keys(scores).length}
                     showReset={true}
                     onReset={resetScores}
+                    onDownloadPdf={generatePDF}
                 />
 
                 <Card className="mb-6 shadow-sm border border-gray-200 bg-white">
@@ -697,6 +719,7 @@ export default function NIHSSCalculator() {
                                 totalQuestions={Object.keys(scores).length}
                                 showReset={true}
                                 onReset={resetScores}
+                                onDownloadPdf={generatePDF}
                             />
                         </div>
                     </CardContent>

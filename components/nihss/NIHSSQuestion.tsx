@@ -102,13 +102,13 @@ export default function NIHSSQuestion({
                                     {!option.isSpecial &&
                                         option.value !== null && (
                                             <div
-                                                className={`w-6 h-6 ${scoreIndicatorColor} rounded-full flex items-center justify-center text-xs text-white font-medium shadow-sm`}
+                                                className={`w-6 h-6 ${scoreIndicatorColor} rounded-full flex items-center justify-center text-xs text-white font-medium shadow-sm flex-shrink-0`}
                                             >
                                                 {option.value}
                                             </div>
                                         )}
                                     {option.isSpecial && (
-                                        <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs text-white font-medium shadow-sm">
+                                        <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs text-white font-medium shadow-sm flex-shrink-0">
                                             UN
                                         </div>
                                     )}
