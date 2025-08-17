@@ -160,7 +160,7 @@ export default function NIHSSCalculator() {
                                 size="sm"
                                 variant="outline"
                                 onClick={generatePDF}
-                                className="h-7 px-2 text-sm flex items-center gap-1"
+                                className="h-7 px-2 mt-2 text-sm flex items-center gap-1"
                             >
                                 <Download className="h-3.5 w-3.5" />
                                 <span className="hidden md:inline">
@@ -173,7 +173,7 @@ export default function NIHSSCalculator() {
                                 size="sm"
                                 variant="ghost"
                                 onClick={resetScores}
-                                className="h-7 px-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                                className="h-7 px-2 mt-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                             >
                                 Reset
                             </Button>

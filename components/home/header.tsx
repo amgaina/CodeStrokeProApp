@@ -46,6 +46,8 @@ export default function Header() {
                         { href: "/calculator", label: "Calculator" },
                         { href: "/fast-calc", label: "Quick Calc" },
                         { href: "/nihss", label: "NIHSS" },
+                        { href: "/cpss", label: "CPSS" },
+                        { href: "/van", label: "VAN" },
                         { href: "/about", label: "About" },
                         { href: "/resources", label: "Resources" },
                     ].map(({ href, label }) => (
@@ -90,6 +92,8 @@ export default function Header() {
                         { href: "/calculator", label: "Calculator" },
                         { href: "/fast-calc", label: "Quick Calc" },
                         { href: "/nihss", label: "NIHSS" },
+                        { href: "/cpss", label: "CPSS" },
+                        { href: "/van", label: "VAN" },
                         { href: "/about", label: "About" },
                         { href: "/resources", label: "Resources" },
                     ].map(({ href, label }) => (

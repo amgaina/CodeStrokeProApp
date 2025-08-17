@@ -2,6 +2,8 @@ import {
     Clock,
     Shield,
     Calculator,
+    Brain,
+    ActivitySquare,
 } from "lucide-react";
 import FeatureCard from "../featureCard";
 
@@ -40,6 +42,22 @@ export default function ClinicalTheme() {
                         }
                         title="TNK/Alteplase Dosing"
                         description="Calculate precise, weight-based dosing for Tenecteplase or Alteplase, including bolus and infusion rates."
+                    />
+                    <FeatureCard
+                        href="/cpss"
+                        icon={
+                            <ActivitySquare className="h-7 w-7 text-clinical-slate" />
+                        }
+                        title="Cincinnati Stroke Scale"
+                        description="Quick 3-question checklist to rapidly assess for potential stroke with high sensitivity."
+                    />
+                    <FeatureCard
+                        href="/van"
+                        icon={
+                            <Brain className="h-7 w-7 text-clinical-slate" />
+                        }
+                        title="VAN Assessment"
+                        description="Identify potential Large Vessel Occlusion strokes by assessing Vision, Aphasia, and Neglect."
                     />
                 </div>
             </div>

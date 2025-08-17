@@ -617,10 +617,7 @@ export default function EligibilityScreening({
                                                         </li>
                                                         <li>
                                                             • NIH Stroke Scale
-                                                            (NIHSS) &gt;25{" "}
-                                                            <a href="/nihss" className="inline-flex items-center gap-0.5 text-blue-600 hover:text-blue-800 hover:underline font-medium">
-                                                                (Calculate NIHSS)
-                                                            </a>
+                                                            (NIHSS) &gt;25
                                                         </li>
                                                     </ul>
                                                 </div>
