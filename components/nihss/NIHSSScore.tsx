@@ -155,7 +155,11 @@ export default function NIHSSScore({
                     </div>
                 </div>
 
-                <div className="mt-4 pt-4 border-t grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                <div className="mt-4 pt-4 border-t grid grid-cols-2 md:grid-cols-5 gap-2 text-sm">
+                    <div className="p-2 rounded bg-vital-green/10 border border-vital-green/20">
+                        <div className="font-medium text-vital-green">0</div>
+                        <div className="text-gray-600">No stroke</div>
+                    </div>
                     <div className="p-2 rounded bg-vital-green/10 border border-vital-green/20">
                         <div className="font-medium text-vital-green">1–4</div>
                         <div className="text-gray-600">Minor stroke</div>

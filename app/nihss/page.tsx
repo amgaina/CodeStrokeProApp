@@ -43,7 +43,9 @@ export default function NIHSSCalculator() {
 
     // Determine severity based on total score
     const getSeverity = () => {
-        if (totalScore >= 0 && totalScore <= 4)
+        if (totalScore === 0)
+            return { label: "No stroke", color: "vital-green" };
+        if (totalScore >= 1 && totalScore <= 4)
             return { label: "Minor stroke", color: "vital-green" };
         if (totalScore >= 5 && totalScore <= 15)
             return { label: "Moderate stroke", color: "urgent-amber" };
