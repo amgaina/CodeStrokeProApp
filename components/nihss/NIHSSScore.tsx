@@ -81,13 +81,13 @@ export default function NIHSSScore({
                         </div>
 
                         <div className="text-center md:text-left">
-                            <h3 className="text-base font-medium text-gray-700">
+                            <h3 className="text-base font-medium text-clinical-slate">
                                 {isComplete
                                     ? "NIH Stroke Scale Score"
                                     : "Assessment Incomplete"}
                             </h3>
                             <div className="flex items-center mt-1 gap-3">
-                                <div className="result-score text-4xl md:text-5xl font-bold text-deep-charcoal">
+                                <div className="result-score text-4xl md:text-5xl font-bold text-clinical-slate">
                                     {totalScore}
                                 </div>
                                 <div

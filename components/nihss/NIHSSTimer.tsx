@@ -78,7 +78,7 @@ export default function NIHSSTimer({ duration, title }: NIHSSTimerProps) {
     return (
         <div className="w-full rounded-md border border-gray-200 bg-white p-2.5 shadow-sm mb-3">
             <div className="flex items-center justify-between mb-2">
-                <span className="font-semibold">{title}</span>
+                <span className="font-semibold text-clinical-slate">{title}</span>
                 <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-500">Time left:</span>
                     <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded font-medium">

@@ -99,7 +99,7 @@ export default function NIHSSCalculator() {
                             <span className="font-medium text-base text-gray-700">
                                 Score:
                             </span>
-                            <span className="text-xl font-bold text-deep-charcoal">
+                            <span className="text-xl font-bold text-clinical-slate">
                                 {totalScore}
                             </span>
                             <div
@@ -185,7 +185,7 @@ export default function NIHSSCalculator() {
             <main className="container mx-auto max-w-5xl px-3 py-4 md:py-6">
                 {/* Header with instructions */}
                 <div className="mb-4 text-center">
-                    <h1 className="text-2xl md:text-3xl font-semibold text-deep-charcoal">
+                    <h1 className="text-2xl md:text-3xl font-semibold text-clinical-slate">
                         NIH Stroke Scale Calculator
                     </h1>
                     <p className="mt-1 text-gray-600">
@@ -234,7 +234,7 @@ export default function NIHSSCalculator() {
 
                         {/* Section 1: Level of Consciousness */}
                         <div className="border-b pb-3">
-                            <h3 className="font-medium text-base mb-2 text-gray-700 border-l-4 border-clinical-slate pl-2">
+                            <h3 className="font-medium text-base mb-2 text-clinical-slate border-l-4 border-clinical-slate pl-2">
                                 Level of Consciousness
                             </h3>
 
@@ -382,7 +382,7 @@ export default function NIHSSCalculator() {
 
                         {/* Section 5: Motor Arm */}
                         <div className="border-b py-3">
-                            <h3 className="font-medium text-base mb-2 text-gray-700 border-l-4 border-clinical-slate pl-2">
+                            <h3 className="font-medium text-base mb-2 text-clinical-slate border-l-4 border-clinical-slate pl-2">
                                 Motor Arm
                             </h3>
                             <p className="text-xs text-gray-500 mb-2">
@@ -397,15 +397,15 @@ export default function NIHSSCalculator() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
                                 {/* Motor Arm Headers */}
-                                <div className="bg-blue-600/90 text-white py-1.5 px-3 rounded-t-md font-medium text-center">
+                                <div className="bg-clinical-slate/90 text-white py-1.5 px-3 rounded-t-md font-medium text-center">
                                     LEFT ARM
                                 </div>
-                                <div className="bg-red-600/90 text-white py-1.5 px-3 rounded-t-md font-medium text-center">
+                                <div className="bg-clinical-slate/90 text-white py-1.5 px-3 rounded-t-md font-medium text-center border-r-4 border-r-vital-green">
                                     RIGHT ARM
                                 </div>
 
                                 {/* Motor Arm Content */}
-                                <div className="border border-blue-200/70 rounded-b-md p-2">
+                                <div className="border border-harbor-gray/30 rounded-b-md p-2">
                                     {/* 5a Left Motor Arm */}
                                     <NIHSSQuestion
                                         id="5a"
@@ -444,7 +444,7 @@ export default function NIHSSCalculator() {
                                         }
                                     />
                                 </div>
-                                <div className="border border-red-200/70 rounded-b-md p-2">
+                                <div className="border border-harbor-gray/30 rounded-b-md p-2">
                                     {/* 5b Right Motor Arm */}
                                     <NIHSSQuestion
                                         id="5b"
@@ -488,7 +488,7 @@ export default function NIHSSCalculator() {
 
                         {/* Section 6: Motor Leg */}
                         <div className="border-b py-3">
-                            <h3 className="font-medium text-base mb-2 text-gray-700 border-l-4 border-clinical-slate pl-2">
+                            <h3 className="font-medium text-base mb-2 text-clinical-slate border-l-4 border-clinical-slate pl-2">
                                 Motor Leg
                             </h3>
                             <p className="text-xs text-gray-500 mb-2">
@@ -502,15 +502,15 @@ export default function NIHSSCalculator() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
                                 {/* Motor Leg Headers */}
-                                <div className="bg-blue-600/90 text-white py-1.5 px-3 rounded-t-md font-medium text-center">
+                                <div className="bg-clinical-slate/90 text-white py-1.5 px-3 rounded-t-md font-medium text-center">
                                     LEFT LEG
                                 </div>
-                                <div className="bg-red-600/90 text-white py-1.5 px-3 rounded-t-md font-medium text-center">
+                                <div className="bg-clinical-slate/90 text-white py-1.5 px-3 rounded-t-md font-medium text-center border-r-4 border-r-vital-green">
                                     RIGHT LEG
                                 </div>
 
                                 {/* Motor Leg Content */}
-                                <div className="border border-blue-200/70 rounded-b-md p-2">
+                                <div className="border border-harbor-gray/30 rounded-b-md p-2">
                                     {/* 6a Left Motor Leg */}
                                     <NIHSSQuestion
                                         id="6a"
@@ -549,7 +549,7 @@ export default function NIHSSCalculator() {
                                         }
                                     />
                                 </div>
-                                <div className="border border-red-200/70 rounded-b-md p-2">
+                                <div className="border border-harbor-gray/30 rounded-b-md p-2">
                                     {/* 6b Right Motor Leg */}
                                     <NIHSSQuestion
                                         id="6b"

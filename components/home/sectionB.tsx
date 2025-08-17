@@ -36,7 +36,7 @@ function ToolButton({
                 </div>
                 <div className="flex-grow">
                     <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="text-base font-medium text-deep-charcoal">
+                        <h4 className="text-base font-medium text-clinical-slate">
                             {name}
                         </h4>
                         <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-700 rounded-full">
@@ -77,7 +77,7 @@ export default function ClinicalTheme() {
                     <h2 className="text-3xl md:text-4xl font-medium text-clinical-slate mb-4">
                         Integrated Clinical Workflow
                     </h2>
-                    <p className="text-lg text-deep-charcoal/70 max-w-3xl mx-auto">
+                    <p className="text-lg text-clinical-slate/70 max-w-3xl mx-auto">
                         Each component is designed to support rapid,
                         evidence-based decision-making in acute stroke care.
                     </p>
@@ -87,7 +87,7 @@ export default function ClinicalTheme() {
                     {/* Left Column - Stroke Scales */}
                     <Card className="border border-gray-200 overflow-hidden bg-white shadow-sm h-full">
                         <CardHeader className="bg-vital-green/10 border-b border-vital-green/20 py-3">
-                            <CardTitle className="text-lg font-medium text-deep-charcoal flex items-center gap-2">
+                            <CardTitle className="text-lg font-medium text-clinical-slate flex items-center gap-2">
                                 <Gauge className="h-5 w-5 text-vital-green" />
                                 Stroke Assessment Scales
                             </CardTitle>
@@ -134,7 +134,7 @@ export default function ClinicalTheme() {
                     {/* Right Column - Unified Calculator */}
                     <Card className="border border-gray-200 overflow-hidden bg-white shadow-sm h-full">
                         <CardHeader className="bg-clinical-slate/10 border-b border-clinical-slate/20 py-3">
-                            <CardTitle className="text-lg font-medium text-deep-charcoal flex items-center gap-2">
+                            <CardTitle className="text-lg font-medium text-clinical-slate flex items-center gap-2">
                                 <Calculator className="h-5 w-5 text-clinical-slate" />
                                 Stroke Treatment Tools
                             </CardTitle>

@@ -29,12 +29,12 @@ const FeatureCard = ({
                 <div className="w-14 h-14 bg-vital-green/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-vital-green/20 transition-colors">
                     {icon}
                 </div>
-                <CardTitle className="text-xl text-deep-charcoal group-hover:text-clinical-slate">
+                <CardTitle className="text-xl text-clinical-slate">
                     {title}
                 </CardTitle>
             </CardHeader>
             <CardContent className="flex-grow">
-                <p className="text-deep-charcoal/70">{description}</p>
+                <p className="text-clinical-slate/70">{description}</p>
             </CardContent>
             {href && (
                 <CardFooter className="pt-0 pb-4 justify-center">

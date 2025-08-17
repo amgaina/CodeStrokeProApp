@@ -31,7 +31,7 @@ export default function NIHSSQuestion({
     return (
         <div className="mb-5 rounded-lg border border-gray-200 p-3 bg-white hover:shadow-sm transition-shadow">
             <div className="mb-3">
-                <h4 className="text-base font-semibold text-deep-charcoal mb-1.5 flex items-center">
+                <h4 className="text-base font-semibold text-clinical-slate mb-1.5 flex items-center">
                     <span className="w-6 h-6 bg-clinical-slate text-white rounded-full mr-2 flex items-center justify-center text-xs">
                         {id}
                     </span>

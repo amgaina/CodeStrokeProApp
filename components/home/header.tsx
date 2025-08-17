@@ -10,10 +10,68 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Stethoscope, Menu, X } from "lucide-react";
-import { motion } from "framer-motion";
+import { Stethoscope, Menu, X, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+// NavDropdown component for desktop
+function NavDropdown({
+    label,
+    children,
+}: {
+    label: string;
+    children: React.ReactNode;
+}) {
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    return (
+        <div className="relative" ref={dropdownRef}>
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center text-base text-parchment/80 hover:text-parchment"
+            >
+                {label}
+                <ChevronDown
+                    className={`ml-1 h-4 w-4 transition-transform ${
+                        isOpen ? "rotate-180" : ""
+                    }`}
+                />
+            </button>
+
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute left-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg ring-1 ring-clinical-slate/10"
+                    >
+                        {children}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+}
 
 export default function Header() {
     const [open, setOpen] = useState(false);
@@ -41,24 +99,64 @@ export default function Header() {
 
                 {/* Desktop nav */}
                 <nav className="hidden items-center space-x-6 md:flex">
-                    {[
-                        { href: "/", label: "Home" },
-                        { href: "/calculator", label: "Calculator" },
-                        { href: "/fast-calc", label: "Quick Calc" },
-                        { href: "/nihss", label: "NIHSS" },
-                        { href: "/cpss", label: "CPSS" },
-                        { href: "/van", label: "VAN" },
-                        { href: "/about", label: "About" },
-                        { href: "/resources", label: "Resources" },
-                    ].map(({ href, label }) => (
+                    <Link
+                        href="/"
+                        className="text-base transition-colors text-parchment/80 hover:text-parchment"
+                    >
+                        Home
+                    </Link>
+
+                    {/* Treatment Tools Group */}
+                    <div className="flex items-center space-x-6">
                         <Link
-                            key={label}
-                            href={href}
+                            href="/calculator"
                             className="text-base transition-colors text-parchment/80 hover:text-parchment"
                         >
-                            {label}
+                            Calculator
                         </Link>
-                    ))}
+                        <Link
+                            href="/fast-calc"
+                            className="text-base transition-colors text-parchment/80 hover:text-parchment"
+                        >
+                            Quick Calc
+                        </Link>
+                    </div>
+
+                    {/* Assessment Tools Dropdown */}
+                    <NavDropdown label="Assessment Scales">
+                        <Link
+                            href="/nihss"
+                            className="block px-4 py-2 text-sm text-clinical-slate hover:bg-gray-100"
+                        >
+                            NIHSS
+                        </Link>
+                        <Link
+                            href="/cpss"
+                            className="block px-4 py-2 text-sm text-clinical-slate hover:bg-gray-100"
+                        >
+                            CPSS
+                        </Link>
+                        <Link
+                            href="/van"
+                            className="block px-4 py-2 text-sm text-clinical-slate hover:bg-gray-100"
+                        >
+                            VAN
+                        </Link>
+                    </NavDropdown>
+
+                    {/* Info Group */}
+                    <Link
+                        href="/resources"
+                        className="text-base transition-colors text-parchment/80 hover:text-parchment"
+                    >
+                        Resources
+                    </Link>
+                    <Link
+                        href="/about"
+                        className="text-base transition-colors text-parchment/80 hover:text-parchment"
+                    >
+                        About
+                    </Link>
                 </nav>
 
                 {/* Mobile menu toggle */}
@@ -87,25 +185,79 @@ export default function Header() {
                 className="overflow-hidden bg-clinical-slate md:hidden"
             >
                 <div className="space-y-2 px-4 pb-4">
-                    {[
-                        { href: "/", label: "Home" },
-                        { href: "/calculator", label: "Calculator" },
-                        { href: "/fast-calc", label: "Quick Calc" },
-                        { href: "/nihss", label: "NIHSS" },
-                        { href: "/cpss", label: "CPSS" },
-                        { href: "/van", label: "VAN" },
-                        { href: "/about", label: "About" },
-                        { href: "/resources", label: "Resources" },
-                    ].map(({ href, label }) => (
+                    {/* Home */}
+                    <Link
+                        href="/"
+                        onClick={() => setOpen(false)}
+                        className="block py-2 text-base transition text-parchment/80 hover:text-parchment"
+                    >
+                        Home
+                    </Link>
+
+                    {/* Treatment Tools Group */}
+                    <div className="py-1 border-b border-harbor-gray/20">
+                        <div className="py-1 text-sm text-parchment/60">
+                            Treatment Tools
+                        </div>
                         <Link
-                            key={label}
-                            href={href}
+                            href="/calculator"
                             onClick={() => setOpen(false)}
                             className="block py-2 text-base transition text-parchment/80 hover:text-parchment"
                         >
-                            {label}
+                            Calculator
                         </Link>
-                    ))}
+                        <Link
+                            href="/fast-calc"
+                            onClick={() => setOpen(false)}
+                            className="block py-2 text-base transition text-parchment/80 hover:text-parchment"
+                        >
+                            Quick Calc
+                        </Link>
+                    </div>
+
+                    {/* Assessment Tools Group */}
+                    <div className="py-1 border-b border-harbor-gray/20">
+                        <div className="py-1 text-sm text-parchment/60">
+                            Assessment Scales
+                        </div>
+                        <Link
+                            href="/nihss"
+                            onClick={() => setOpen(false)}
+                            className="block py-2 text-base transition text-parchment/80 hover:text-parchment"
+                        >
+                            NIHSS
+                        </Link>
+                        <Link
+                            href="/cpss"
+                            onClick={() => setOpen(false)}
+                            className="block py-2 text-base transition text-parchment/80 hover:text-parchment"
+                        >
+                            CPSS
+                        </Link>
+                        <Link
+                            href="/van"
+                            onClick={() => setOpen(false)}
+                            className="block py-2 text-base transition text-parchment/80 hover:text-parchment"
+                        >
+                            VAN
+                        </Link>
+                    </div>
+
+                    {/* Info Group */}
+                    <Link
+                        href="/resources"
+                        onClick={() => setOpen(false)}
+                        className="block py-2 text-base transition text-parchment/80 hover:text-parchment"
+                    >
+                        Resources
+                    </Link>
+                    <Link
+                        href="/about"
+                        onClick={() => setOpen(false)}
+                        className="block py-2 text-base transition text-parchment/80 hover:text-parchment"
+                    >
+                        About
+                    </Link>
                 </div>
             </motion.nav>
         </header>
