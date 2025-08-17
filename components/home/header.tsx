@@ -218,7 +218,7 @@ export default function Header() {
                     {/* Assessment Tools Group */}
                     <div className="py-1 border-b border-harbor-gray/20">
                         <div className="py-1 text-sm text-parchment/60">
-                            Assessment Scales
+                            Assessment Tools
                         </div>
                         <Link
                             href="/nihss"

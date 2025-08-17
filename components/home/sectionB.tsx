@@ -31,7 +31,9 @@ function ToolButton({
     return (
         <Link href={href} className="block hover:bg-gray-50 transition-colors">
             <div className="px-4 py-4 flex items-center">
-                <div className={`${iconBg} ${iconColor} w-10 h-10 rounded-md flex items-center justify-center mr-4`}>
+                <div
+                    className={`${iconBg} ${iconColor} w-10 h-10 rounded-md flex items-center justify-center mr-4`}
+                >
                     {icon}
                 </div>
                 <div className="flex-grow">
@@ -89,7 +91,7 @@ export default function ClinicalTheme() {
                         <CardHeader className="bg-vital-green/10 border-b border-vital-green/20 py-3">
                             <CardTitle className="text-lg font-medium text-clinical-slate flex items-center gap-2">
                                 <Gauge className="h-5 w-5 text-vital-green" />
-                                Stroke Assessment Scales
+                                Stroke Assessment Tools
                             </CardTitle>
                         </CardHeader>
 
@@ -109,7 +111,9 @@ export default function ClinicalTheme() {
                                 {/* Cincinnati Stroke Scale */}
                                 <ToolButton
                                     href="/cpss"
-                                    icon={<ActivitySquare className="h-5 w-5" />}
+                                    icon={
+                                        <ActivitySquare className="h-5 w-5" />
+                                    }
                                     iconColor="text-amber-600"
                                     iconBg="bg-amber-100"
                                     name="Cincinnati Stroke Scale"
@@ -144,10 +148,14 @@ export default function ClinicalTheme() {
                             <div className="flex flex-col h-full">
                                 {/* Full Calculator Description */}
                                 <div className="mb-4">
-                                    <h3 className="text-base font-medium text-deep-charcoal mb-2">Integrated Calculator</h3>
+                                    <h3 className="text-base font-medium text-deep-charcoal mb-2">
+                                        Integrated Calculator
+                                    </h3>
                                     <p className="text-sm text-gray-600">
-                                        Our comprehensive calculator guides you through the complete stroke treatment workflow, 
-                                        from time tracking to dosage calculation.
+                                        Our comprehensive calculator guides you
+                                        through the complete stroke treatment
+                                        workflow, from time tracking to dosage
+                                        calculation.
                                     </p>
                                 </div>
 
@@ -160,19 +168,25 @@ export default function ClinicalTheme() {
 
                                     {/* Eligibility Screening */}
                                     <FeatureChip
-                                        icon={<ChevronRight className="h-4 w-4" />}
+                                        icon={
+                                            <ChevronRight className="h-4 w-4" />
+                                        }
                                         label="Eligibility Screening"
                                     />
 
                                     {/* Medication Selection */}
                                     <FeatureChip
-                                        icon={<ChevronRight className="h-4 w-4" />}
+                                        icon={
+                                            <ChevronRight className="h-4 w-4" />
+                                        }
                                         label="Medication Selection"
                                     />
 
                                     {/* Dosage Calculation */}
                                     <FeatureChip
-                                        icon={<Calculator className="h-4 w-4" />}
+                                        icon={
+                                            <Calculator className="h-4 w-4" />
+                                        }
                                         label="Weight-Based Dosing"
                                     />
                                 </div>
@@ -203,7 +217,9 @@ export default function ClinicalTheme() {
                         href="/resources"
                         className="inline-flex items-center px-4 py-2 text-clinical-slate rounded-md border border-clinical-slate/30 hover:bg-clinical-slate/5 transition-colors"
                     >
-                        <span className="mr-2">View additional clinical resources</span>
+                        <span className="mr-2">
+                            View additional clinical resources
+                        </span>
                         <ChevronRight className="h-4 w-4" />
                     </Link>
                 </div>
