@@ -18,10 +18,12 @@ const config: Config = {
                 parchment: "#F7F7F5",
                 "deep-charcoal": "#2E3A40",
                 "clinical-slate": "#3A506B",
-                "harbor-gray": "#BCC5CE",
-                "vital-green": "#2A9D8F",
                 "urgent-amber": "#E9C46A",
                 "critical-crimson": "#D62828",
+                "vital-green": "#398e86",
+                "vital-green-dark": "#1F6650", // use this for text-white contrast
+                "harbor-gray": "#64748b",
+                "harbor-gray-dark": "#374151", // safe contrast for white text
 
                 // Component mappings
                 border: "hsl(var(--border))",

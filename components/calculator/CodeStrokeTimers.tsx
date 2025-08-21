@@ -171,38 +171,39 @@ export default function CodeStrokeTimers({
                             {thrombolytic ? (
                                 <div
                                     className={`rounded-lg border-2 p-4 md:p-6
-                  ${
-                      thrombolytic.expired
-                          ? "border-critical-crimson/40 bg-critical-crimson/10"
-                          : "border-vital-green/30 bg-vital-green/10"
-                  }`}
+          ${
+              thrombolytic.expired
+                  ? "border-critical-crimson/50 bg-critical-crimson/20"
+                  : "border-vital-green/50 bg-vital-green/20"
+          }`}
                                 >
+                                    {/* Label */}
                                     <p
-                                        className={`mb-1 text-xs font-medium tracking-wide
-                    ${
-                        thrombolytic.expired
-                            ? "text-critical-crimson"
-                            : "text-vital-green"
-                    }`}
+                                        className={`mb-1 text-xs font-medium tracking-wide ${
+                                            thrombolytic.expired
+                                                ? "text-critical-crimson" // keep fully opaque
+                                                : "text-vital-green-dark" // darker green for small text
+                                        }`}
                                     >
                                         {thrombolytic.expired
                                             ? "Window Expired"
                                             : "Time Remaining"}
                                     </p>
 
+                                    {/* Countdown / main timer */}
                                     <p
-                                        className={`font-mono font-bold
-                    ${
-                        thrombolytic.expired
-                            ? "text-2xl md:text-4xl text-critical-crimson"
-                            : "text-2xl md:text-4xl text-vital-green"
-                    }`}
+                                        className={`font-mono font-bold text-2xl md:text-4xl ${
+                                            thrombolytic.expired
+                                                ? "text-critical-crimson"
+                                                : "text-vital-green-dark" // use darker green for readability
+                                        }`}
                                     >
                                         {thrombolytic.text}
                                     </p>
 
+                                    {/* Last-Known-Well time */}
                                     {timers.lkwTime && (
-                                        <p className="mt-2 text-xs text-deep-charcoal/60">
+                                        <p className="mt-2 text-xs text-deep-charcoal">
                                             Last Well Known &nbsp;@
                                             {timers.lkwTime.toLocaleTimeString(
                                                 [],
@@ -216,7 +217,7 @@ export default function CodeStrokeTimers({
                                     )}
                                 </div>
                             ) : (
-                                <p className="text-sm text-deep-charcoal/70">
+                                <p className="text-sm text-deep-charcoal">
                                     Set Last-Known-Well time first.
                                 </p>
                             )}
@@ -433,7 +434,7 @@ export default function CodeStrokeTimers({
                                         </Badge>
 
                                         {timers.arrivalTime && (
-                                            <p className="mt-2 text-xs text-blue-700/60">
+                                            <p className="mt-2 text-sm font-semibold text-blue-700">
                                                 ED Arrival @{" "}
                                                 {timers.arrivalTime.toLocaleTimeString(
                                                     [],

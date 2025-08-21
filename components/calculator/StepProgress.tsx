@@ -79,6 +79,8 @@ export default function StepProgress({
                             >
                                 <button
                                     name={step.shortLabel}
+                                    aria-label={step.label}
+                                    aria-labelledby={`step-label-${step.key}`}
                                     onClick={() =>
                                         onStepChange?.(step.key as any)
                                     }
@@ -106,8 +108,6 @@ export default function StepProgress({
                                                 : ""
                                         }
                                     `}
-                                    aria-label={step.label}
-                                    aria-labelledby={`step-label-${step.key}`}
                                 >
                                     {isCompleted ? (
                                         <CheckCircle className="w-4 h-4" />
@@ -154,6 +154,7 @@ export default function StepProgress({
                                             !onStepChange ||
                                             (!isCompleted && !isActive)
                                         }
+                                        aria-label={step.label} // <-- Describes button to screen readers
                                         className={`
                                             transition-transform duration-300 rounded-full
                                             w-11 h-11 lg:w-12 lg:h-12 xl:w-14 xl:h-14
@@ -180,6 +181,7 @@ export default function StepProgress({
                                             <IconComponent className="w-5 h-5 lg:w-6 lg:h-6" />
                                         )}
                                     </button>
+
                                     <span
                                         className={`mt-2 text-xs font-medium whitespace-nowrap ${
                                             isActive

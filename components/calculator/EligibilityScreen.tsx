@@ -425,8 +425,8 @@ export default function EligibilityScreen({
                         onClick={onNext}
                         className={`w-full ${
                             status.eligible
-                                ? "bg-vital-green hover:bg-vital-green/90"
-                                : "bg-harbor-gray hover:bg-harbor-gray/90"
+                                ? "bg-[#16675B] hover:bg-[#1F2937]"
+                                : "bg-harbor-gray-dark hover:bg-harbor-gray/90"
                         } text-white`}
                         name="continueToDrugSelection"
                     >

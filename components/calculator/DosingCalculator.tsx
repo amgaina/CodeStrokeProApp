@@ -287,17 +287,26 @@ export default function DosingCalculator({
                             Weight Unit
                         </Label>
                         <Select
+                            name="weight-unit" // links the select to the label
                             value={weightUnit}
                             onValueChange={onWeightUnitChange}
+                            aria-label="Weight Unit" // fallback label for screen readers
                         >
-                            <SelectTrigger className="text-base p-3 border-2 border-harbor-gray focus:border-vital-green">
+                            <SelectTrigger
+                                id="weight-unit-trigger"
+                                className="text-base p-3 border-2 border-harbor-gray focus:border-vital-green"
+                                aria-haspopup="listbox" // indicates a dropdown
+                                aria-expanded="false" // will automatically update if your Select handles state
+                                name="weight-unit-trigger"
+                                aria-labelledby="weight-unit-label"
+                            >
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="kg">
+                                <SelectItem value="kg" aria-label="Kilograms">
                                     Kilograms (kg)
                                 </SelectItem>
-                                <SelectItem value="lbs">
+                                <SelectItem value="lbs" aria-label="Pounds">
                                     Pounds (lbs)
                                 </SelectItem>
                             </SelectContent>

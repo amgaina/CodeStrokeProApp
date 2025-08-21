@@ -648,11 +648,11 @@ export default function EligibilityScreening({
                 <Alert
                     className={`${
                         eligibilityStatus.status === "ineligible"
-                            ? "border-critical-crimson bg-critical-crimson/10"
+                            ? "border-critical-crimson/70 bg-critical-crimson/20"
                             : eligibilityStatus.status === "evaluate" ||
                               eligibilityStatus.status === "correct"
-                            ? "border-urgent-amber bg-urgent-amber/10"
-                            : "border-vital-green bg-vital-green/10"
+                            ? "border-urgent-amber/70 bg-urgent-amber/20"
+                            : "border-vital-green/70 bg-vital-green/20"
                     }`}
                 >
                     <AlertTriangle
@@ -661,8 +661,8 @@ export default function EligibilityScreening({
                                 ? "text-critical-crimson"
                                 : eligibilityStatus.status === "evaluate" ||
                                   eligibilityStatus.status === "correct"
-                                ? "text-urgent-amber"
-                                : "text-vital-green"
+                                ? "text-urgent-amber-dark"
+                                : "text-vital-green-dark"
                         }`}
                     />
                     <AlertDescription className="font-medium">
@@ -672,8 +672,8 @@ export default function EligibilityScreening({
                                     ? "text-critical-crimson"
                                     : eligibilityStatus.status === "evaluate" ||
                                       eligibilityStatus.status === "correct"
-                                    ? "text-urgent-amber"
-                                    : "text-vital-green"
+                                    ? "text-urgent-amber-dark"
+                                    : "text-vital-green-dark"
                             }`}
                         >
                             Assessment:
@@ -682,7 +682,7 @@ export default function EligibilityScreening({
                         {eligibilityStatus.status === "ineligible" && (
                             <>
                                 <br />
-                                <span className="text-sm text-critical-crimson/80 mt-2 block">
+                                <span className="text-sm text-critical-crimson mt-2 block">
                                     Further evaluation needed to discuss risks
                                     vs benefit of thrombolytic therapy
                                 </span>
@@ -691,7 +691,7 @@ export default function EligibilityScreening({
                         {eligibilityStatus.status === "correct" && (
                             <>
                                 <br />
-                                <span className="text-sm text-urgent-amber/80 mt-2 block">
+                                <span className="text-sm text-urgent-amber-dark mt-2 block">
                                     <strong>Action Required:</strong> Address BP
                                     (&gt;185/110) or glucose levels (&lt;50 or
                                     &gt;400 mg/dL) before proceeding with
@@ -729,13 +729,12 @@ export default function EligibilityScreening({
                         }
                         name="continueToDrugSelection"
                         className={`text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto ${
-                            eligibilityStatus.status === "ineligible"
-                                ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                                : eligibilityStatus.status === "correct"
-                                ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                            eligibilityStatus.status === "ineligible" ||
+                            eligibilityStatus.status === "correct"
+                                ? "bg-harbor-gray-dark text-white cursor-not-allowed"
                                 : eligibilityStatus.status === "evaluate"
-                                ? "bg-urgent-amber hover:bg-urgent-amber/90 text-white"
-                                : "bg-vital-green hover:bg-vital-green/90 text-white"
+                                ? "bg-urgent-amber-dark hover:bg-urgent-amber/90 text-white"
+                                : "bg-vital-green-dark hover:bg-vital-green/90 text-white"
                         }`}
                     >
                         {eligibilityStatus.status === "ineligible"

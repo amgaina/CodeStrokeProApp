@@ -209,7 +209,7 @@ export default function CodeStrokeProApp() {
                         now={timers.currentTime}
                         label="4.5 h Window"
                         expiredClass="text-critical-crimson"
-                        activeClass="text-parchment"
+                        activeClass="text-parchment" // remove /70 transparency
                     />
                 )}
                 {/* Door-Needle */}
@@ -357,7 +357,7 @@ function CountdownPill({
             className={`flex items-center gap-3 rounded-lg ${bg} ${border} px-3 py-1.5`}
         >
             <div className="text-center">
-                <div className="text-xs uppercase tracking-wide text-parchment/70">
+                <div className="text-xs uppercase tracking-wide text-parchment">
                     {label}
                 </div>
                 <div
