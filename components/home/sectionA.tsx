@@ -1,22 +1,22 @@
 /**
  * Author: Abhishek Amgain and Dinesh Chhantyal
  * Version: 1.0.0
- * File Description: 
+ * File Description:
  *     This file defines the Mission (SectionA) component for the CodeStroke Pro application.
  *     It presents the application's mission statement, call-to-action buttons, and key features
  *     in a visually engaging and accessible layout for clinicians and stakeholders.
  */
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 import {
     ChevronRight,
     BookOpen,
     Activity,
     Shield,
     Stethoscope,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Mission() {
     return (
@@ -32,14 +32,17 @@ export default function Mission() {
                 </p>
 
                 {/* Heading */}
-                <h2 className="mb-6 text-3xl font-semibold leading-tight text-deep-charcoal sm:text-4xl">
-                    EMPOWERING RURAL HEALTHCARE PROVIDERS: ENHANCING STROKE CARE: SAVING LIVES
-                </h2>
+                <h1 className="mb-6 text-3xl font-semibold leading-tight text-deep-charcoal sm:text-4xl">
+                    EMPOWERING RURAL HEALTHCARE PROVIDERS: ENHANCING STROKE
+                    CARE: SAVING LIVES
+                </h1>
 
                 {/* Body */}
                 <p className="mx-auto mb-10 max-w-2xl text-base leading-relaxed text-deep-charcoal/80">
-                    This project was funded by a grant from the Living Well Foundation, whose commitment to improving healthcare accessibility helps us provide
-                    essential stroke care resources to those who need them most.
+                    This project was funded by a grant from the Living Well
+                    Foundation, whose commitment to improving healthcare
+                    accessibility helps us provide essential stroke care
+                    resources to those who need them most.
                 </p>
 
                 {/* CTAs */}
@@ -48,6 +51,7 @@ export default function Mission() {
                         asChild
                         size="lg"
                         className="bg-clinical-slate text-parchment hover:bg-clinical-slate/90 px-8 py-4"
+                        name="startWorkflow"
                     >
                         <Link href="/calculator">
                             Start Workflow
@@ -60,6 +64,7 @@ export default function Mission() {
                         variant="outline"
                         size="lg"
                         className="border-harbor-gray text-deep-charcoal hover:bg-harbor-gray/20 px-8 py-4"
+                        name="resources"
                     >
                         <Link href="/resources">
                             Resources
@@ -70,19 +75,19 @@ export default function Mission() {
 
                 {/* Stats banner */}
                 <div className="mt-12 rounded-lg border border-clinical-slate/20 bg-gradient-to-r from-clinical-slate/10 to-clinical-slate/10 p-6">
-                    <dl className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                         {/* Community */}
                         <div className="flex flex-col items-center sm:flex-row sm:text-left">
                             <span className="mb-2 rounded-full bg-clinical-slate/20 p-2 sm:mb-0 sm:mr-3">
                                 <Activity className="h-5 w-5 text-clinical-slate" />
                             </span>
                             <div>
-                                <dt className="text-sm font-medium text-deep-charcoal">
+                                <h2 className="text-sm font-medium text-deep-charcoal">
                                     Community Focus
-                                </dt>
-                                <dd className="text-xs text-deep-charcoal/70">
+                                </h2>
+                                <h3 className="text-xs text-deep-charcoal/70">
                                     Northeast Louisiana
-                                </dd>
+                                </h3>
                             </div>
                         </div>
 
@@ -92,10 +97,12 @@ export default function Mission() {
                                 <Shield className="h-5 w-5 text-clinical-slate" />
                             </span>
                             <div>
-                                <dt className="text-sm font-medium text-deep-charcoal">
+                                <h2 className="text-sm font-medium text-deep-charcoal">
                                     Open Access
-                                </dt>
-                                <dd className="text-xs text-deep-charcoal/70">Non-commercial</dd>
+                                </h2>
+                                <h3 className="text-xs text-deep-charcoal/70">
+                                    Non-commercial
+                                </h3>
                             </div>
                         </div>
 
@@ -105,13 +112,15 @@ export default function Mission() {
                                 <Stethoscope className="h-5 w-5 text-clinical-slate" />
                             </span>
                             <div>
-                                <dt className="text-sm font-medium text-deep-charcoal">
+                                <h2 className="text-sm font-medium text-deep-charcoal">
                                     Evidence-Based
-                                </dt>
-                                <dd className="text-xs text-deep-charcoal/70">Guideline Driven</dd>
+                                </h2>
+                                <h3 className="text-xs text-deep-charcoal/70">
+                                    Guideline Driven
+                                </h3>
                             </div>
                         </div>
-                    </dl>
+                    </div>
                 </div>
             </div>
         </section>

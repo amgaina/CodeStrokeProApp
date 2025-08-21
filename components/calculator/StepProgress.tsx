@@ -59,7 +59,7 @@ export default function StepProgress({
                 {/* Help Text */}
                 {onStepChange && (
                     <div className="text-center mb-4">
-                        <p className="text-xs text-deep-charcoal/60">
+                        <p className="text-xs text-deep-charcoal">
                             Click on completed steps (✓) to navigate back
                         </p>
                     </div>
@@ -78,6 +78,7 @@ export default function StepProgress({
                                 className="flex flex-col items-center w-20 flex-shrink-0 snap-center"
                             >
                                 <button
+                                    name={step.shortLabel}
                                     onClick={() =>
                                         onStepChange?.(step.key as any)
                                     }
@@ -105,6 +106,8 @@ export default function StepProgress({
                                                 : ""
                                         }
                                     `}
+                                    aria-label={step.label}
+                                    aria-labelledby={`step-label-${step.key}`}
                                 >
                                     {isCompleted ? (
                                         <CheckCircle className="w-4 h-4" />
@@ -169,6 +172,7 @@ export default function StepProgress({
                                                     : ""
                                             }
                                         `}
+                                        name={step.shortLabel}
                                     >
                                         {isCompleted ? (
                                             <CheckCircle className="w-5 h-5 lg:w-6 lg:h-6" />

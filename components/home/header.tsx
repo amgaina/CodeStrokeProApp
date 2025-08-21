@@ -47,6 +47,7 @@ function NavDropdown({
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex items-center text-base text-parchment/80 hover:text-parchment"
+                name={label}
             >
                 {label}
                 <ChevronDown
@@ -164,6 +165,7 @@ export default function Header() {
                     onClick={() => setOpen(!open)}
                     className="md:hidden inline-flex items-center justify-center rounded-md p-2 transition hover:bg-white/10 hover:text-parchment focus:outline-none focus:ring-2 focus:ring-parchment/50"
                     aria-label="Toggle navigation"
+                    name="mobile-menu-toggle"
                 >
                     {open ? (
                         <X className="h-6 w-6" />

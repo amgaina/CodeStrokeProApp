@@ -129,6 +129,7 @@ export default function CincinnatiStrokeScale() {
                                     variant="outline"
                                     onClick={generatePDF}
                                     className="h-7 px-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 hidden md:flex items-center mt-2"
+                                    name="download-pdf"
                                 >
                                     <Download className="w-3.5 h-3.5 mr-1" />
                                     Download PDF
@@ -141,6 +142,7 @@ export default function CincinnatiStrokeScale() {
                                 variant="ghost"
                                 onClick={resetAnswers}
                                 className="h-7 px-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 mt-2"
+                                name="reset-assessment"
                             >
                                 Reset
                             </Button>
@@ -167,26 +169,27 @@ export default function CincinnatiStrokeScale() {
                         className={`p-4 ${
                             isComplete
                                 ? hasPositiveSign
-                                    ? "bg-urgent-amber"
-                                    : "bg-vital-green"
-                                : "bg-harbor-gray"
-                        } text-parchment`}
+                                    ? "bg-amber-700 text-deep-charcoal" // dark amber background, high contrast text
+                                    : "bg-green-700 text-white" // dark green background, white text
+                                : "bg-gray-700 text-white" // dark gray background, white text
+                        }`}
                     >
                         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                             <Shield className="w-5 h-5" />
                             Assessment Result
                         </CardTitle>
                     </CardHeader>
+
                     <CardContent className="p-4">
                         <div className="flex flex-col md:flex-row md:items-center justify-between">
                             <div className="mb-3 md:mb-0">
-                                <h3 className="font-semibold text-lg mb-1 text-gray-800">
+                                <h2 className="font-semibold text-lg mb-1 text-gray-800">
                                     {isComplete
                                         ? hasPositiveSign
                                             ? "Positive Screen — Stroke Likely"
                                             : "Negative Screen"
                                         : "Assessment Incomplete"}
-                                </h3>
+                                </h2>
                                 <p className="text-gray-600 text-sm">
                                     {isComplete
                                         ? hasPositiveSign
@@ -271,6 +274,7 @@ export default function CincinnatiStrokeScale() {
                                     variant="outline"
                                     onClick={resetAnswers}
                                     className="mt-2"
+                                    name="reset-assessment"
                                 >
                                     Reset
                                 </Button>
@@ -421,6 +425,7 @@ export default function CincinnatiStrokeScale() {
                                         onClick={generatePDF}
                                         variant="outline"
                                         className="w-full md:w-auto flex items-center"
+                                        name="download-pdf"
                                     >
                                         <Download className="w-4 h-4 mr-2" />
                                         Download PDF Report
@@ -428,6 +433,7 @@ export default function CincinnatiStrokeScale() {
                                     <Button
                                         onClick={resetAnswers}
                                         className="w-full md:w-auto"
+                                        name="reset-assessment"
                                     >
                                         Reset Assessment
                                     </Button>
@@ -458,12 +464,12 @@ function StrokeQuestion({
     return (
         <div className="mb-5 rounded-lg border border-gray-200 p-3 bg-white hover:shadow-sm transition-shadow">
             <div className="mb-3">
-                <h4 className="text-base font-semibold text-deep-charcoal mb-1.5 flex items-center">
+                <h2 className="text-base font-semibold text-deep-charcoal mb-1.5 flex items-center">
                     <span className="w-6 h-6 bg-clinical-slate text-white rounded-full mr-2 flex items-center justify-center text-xs">
                         ?
                     </span>
                     {title}
-                </h4>
+                </h2>
                 <p className="text-sm text-gray-500 mb-2 pl-8">
                     {instructions}
                 </p>

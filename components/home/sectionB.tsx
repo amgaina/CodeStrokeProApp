@@ -38,9 +38,9 @@ function ToolButton({
                 </div>
                 <div className="flex-grow">
                     <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="text-base font-medium text-clinical-slate">
+                        <h2 className="text-base font-medium text-clinical-slate">
                             {name}
-                        </h4>
+                        </h2>
                         <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-700 rounded-full">
                             {tag}
                         </span>
@@ -79,7 +79,7 @@ export default function ClinicalTheme() {
                     <h2 className="text-3xl md:text-4xl font-medium text-clinical-slate mb-4">
                         Integrated Clinical Workflow
                     </h2>
-                    <p className="text-lg text-clinical-slate/70 max-w-3xl mx-auto">
+                    <p className="text-lg text-deep-charcoal/80 max-w-3xl mx-auto">
                         Each component is designed to support rapid,
                         evidence-based decision-making in acute stroke care.
                     </p>

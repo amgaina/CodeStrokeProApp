@@ -176,9 +176,9 @@ export default function ClinicalResources({
                                                         {resource.category}
                                                     </span>
                                                 </div>
-                                                <h4 className="font-semibold text-gray-800 text-sm mb-1">
+                                                <h3 className="font-semibold text-gray-800 text-sm mb-1">
                                                     {resource.title}
-                                                </h4>
+                                                </h3>
                                                 <p className="text-xs text-gray-600 mb-3">
                                                     {resource.description}
                                                 </p>
@@ -271,9 +271,9 @@ export default function ClinicalResources({
                                             key={index}
                                             className="p-3 md:p-4 border-2 border-gray-200 rounded-lg bg-white"
                                         >
-                                            <h4 className="font-semibold text-gray-800 text-sm mb-2">
+                                            <h3 className="font-semibold text-gray-800 text-sm mb-2">
                                                 {video.title}
-                                            </h4>
+                                            </h3>
                                             <div className="w-full rounded mb-2 overflow-hidden">
                                                 <iframe
                                                     src={video.src}
@@ -299,6 +299,7 @@ export default function ClinicalResources({
                                 onClick={onBack}
                                 variant="outline"
                                 className="text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                                name="back-to-dosing"
                             >
                                 Back to Dosing
                             </Button>
@@ -308,6 +309,7 @@ export default function ClinicalResources({
                             className={`bg-vital-green hover:bg-vital-green/90 text-white text-base md:text-lg px-6 md:px-8 py-2 md:py-3 ${
                                 onBack ? "w-full sm:w-auto" : "w-full"
                             }`}
+                            name="start-new-case"
                         >
                             {onBack ? "Start New Case" : "Go to Calculator"}
                         </Button>

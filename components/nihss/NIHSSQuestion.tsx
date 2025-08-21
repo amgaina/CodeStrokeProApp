@@ -108,7 +108,7 @@ export default function NIHSSQuestion({
                                             </div>
                                         )}
                                     {option.isSpecial && (
-                                        <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs text-white font-medium shadow-sm flex-shrink-0">
+                                        <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs text-gray-600 font-medium shadow-sm flex-shrink-0">
                                             UN
                                         </div>
                                     )}

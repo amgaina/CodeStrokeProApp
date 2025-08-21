@@ -241,6 +241,7 @@ export default function CodeStrokeTimers({
                                         size="lg"
                                         onClick={start}
                                         className="w-full rounded-lg bg-critical-crimson py-3 text-base text-parchment hover:bg-critical-crimson/80 md:py-4 md:text-lg"
+                                        name="start-new-case"
                                     >
                                         <Timer className="mr-2 h-5 w-5" />
                                         START CODE STROKE
@@ -251,6 +252,7 @@ export default function CodeStrokeTimers({
                                         size="sm"
                                         onClick={toggleTimeSelection}
                                         className="w-full gap-2 rounded-lg text-xs md:text-sm"
+                                        name="set-custom-arrival-time"
                                     >
                                         {showTimeSelection ? (
                                             <ChevronUp className="h-4 w-4" />
@@ -306,6 +308,7 @@ export default function CodeStrokeTimers({
                                                             )
                                                         }
                                                         className="flex-1 text-center font-mono border-clinical-slate/30 focus:border-harbor-gray"
+                                                        name="custom-arrival-time"
                                                     />
                                                     <Button
                                                         size="sm"
@@ -314,6 +317,7 @@ export default function CodeStrokeTimers({
                                                         }
                                                         disabled={!customTime}
                                                         className="px-4 bg-clinical-slate text-parchment hover:bg-clinical-slate/90 disabled:opacity-40"
+                                                        name="set-custom-arrival-time"
                                                     >
                                                         Set
                                                     </Button>
@@ -359,6 +363,7 @@ export default function CodeStrokeTimers({
                                                                 )
                                                             }
                                                             className="rounded-full text-xs px-3 py-1.5 border-clinical-slate/30 hover:bg-clinical-slate/10"
+                                                            name={`arrival-preset-${label}`}
                                                         >
                                                             {label}
                                                         </Button>
@@ -386,6 +391,7 @@ export default function CodeStrokeTimers({
                                                         )
                                                     }
                                                     className="flex-1 text-center font-mono border-clinical-slate/30 focus:border-harbor-gray"
+                                                    name="custom-restart-time"
                                                 />
                                                 <Button
                                                     size="sm"
@@ -394,6 +400,7 @@ export default function CodeStrokeTimers({
                                                     }
                                                     disabled={!customTime}
                                                     className="px-4 bg-clinical-slate text-parchment hover:bg-clinical-slate/90 disabled:opacity-40"
+                                                    name="set-custom-restart-time"
                                                 >
                                                     Set
                                                 </Button>
@@ -406,6 +413,7 @@ export default function CodeStrokeTimers({
                                         size="sm"
                                         onClick={cancelRestart}
                                         className="w-full gap-2 rounded-lg text-xs md:text-sm"
+                                        name="cancel-restart"
                                     >
                                         <X className="h-4 w-4" />
                                         Cancel
@@ -444,6 +452,7 @@ export default function CodeStrokeTimers({
                                         size="sm"
                                         onClick={handleRestartClick}
                                         className="w-full gap-2 rounded-lg text-xs md:text-sm"
+                                        name="change-arrival-time"
                                     >
                                         <RefreshCw className="h-4 w-4" />
                                         Change Arrival Time
@@ -461,6 +470,7 @@ export default function CodeStrokeTimers({
                             variant="outline"
                             onClick={onBack}
                             className="w-full rounded-md px-6 py-3 text-base sm:w-auto sm:text-lg"
+                            name="back-to-dosing"
                         >
                             Back
                         </Button>
@@ -472,6 +482,7 @@ export default function CodeStrokeTimers({
                             !doorNeedle || (thrombolytic?.expired ?? true)
                         }
                         className="w-full rounded-md bg-clinical-slate px-6 py-3 text-base text-parchment hover:bg-clinical-slate/90 disabled:opacity-40 sm:w-auto sm:text-lg"
+                        name="continue-to-eligibility"
                     >
                         Continue to Eligibility
                     </Button>

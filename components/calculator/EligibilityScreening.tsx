@@ -709,6 +709,7 @@ export default function EligibilityScreening({
                             onClick={onBack}
                             variant="outline"
                             className="text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                            name="backToTimers"
                         >
                             Back to Timers
                         </Button>
@@ -726,6 +727,7 @@ export default function EligibilityScreening({
                             eligibilityStatus.status === "ineligible" ||
                             eligibilityStatus.status === "correct"
                         }
+                        name="continueToDrugSelection"
                         className={`text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto ${
                             eligibilityStatus.status === "ineligible"
                                 ? "bg-gray-400 text-gray-600 cursor-not-allowed"

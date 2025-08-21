@@ -64,6 +64,7 @@ export function PDFLink({
                                 size="sm"
                                 onClick={handleView}
                                 className="text-clinical-slate hover:text-vital-green"
+                                name="view-pdf"
                             >
                                 <ExternalLink className="h-4 w-4 mr-1" />
                                 View
@@ -74,6 +75,7 @@ export function PDFLink({
                                     size="sm"
                                     onClick={handleDownload}
                                     className="text-clinical-slate hover:text-vital-green"
+                                    name="download-pdf"
                                 >
                                     <Download className="h-4 w-4 mr-1" />
                                     Download
@@ -93,6 +95,7 @@ export function PDFLink({
                     variant="outline"
                     onClick={handleView}
                     className="text-clinical-slate hover:text-vital-green w-full min-h-[44px] px-3 py-2 text-sm font-medium h-max max-w-xs md:max-w-full"
+                    name="view-pdf"
                 >
                     <FileText className="h-4 w-4 mr-2 flex-shrink-0" />
                     <span className="truncate overflow-hidden text-ellipsis text-left w-full">
@@ -106,6 +109,7 @@ export function PDFLink({
                         onClick={handleDownload}
                         className="text-clinical-slate hover:text-vital-green w-full min-h-[44px] px-3 py-2 text-sm font-medium"
                         title="Download PDF"
+                        name="download-pdf"
                     >
                         <Download className="h-4 w-4 mr-2 flex-shrink-0" />
                         <span>Download PDF</span>
@@ -136,6 +140,7 @@ export function PDFLink({
                     onClick={handleDownload}
                     className="text-clinical-slate hover:text-vital-green min-h-[44px] px-4 py-2 w-full sm:w-auto"
                     title="Download PDF"
+                    name="download-pdf"
                 >
                     <Download className="h-4 w-4 mr-2" />
                     <span>Download</span>

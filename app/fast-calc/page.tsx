@@ -50,6 +50,7 @@ export default function QuickCalculator() {
                             size="sm"
                             className="text-white/90 hover:text-white hover:bg-white/10"
                             onClick={() => window.history.back()}
+                            name="back-button"
                         >
                             <ArrowLeft className="mr-1 h-4 w-4" />
                             Back

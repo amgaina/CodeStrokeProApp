@@ -123,6 +123,7 @@ export default function TimerComponent({
                                 onClick={handleLkwSubmit}
                                 disabled={!lkwInput}
                                 className="w-full bg-harbor-gray hover:bg-harbor-gray/90 text-white"
+                                name="setLkwTime"
                             >
                                 Set Last Known Well Time
                             </Button>
@@ -275,6 +276,7 @@ export default function TimerComponent({
                                 onClick={handleArrivalSubmit}
                                 disabled={!arrivalInput}
                                 className="w-full bg-harbor-gray hover:bg-harbor-gray/90 text-white"
+                                name="startCodeStrokeTimer"
                             >
                                 Start Code Stroke Timer
                             </Button>

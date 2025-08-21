@@ -1,19 +1,14 @@
-'use client';
+"use client";
 
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardContent,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+} from "@/components/ui/collapsible";
 import {
     Shield,
     CheckCircle,
@@ -23,7 +18,7 @@ import {
     AlertTriangle,
     FileText,
     Link as LinkIcon,
-} from 'lucide-react';
+} from "lucide-react";
 
 /* ---------- types ---------- */
 interface EligibilityAnswers {
@@ -47,9 +42,9 @@ interface Props {
 
 /* ---------- helper ---------- */
 const pdfLink =
-    'https://codes stroke-pro.s3.amazonaws.com/antihypertensive_algorithm.pdf'; // <-- replace with real
+    "https://codes stroke-pro.s3.amazonaws.com/antihypertensive_algorithm.pdf"; // <-- replace with real
 const decisionTree =
-    'https://codes stroke-pro.s3.amazonaws.com/inclusion_exclusion.pdf';      // <-- replace with real
+    "https://codes stroke-pro.s3.amazonaws.com/inclusion_exclusion.pdf"; // <-- replace with real
 
 export default function EligibilityScreen({
     eligibilityAnswers,
@@ -73,18 +68,18 @@ export default function EligibilityScreen({
         } = eligibilityAnswers;
 
         const fails = [
-            underAge && 'Patient < 18 y',
-            hemorrhage && 'Intracranial haemorrhage',
-            overTimeLimit && 'Outside 4·5 h window',
-            onMedications && 'Anticoagulant / dual-antiplatelet',
-            contraindications && 'Other major contraindication',
-            highBP && 'BP > 185 / 110',
-            abnormalGlucose && 'Glucose < 50 or > 400 mg/dL',
+            underAge && "Patient < 18 y",
+            hemorrhage && "Intracranial haemorrhage",
+            overTimeLimit && "Outside 4·5 h window",
+            onMedications && "Anticoagulant / dual-antiplatelet",
+            contraindications && "Other major contraindication",
+            highBP && "BP > 185 / 110",
+            abnormalGlucose && "Glucose < 50 or > 400 mg/dL",
         ].filter(Boolean);
 
         return {
             eligible: fails.length === 0,
-            reason: fails.length ? fails[0]! : 'All criteria satisfied',
+            reason: fails.length ? fails[0]! : "All criteria satisfied",
         };
     })();
 
@@ -107,7 +102,10 @@ export default function EligibilityScreen({
                 onCheckedChange={(c) => onChange(c as boolean)}
                 className="mt-1"
             />
-            <label htmlFor={id} className="text-sm text-clinical-slate cursor-pointer">
+            <label
+                htmlFor={id}
+                className="text-sm text-clinical-slate cursor-pointer"
+            >
                 {label}
             </label>
         </div>
@@ -128,8 +126,8 @@ export default function EligibilityScreen({
             <CardContent className="space-y-6 px-4 py-6 md:px-8 md:py-8">
                 <p className="text-sm text-clinical-slate/80">
                     Check every box that applies. All answers must be&nbsp;
-                    <span className="font-medium text-vital-green">No</span> for IV
-                    thrombolytic therapy to proceed.
+                    <span className="font-medium text-vital-green">No</span> for
+                    IV thrombolytic therapy to proceed.
                 </p>
 
                 {/* ---------------- questions ---------------- */}
@@ -139,7 +137,10 @@ export default function EligibilityScreen({
                         label="Patient < 18 years"
                         checked={eligibilityAnswers.underAge}
                         onChange={(val) =>
-                            setEligibilityAnswers({ ...eligibilityAnswers, underAge: val })
+                            setEligibilityAnswers({
+                                ...eligibilityAnswers,
+                                underAge: val,
+                            })
                         }
                     />
 
@@ -148,7 +149,10 @@ export default function EligibilityScreen({
                         label="Hemorrhage on CT / MRI"
                         checked={eligibilityAnswers.hemorrhage}
                         onChange={(val) =>
-                            setEligibilityAnswers({ ...eligibilityAnswers, hemorrhage: val })
+                            setEligibilityAnswers({
+                                ...eligibilityAnswers,
+                                hemorrhage: val,
+                            })
                         }
                     />
 
@@ -187,6 +191,7 @@ export default function EligibilityScreen({
                             <Button
                                 variant="ghost"
                                 className="h-auto p-0 text-xs text-clinical-slate/70 hover:text-clinical-slate"
+                                name="medicationsList"
                             >
                                 <span>Agent list &amp; notes</span>
                                 {medicationsExpanded ? (
@@ -207,7 +212,9 @@ export default function EligibilityScreen({
                                 <li>Betrixaban (Bevyxxa)</li>
                             </ul>
 
-                            <p className="mt-2 font-medium">Injectable / LMWH:</p>
+                            <p className="mt-2 font-medium">
+                                Injectable / LMWH:
+                            </p>
                             <ul className="list-disc pl-5 space-y-0.5">
                                 <li>Enoxaparin (Lovenox)</li>
                                 <li>Dalteparin (Fragmin)</li>
@@ -219,14 +226,21 @@ export default function EligibilityScreen({
                                 Dual antiplatelet or high-risk single agents:
                             </p>
                             <ul className="list-disc pl-5 space-y-0.5">
-                                <li>Aspirin&nbsp;+&nbsp;Clopidogrel / Dipyridamole</li>
-                                <li>Ticagrelor &nbsp;|&nbsp; Prasugrel &nbsp;|&nbsp; Cangrelor</li>
+                                <li>
+                                    Aspirin&nbsp;+&nbsp;Clopidogrel /
+                                    Dipyridamole
+                                </li>
+                                <li>
+                                    Ticagrelor &nbsp;|&nbsp; Prasugrel
+                                    &nbsp;|&nbsp; Cangrelor
+                                </li>
                             </ul>
 
                             <p className="mt-2">
-                                <em className="text-urgent-amber">Note:</em> Patients on these
-                                drugs often require labs (INR, aPTT, anti-Xa) &amp; consultant
-                                input&nbsp;prior to lysis.
+                                <em className="text-urgent-amber">Note:</em>{" "}
+                                Patients on these drugs often require labs (INR,
+                                aPTT, anti-Xa) &amp; consultant input&nbsp;prior
+                                to lysis.
                             </p>
                         </CollapsibleContent>
                     </Collapsible>
@@ -254,6 +268,7 @@ export default function EligibilityScreen({
                             <Button
                                 variant="ghost"
                                 className="h-auto p-0 text-xs text-clinical-slate/70 hover:text-clinical-slate"
+                                name="fullListDecisionTree"
                             >
                                 <span>Full list / decision tree</span>
                                 {contraindicationsExpanded ? (
@@ -265,10 +280,15 @@ export default function EligibilityScreen({
                         </CollapsibleTrigger>
                         <CollapsibleContent className="mt-2 rounded-lg border border-clinical-slate/10 bg-clinical-slate/5 p-4 text-xs text-clinical-slate/90 space-y-3">
                             <div>
-                                <p className="font-medium mb-1">Hemorrhage risk</p>
+                                <p className="font-medium mb-1">
+                                    Hemorrhage risk
+                                </p>
                                 <ul className="list-disc pl-4 space-y-0.5">
                                     <li>Active internal bleeding</li>
-                                    <li>Recent head trauma / neurosurgery (&lt;3 mo)</li>
+                                    <li>
+                                        Recent head trauma / neurosurgery (&lt;3
+                                        mo)
+                                    </li>
                                 </ul>
                             </div>
 
@@ -276,13 +296,17 @@ export default function EligibilityScreen({
                                 <p className="font-medium mb-1">Coagulopathy</p>
                                 <ul className="list-disc pl-4 space-y-0.5">
                                     <li>Platelets &lt;100 000</li>
-                                    <li>INR &gt;1.7 &nbsp;|&nbsp; PT &gt;15 s</li>
+                                    <li>
+                                        INR &gt;1.7 &nbsp;|&nbsp; PT &gt;15 s
+                                    </li>
                                     <li>aPTT &gt;40 s</li>
                                 </ul>
                             </div>
 
                             <div>
-                                <p className="font-medium mb-1">Vascular lesions</p>
+                                <p className="font-medium mb-1">
+                                    Vascular lesions
+                                </p>
                                 <ul className="list-disc pl-4 space-y-0.5">
                                     <li>AVM / aneurysm with high bleed risk</li>
                                     <li>Intracranial neoplasm</li>
@@ -293,8 +317,15 @@ export default function EligibilityScreen({
                                 <p className="font-medium mb-1">Other</p>
                                 <ul className="list-disc pl-4 space-y-0.5">
                                     <li>NIHSS &gt;25 or rapidly improving</li>
-                                    <li>Seizure with post-ictal deficit only</li>
-                                    <li>Pregnancy <span className="italic">(relative)</span></li>
+                                    <li>
+                                        Seizure with post-ictal deficit only
+                                    </li>
+                                    <li>
+                                        Pregnancy{" "}
+                                        <span className="italic">
+                                            (relative)
+                                        </span>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -316,7 +347,10 @@ export default function EligibilityScreen({
                         label="Blood pressure > 185 / 110 mmHg"
                         checked={eligibilityAnswers.highBP}
                         onChange={(val) =>
-                            setEligibilityAnswers({ ...eligibilityAnswers, highBP: val })
+                            setEligibilityAnswers({
+                                ...eligibilityAnswers,
+                                highBP: val,
+                            })
                         }
                     />
 
@@ -342,21 +376,24 @@ export default function EligibilityScreen({
                         </span>
                         <Badge
                             className={`px-3 py-1 text-sm
-              ${status.eligible
-                                    ? 'bg-vital-green/20 text-vital-green border-vital-green/30'
-                                    : 'bg-critical-crimson/20 text-critical-crimson border-critical-crimson/30'
-                                }`}
+              ${
+                  status.eligible
+                      ? "bg-vital-green/20 text-vital-green border-vital-green/30"
+                      : "bg-critical-crimson/20 text-critical-crimson border-critical-crimson/30"
+              }`}
                         >
                             {status.eligible ? (
                                 <CheckCircle className="mr-1 h-4 w-4" />
                             ) : (
                                 <XCircle className="mr-1 h-4 w-4" />
                             )}
-                            {status.eligible ? 'ELIGIBLE' : 'NOT ELIGIBLE'}
+                            {status.eligible ? "ELIGIBLE" : "NOT ELIGIBLE"}
                         </Badge>
                     </div>
 
-                    <p className="text-sm text-clinical-slate/80">{status.reason}</p>
+                    <p className="text-sm text-clinical-slate/80">
+                        {status.reason}
+                    </p>
 
                     {!status.eligible && (
                         <div className="space-y-3 rounded-lg border border-red-200 bg-red-50 p-4">
@@ -365,7 +402,8 @@ export default function EligibilityScreen({
                                 Thrombolytic therapy not recommended
                             </div>
                             <p className="text-sm text-red-700">
-                                Consider alternative interventions and consult neurology.
+                                Consider alternative interventions and consult
+                                neurology.
                             </p>
 
                             {/* high BP PDF helper */}
@@ -385,38 +423,22 @@ export default function EligibilityScreen({
 
                     <Button
                         onClick={onNext}
-                        className={`w-full ${status.eligible
-                            ? 'bg-vital-green hover:bg-vital-green/90'
-                            : 'bg-harbor-gray hover:bg-harbor-gray/90'
-                            } text-white`}
+                        className={`w-full ${
+                            status.eligible
+                                ? "bg-vital-green hover:bg-vital-green/90"
+                                : "bg-harbor-gray hover:bg-harbor-gray/90"
+                        } text-white`}
+                        name="continueToDrugSelection"
                     >
                         {status.eligible
-                            ? 'Continue to Drug Selection'
-                            : 'Review Treatment Options'}
+                            ? "Continue to Drug Selection"
+                            : "Review Treatment Options"}
                     </Button>
                 </div>
             </CardContent>
         </Card>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // "use client";
 

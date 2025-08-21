@@ -43,10 +43,11 @@ export default function DrugSelection({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         {/* TNK Card */}
                         <div
-                            className={`relative border-2 rounded-xl p-4 md:p-6 cursor-pointer transition-all duration-300 ${selectedDrug === "tnk"
-                                ? "border-purple-500 bg-purple-50 shadow-lg transform scale-105"
-                                : "border-gray-200 hover:border-purple-300 hover:shadow-md"
-                                }`}
+                            className={`relative border-2 rounded-xl p-4 md:p-6 cursor-pointer transition-all duration-300 ${
+                                selectedDrug === "tnk"
+                                    ? "border-purple-500 bg-purple-50 shadow-lg transform scale-105"
+                                    : "border-gray-200 hover:border-purple-300 hover:shadow-md"
+                            }`}
                             onClick={() => onDrugSelect("tnk")}
                         >
                             {selectedDrug === "tnk" && (
@@ -66,7 +67,6 @@ export default function DrugSelection({
                                 </Badge>
 
                                 <div className="space-y-3 text-sm text-gray-700">
-
                                     <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                                         <h5 className="font-semibold text-blue-800 mb-1">
                                             Dosing
@@ -81,10 +81,11 @@ export default function DrugSelection({
 
                         {/* Alteplase Card */}
                         <div
-                            className={`relative border-2 rounded-xl p-4 md:p-6 cursor-pointer transition-all duration-300 ${selectedDrug === "alteplase"
-                                ? "border-blue-500 bg-blue-50 shadow-lg transform scale-105"
-                                : "border-gray-200 hover:border-blue-300 hover:shadow-md"
-                                }`}
+                            className={`relative border-2 rounded-xl p-4 md:p-6 cursor-pointer transition-all duration-300 ${
+                                selectedDrug === "alteplase"
+                                    ? "border-blue-500 bg-blue-50 shadow-lg transform scale-105"
+                                    : "border-gray-200 hover:border-blue-300 hover:shadow-md"
+                            }`}
                             onClick={() => onDrugSelect("alteplase")}
                         >
                             {selectedDrug === "alteplase" && (
@@ -104,7 +105,6 @@ export default function DrugSelection({
                                 </Badge>
 
                                 <div className="space-y-3 text-sm text-gray-700">
-
                                     <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                                         <h5 className="font-semibold text-blue-800 mb-1">
                                             Dosing
@@ -113,7 +113,8 @@ export default function DrugSelection({
                                             0.9 mg/kg (max 90 mg)
                                         </p>
                                         <p className="text-xs">
-                                            10% bolus over 1 min + 90% over 60 min
+                                            10% bolus over 1 min + 90% over 60
+                                            min
                                         </p>
                                     </div>
                                 </div>
@@ -140,6 +141,7 @@ export default function DrugSelection({
                                 onClick={onBack}
                                 variant="outline"
                                 className="text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                                name="backToScreening"
                             >
                                 Back to Screening
                             </Button>
@@ -149,6 +151,7 @@ export default function DrugSelection({
                                 onClick={onNext}
                                 className="bg-clinical-slate hover:bg-clinical-slate/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
                                 disabled={!selectedDrug}
+                                name="continueToDosingCalculator"
                             >
                                 Continue to Dosing Calculator
                             </Button>

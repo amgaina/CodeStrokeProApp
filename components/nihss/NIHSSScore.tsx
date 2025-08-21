@@ -35,13 +35,14 @@ export default function NIHSSScore({
     // Map color string to actual color class
     const getColorClass = (colorName: string) => {
         const colorMap: Record<string, string> = {
-            "vital-green": "bg-vital-green text-white",
-            "urgent-amber": "bg-urgent-amber text-deep-charcoal",
-            "critical-crimson": "bg-critical-crimson text-white",
-            "harbor-gray": "bg-harbor-gray text-deep-charcoal",
+            "vital-green": "bg-green-700 text-white", // dark green background, white text
+            "urgent-amber": "bg-amber-700 text-deep-charcoal", // dark amber background, very dark text for contrast
+            "critical-crimson": "bg-red-700 text-white", // dark red background, white text
+            "harbor-gray": "bg-gray-700 text-white", // dark gray background, white text
         };
 
-        return colorMap[colorName] || "bg-harbor-gray text-deep-charcoal";
+        // fallback if colorName not found
+        return colorMap[colorName] || "bg-gray-700 text-white";
     };
 
     return (
@@ -81,11 +82,11 @@ export default function NIHSSScore({
                         </div>
 
                         <div className="text-center md:text-left">
-                            <h3 className="text-base font-medium text-clinical-slate">
+                            <h2 className="text-base font-medium text-clinical-slate">
                                 {isComplete
                                     ? "NIH Stroke Scale Score"
                                     : "Assessment Incomplete"}
-                            </h3>
+                            </h2>
                             <div className="flex items-center mt-1 gap-3">
                                 <div className="result-score text-4xl md:text-5xl font-bold text-clinical-slate">
                                     {totalScore}
@@ -135,6 +136,7 @@ export default function NIHSSScore({
                                     variant="outline"
                                     onClick={onReset}
                                     className="flex items-center gap-2 border-2"
+                                    name="reset-assessment"
                                 >
                                     <RefreshCcw className="h-4 w-4" />
                                     Reset Assessment
@@ -146,6 +148,7 @@ export default function NIHSSScore({
                                     onClick={onDownloadPdf}
                                     variant="outline"
                                     className="flex items-center gap-2 border-2"
+                                    name="download-pdf"
                                 >
                                     <FileText className="h-4 w-4" />
                                     Download PDF Report
@@ -156,31 +159,25 @@ export default function NIHSSScore({
                 </div>
 
                 <div className="mt-4 pt-4 border-t grid grid-cols-2 md:grid-cols-5 gap-2 text-sm">
-                    <div className="p-2 rounded bg-vital-green/10 border border-vital-green/20">
-                        <div className="font-medium text-vital-green">0</div>
-                        <div className="text-gray-600">No stroke</div>
+                    <div className="p-2 rounded bg-green-100 border border-green-300">
+                        <div className="font-medium text-green-800">0</div>
+                        <div className="text-gray-800">No stroke</div>
                     </div>
-                    <div className="p-2 rounded bg-vital-green/10 border border-vital-green/20">
-                        <div className="font-medium text-vital-green">1–4</div>
-                        <div className="text-gray-600">Minor stroke</div>
+                    <div className="p-2 rounded bg-green-100 border border-green-300">
+                        <div className="font-medium text-green-800">1–4</div>
+                        <div className="text-gray-800">Minor stroke</div>
                     </div>
-                    <div className="p-2 rounded bg-urgent-amber/10 border border-urgent-amber/20">
-                        <div className="font-medium text-urgent-amber">
-                            5–15
-                        </div>
-                        <div className="text-gray-600">Moderate stroke</div>
+                    <div className="p-2 rounded bg-amber-100 border border-amber-300">
+                        <div className="font-medium text-amber-800">5–15</div>
+                        <div className="text-gray-800">Moderate stroke</div>
                     </div>
-                    <div className="p-2 rounded bg-urgent-amber/10 border border-urgent-amber/20">
-                        <div className="font-medium text-urgent-amber">
-                            16–20
-                        </div>
-                        <div className="text-gray-600">Moderate–severe</div>
+                    <div className="p-2 rounded bg-amber-100 border border-amber-300">
+                        <div className="font-medium text-amber-800">16–20</div>
+                        <div className="text-gray-800">Moderate–severe</div>
                     </div>
-                    <div className="p-2 rounded bg-critical-crimson/10 border border-critical-crimson/20">
-                        <div className="font-medium text-critical-crimson">
-                            21–42
-                        </div>
-                        <div className="text-gray-600">Severe stroke</div>
+                    <div className="p-2 rounded bg-red-100 border border-red-300">
+                        <div className="font-medium text-red-800">21–42</div>
+                        <div className="text-gray-800">Severe stroke</div>
                     </div>
                 </div>
             </CardContent>

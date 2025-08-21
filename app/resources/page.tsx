@@ -33,9 +33,9 @@ export default function ResourcesPage() {
                             {/* All Resources Section */}
                             <div className="space-y-3 md:space-y-4">
                                 <div className="text-center">
-                                    <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-2">
+                                    <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-2">
                                         Clinical Resources & Guidelines
-                                    </h3>
+                                    </h2>
                                     <p className="text-gray-600 text-sm">
                                         Evidence-based protocols for stroke
                                         management and care
@@ -62,9 +62,9 @@ export default function ResourcesPage() {
                                                                 }
                                                             </span>
                                                         </div>
-                                                        <h4 className="font-semibold text-gray-800 text-sm mb-1">
+                                                        <h3 className="font-semibold text-gray-800 text-sm mb-1">
                                                             {resource.title}
-                                                        </h4>
+                                                        </h3>
                                                         <p className="text-xs text-gray-600 mb-3">
                                                             {
                                                                 resource.description
@@ -91,7 +91,10 @@ export default function ResourcesPage() {
                             {/* Navigation Button */}
                             <div className="flex justify-center">
                                 <Link href="/calculator">
-                                    <Button className="bg-vital-green hover:bg-vital-green/90 text-white text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto">
+                                    <Button
+                                        className="bg-green-700 hover:bg-green-800 text-white text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                                        name="go-to-calculator"
+                                    >
                                         Go to Calculator
                                     </Button>
                                 </Link>

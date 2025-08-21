@@ -17,7 +17,7 @@ export default function NIHSSTimer({ duration, title }: NIHSSTimerProps) {
     // Calculate percentage of time elapsed (not remaining)
     const percentElapsed = Math.max(
         0,
-        Math.min(100, 100 - ((timeLeft / duration) * 100))
+        Math.min(100, 100 - (timeLeft / duration) * 100)
     );
 
     // Determine color based on time left
@@ -78,7 +78,9 @@ export default function NIHSSTimer({ duration, title }: NIHSSTimerProps) {
     return (
         <div className="w-full rounded-md border border-gray-200 bg-white p-2.5 shadow-sm mb-3">
             <div className="flex items-center justify-between mb-2">
-                <span className="font-semibold text-clinical-slate">{title}</span>
+                <span className="font-semibold text-clinical-slate">
+                    {title}
+                </span>
                 <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-500">Time left:</span>
                     <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded font-medium">
@@ -101,6 +103,7 @@ export default function NIHSSTimer({ duration, title }: NIHSSTimerProps) {
                 <button
                     onClick={resetTimer}
                     className="text-sm px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 flex items-center gap-1"
+                    name="reset-timer"
                 >
                     <RotateCcw className="w-3 h-3" />
                     Reset
@@ -117,6 +120,7 @@ export default function NIHSSTimer({ duration, title }: NIHSSTimerProps) {
                         <button
                             onClick={pauseTimer}
                             className="text-sm px-3 py-1 rounded-md bg-amber-100 hover:bg-amber-200 flex items-center gap-1"
+                            name="pause-timer"
                         >
                             <PauseCircle className="w-3 h-3" />
                             Pause
@@ -125,6 +129,7 @@ export default function NIHSSTimer({ duration, title }: NIHSSTimerProps) {
                         <button
                             onClick={startTimer}
                             className="text-sm px-3 py-1 rounded-md bg-green-100 hover:bg-green-200 flex items-center gap-1"
+                            name="start-timer"
                         >
                             <PlayCircle className="w-3 h-3" />
                             Start

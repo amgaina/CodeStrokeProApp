@@ -120,77 +120,132 @@ export default function DosingCalculator({
         if (!doseCalculation) return;
 
         const doc = new jsPDF();
-        const primaryColor = '#2E3A40';
-        const secondaryColor = '#4A90E2';
-        const accentColor = '#E74C3C';
+        const primaryColor = "#2E3A40";
+        const secondaryColor = "#4A90E2";
+        const accentColor = "#E74C3C";
 
         const weight = parseFloat(patientWeight);
         const weightInKg = weightUnit === "lbs" ? weight * 0.454545 : weight;
-        const drugName = selectedDrug === "tnk" ? "Tenecteplase (TNK)" : "Alteplase (tPA)";
+        const drugName =
+            selectedDrug === "tnk" ? "Tenecteplase (TNK)" : "Alteplase (tPA)";
         const currentDate = new Date().toLocaleString();
 
         // Add header
         doc.setFillColor(46, 58, 64); // #2E3A40
-        doc.rect(0, 0, 210, 30, 'F');
+        doc.rect(0, 0, 210, 30, "F");
         doc.setFontSize(18);
         doc.setTextColor(255, 255, 255);
-        doc.text('STROKE THROMBOLYTIC DOSING CARD', 105, 20, { align: 'center' });
+        doc.text("STROKE THROMBOLYTIC DOSING CARD", 105, 20, {
+            align: "center",
+        });
 
         // Add drug info section
         doc.setFontSize(12);
         doc.setTextColor(0, 0, 0);
-        doc.setFont('helvetica', 'bold');
-        doc.text('DRUG INFORMATION', 15, 45);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont("helvetica", "bold");
+        doc.text("DRUG INFORMATION", 15, 45);
+        doc.setFont("helvetica", "normal");
         doc.text(`Drug: ${drugName}`, 15, 55);
-        doc.text(`Patient Weight: ${patientWeight} ${weightUnit} (${weightInKg.toFixed(1)} kg)`, 15, 65);
+        doc.text(
+            `Patient Weight: ${patientWeight} ${weightUnit} (${weightInKg.toFixed(
+                1
+            )} kg)`,
+            15,
+            65
+        );
         doc.text(`Calculated: ${currentDate}`, 15, 75);
 
         // Add dosing instructions section
-        doc.setFont('helvetica', 'bold');
-        doc.text('DOSING INSTRUCTIONS', 15, 90);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont("helvetica", "bold");
+        doc.text("DOSING INSTRUCTIONS", 15, 90);
+        doc.setFont("helvetica", "normal");
 
         let yPos = 100;
         if (selectedDrug === "tnk") {
-            doc.text(`- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`, 20, yPos);
+            doc.text(
+                `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`,
+                20,
+                yPos
+            );
             yPos += 10;
-            doc.text(`- Volume: ${doseCalculation.volume.toFixed(1)} mL`, 20, yPos);
+            doc.text(
+                `- Volume: ${doseCalculation.volume.toFixed(1)} mL`,
+                20,
+                yPos
+            );
             yPos += 10;
-            doc.text('- Administration: IV push over 5-10 seconds', 20, yPos);
+            doc.text("- Administration: IV push over 5-10 seconds", 20, yPos);
             yPos += 15;
         } else {
-            doc.text(`- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`, 20, yPos);
+            doc.text(
+                `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`,
+                20,
+                yPos
+            );
             yPos += 10;
-            doc.text(`- Bolus (10%): ${doseCalculation.pushDose!.toFixed(1)} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)`, 20, yPos);
+            doc.text(
+                `- Bolus (10%): ${doseCalculation.pushDose!.toFixed(
+                    1
+                )} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)`,
+                20,
+                yPos
+            );
             yPos += 10;
-            doc.text(`- Infusion (90%): ${doseCalculation.infusionDose!.toFixed(1)} mg (${doseCalculation.infusionVolume!.toFixed(1)} mL) over 60 minutes`, 20, yPos);
+            doc.text(
+                `- Infusion (90%): ${doseCalculation.infusionDose!.toFixed(
+                    1
+                )} mg (${doseCalculation.infusionVolume!.toFixed(
+                    1
+                )} mL) over 60 minutes`,
+                20,
+                yPos
+            );
             yPos += 15;
         }
 
         // Add waste information
-        doc.setFont('helvetica', 'bold');
-        doc.text('WASTE DOCUMENTATION', 15, yPos);
+        doc.setFont("helvetica", "bold");
+        doc.text("WASTE DOCUMENTATION", 15, yPos);
         yPos += 10;
-        doc.setFont('helvetica', 'normal');
-        doc.text(`${doseCalculation.waste.toFixed(1)} mg (${doseCalculation.wasteVolume.toFixed(1)} mL unused)`, 20, yPos);
+        doc.setFont("helvetica", "normal");
+        doc.text(
+            `${doseCalculation.waste.toFixed(
+                1
+            )} mg (${doseCalculation.wasteVolume.toFixed(1)} mL unused)`,
+            20,
+            yPos
+        );
         yPos += 15;
 
         // Add warning section
         doc.setFillColor(231, 76, 60); // #E74C3C
-        doc.rect(15, yPos, 180, 20, 'F');
+        doc.rect(15, yPos, 180, 20, "F");
         doc.setTextColor(255, 255, 255);
-        doc.setFont('helvetica', 'bold');
-        doc.text('VERIFY ALL CALCULATIONS BEFORE ADMINISTRATION', 105, yPos + 12, { align: 'center' });
+        doc.setFont("helvetica", "bold");
+        doc.text(
+            "VERIFY ALL CALCULATIONS BEFORE ADMINISTRATION",
+            105,
+            yPos + 12,
+            { align: "center" }
+        );
         yPos += 30;
 
         // Add footer
         doc.setFontSize(10);
         doc.setTextColor(100, 100, 100);
-        doc.text('This document is generated by CodeStrokePro Calculator', 105, 285, { align: 'center' });
+        doc.text(
+            "This document is generated by CodeStrokePro Calculator",
+            105,
+            285,
+            { align: "center" }
+        );
 
         // Save the PDF
-        doc.save(`stroke-dosing-${selectedDrug}-${new Date().toISOString().split('T')[0]}.pdf`);
+        doc.save(
+            `stroke-dosing-${selectedDrug}-${
+                new Date().toISOString().split("T")[0]
+            }.pdf`
+        );
     };
 
     return (
@@ -500,6 +555,7 @@ export default function DosingCalculator({
                             <Button
                                 onClick={generatePdfDosingCard}
                                 className="bg-[#2E3A40] text-white hover:bg-[#2E3A40]/90 px-6 py-2"
+                                name="download-pdf"
                             >
                                 <Download className="w-4 h-4 mr-2" />
                                 Download PDF Version
@@ -514,6 +570,7 @@ export default function DosingCalculator({
                             onClick={onBack}
                             variant="outline"
                             className="text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                            name="back-to-drug-selection"
                         >
                             Back to Drug Selection
                         </Button>
@@ -523,6 +580,7 @@ export default function DosingCalculator({
                             onClick={onShowResources}
                             variant="outline"
                             className="w-full sm:w-auto px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 text-sm sm:text-base md:text-lg border-clin text-clin hover:bg-clin/10 flex items-center justify-center text-center whitespace-normal break-words"
+                            name="post-thrombolytic-resources"
                         >
                             <span className="block text-center leading-snug">
                                 Post-Thrombolytic Monitoring &amp; Additional
@@ -535,6 +593,7 @@ export default function DosingCalculator({
                             onClick={onRestart}
                             variant="destructive"
                             className="bg-critical-crimson text-white hover:bg-critical-crimson/90 text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
+                            name="start-new-session"
                         >
                             Start New Session
                         </Button>

@@ -296,6 +296,7 @@ export default function CodeStrokeProApp() {
                             size="lg"
                             className="h-14 w-14 rounded-full bg-vital-green p-0 shadow-lg transition hover:bg-vital-green/90"
                             title="Quick resources"
+                            name="quick-resources"
                         >
                             <BookOpen className="h-6 w-6" />
                         </Button>
@@ -317,7 +318,6 @@ export default function CodeStrokeProApp() {
         </div>
     );
 }
-
 /* ────────── tiny helper sub-components just for the header ────────── */
 function CountdownPill({
     limit,
@@ -327,20 +327,30 @@ function CountdownPill({
     border,
     expiredClass,
     activeClass,
+    expiredColor,
+    activeColor,
 }: {
     limit: Date;
     now: Date;
     label: string;
     bg: string;
     border: string;
-    expiredClass: string;
-    activeClass: string;
+    expiredClass?: string;
+    activeClass?: string;
+    expiredColor?: string;
+    activeColor?: string;
 }) {
     const diff = limit.getTime() - now.getTime();
     const expired = diff <= 0;
     const h = Math.abs(Math.floor(diff / 3_600_000));
     const m = Math.abs(Math.floor((diff % 3_600_000) / 60_000));
     const s = Math.abs(Math.floor((diff % 60_000) / 1_000));
+
+    const textStyle = expired
+        ? { color: expiredColor }
+        : { color: activeColor };
+
+    const textClass = expired ? expiredClass ?? "" : activeClass ?? "";
 
     return (
         <div
@@ -351,9 +361,8 @@ function CountdownPill({
                     {label}
                 </div>
                 <div
-                    className={`font-mono text-lg font-bold ${
-                        expired ? expiredClass : activeClass
-                    }`}
+                    className={`font-mono text-lg font-bold ${textClass}`}
+                    style={textStyle}
                 >
                     {expired
                         ? "EXPIRED"

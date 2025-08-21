@@ -107,12 +107,12 @@ export default function NIHSSCalculator() {
                             <div
                                 className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                                     severity.color === "vital-green"
-                                        ? "bg-green-100 text-green-700 border border-green-200"
+                                        ? "bg-green-700 text-white border border-green-800"
                                         : severity.color === "urgent-amber"
-                                        ? "bg-amber-100 text-amber-700 border border-amber-200"
+                                        ? "bg-amber-700 text-white border border-amber-800"
                                         : severity.color === "critical-crimson"
-                                        ? "bg-red-100 text-red-700 border border-red-200"
-                                        : "bg-gray-100 text-gray-700 border border-gray-200"
+                                        ? "bg-red-700 text-white border border-red-800"
+                                        : "bg-gray-700 text-white border border-gray-800"
                                 }`}
                             >
                                 {severity.label}
@@ -163,8 +163,12 @@ export default function NIHSSCalculator() {
                                 variant="outline"
                                 onClick={generatePDF}
                                 className="h-7 px-2 mt-2 text-sm flex items-center gap-1"
+                                aria-label="Download PDF"
                             >
-                                <Download className="h-3.5 w-3.5" />
+                                <Download
+                                    className="h-3.5 w-3.5"
+                                    aria-hidden="true"
+                                />
                                 <span className="hidden md:inline">
                                     Download
                                 </span>
@@ -176,6 +180,7 @@ export default function NIHSSCalculator() {
                                 variant="ghost"
                                 onClick={resetScores}
                                 className="h-7 px-2 mt-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                                name="reset-assessment"
                             >
                                 Reset
                             </Button>

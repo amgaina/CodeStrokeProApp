@@ -46,8 +46,9 @@ export default function AboutPage() {
                                 information about the Foundation, visit{" "}
                                 <a
                                     href="https://www.livingwellfoundation.net"
-                                    className="text-blue-600 hover:underline"
+                                    className="text-blue-800 underline hover:text-blue-900"
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                 >
                                     www.livingwellfoundation.net
                                 </a>
@@ -88,9 +89,9 @@ export default function AboutPage() {
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {/* Investigator 1 */}
                                 <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                    <h3 className="text-xl font-semibold text-clinical-slate mb-2">
+                                    <h2 className="text-xl font-semibold text-clinical-slate mb-2">
                                         Emily McGee, PharmD, BCPS, BCEMP, NREMT
-                                    </h3>
+                                    </h2>
                                     <p className="text-gray-600 mb-1">
                                         Assistant Clinical Professor
                                     </p>
@@ -107,9 +108,9 @@ export default function AboutPage() {
 
                                 {/* Investigator 2 */}
                                 <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                    <h3 className="text-xl font-semibold text-clinical-slate mb-2">
+                                    <h2 className="text-xl font-semibold text-clinical-slate mb-2">
                                         Angela Moore, PharmD, BSN, RN
-                                    </h3>
+                                    </h2>
                                     <p className="text-gray-600 mb-1">
                                         Clinical Assistant Professor
                                     </p>
@@ -120,9 +121,9 @@ export default function AboutPage() {
 
                                 {/* Investigator 3 */}
                                 <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                    <h3 className="text-xl font-semibold text-clinical-slate mb-2">
+                                    <h2 className="text-xl font-semibold text-clinical-slate mb-2">
                                         Ashley Barbo, Pharm.D.
-                                    </h3>
+                                    </h2>
                                     <p className="text-gray-600 mb-1">
                                         Clinical Associate Professor
                                     </p>

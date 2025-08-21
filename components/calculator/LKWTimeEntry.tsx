@@ -8,34 +8,29 @@
  *     persistence, and real-time eligibility countdown for acute stroke workflows.
  */
 
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo } from 'react';
-import { Clock } from 'lucide-react';
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardContent,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useState, useEffect, useMemo } from "react";
+import { Clock } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-const LS_KEY = 'csp-lkw-time';
+const LS_KEY = "csp-lkw-time";
 
 /* quick presets */
 const presets = [
-    { label: 'Now', offset: 0 },
-    { label: '15 m', offset: 15 },
-    { label: '30 m', offset: 30 },
-    { label: '45 m', offset: 45 },
-    { label: '1 h', offset: 60 },
+    { label: "Now", offset: 0 },
+    { label: "15 m", offset: 15 },
+    { label: "30 m", offset: 30 },
+    { label: "45 m", offset: 45 },
+    { label: "1 h", offset: 60 },
 ];
 
 /* helpers */
 function fromClock(t: string, now = new Date()): Date | null {
-    const [h, m] = t.split(':').map(Number);
+    const [h, m] = t.split(":").map(Number);
     if (Number.isNaN(h) || Number.isNaN(m)) return null;
     const d = new Date(now);
     d.setHours(h, m, 0, 0);
@@ -57,7 +52,7 @@ interface Props {
 /* component */
 export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
     const [lkw, setLkw] = useState<Date | null>(null);
-    const [manual, setManual] = useState('');
+    const [manual, setManual] = useState("");
     const [now, setNow] = useState(new Date());
 
     useEffect(() => {
@@ -73,7 +68,13 @@ export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
             const d = new Date(iso);
             if (!Number.isNaN(d.getTime())) {
                 setLkw(d);
-                setManual(d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+                setManual(
+                    d.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                    })
+                );
                 onTimeSet(d);
             }
         }
@@ -107,13 +108,20 @@ export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
         setLkw(d);
         onTimeSet(d);
         if (d) {
-            setManual(d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+            setManual(
+                d.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                })
+            );
         } else {
-            setManual('');
+            setManual("");
             localStorage.removeItem(LS_KEY);
         }
     }
-    const choosePreset = (min: number) => setAndSync(new Date(Date.now() - min * 60_000));
+    const choosePreset = (min: number) =>
+        setAndSync(new Date(Date.now() - min * 60_000));
     const handleManual = (val: string) => {
         setManual(val);
         const d = clamp(fromClock(val) as Date);
@@ -149,6 +157,7 @@ export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
                             variant="outline"
                             onClick={() => choosePreset(offset)}
                             className="rounded-full text-xs sm:text-sm px-3 py-1.5"
+                            name="lkw-time"
                         >
                             {label}
                         </Button>
@@ -167,16 +176,22 @@ export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
                         value={manual}
                         onChange={(e) => handleManual(e.target.value)}
                         className="appearance-none h-12 w-40 max-w-full rounded-lg border-2 border-harbor-gray bg-parchment/50 p-2 text-center text-lg font-mono tracking-wide focus:border-clinical-slate sm:h-14 sm:text-xl"
+                        name="lkw-time"
                     />
                 </div>
 
                 {/* countdown */}
                 {preview && (
                     <p
-                        className={`mx-auto max-w-xs rounded-md px-3 py-2 text-center text-sm font-semibold ${preview.overdue ? 'bg-critical-crimson/20 text-critical-crimson' : 'bg-vital-green/20 text-vital-green'
-                            }`}
+                        className={`mx-auto max-w-xs rounded-md px-3 py-2 text-center text-sm font-semibold ${
+                            preview.overdue
+                                ? "bg-red-100 text-red-800"
+                                : "bg-green-100 text-green-800"
+                        }`}
                     >
-                        {`${preview.hrs}h ${preview.mins}m ${preview.overdue ? 'past window' : 'left'}`}
+                        {`${preview.hrs}h ${preview.mins}m ${
+                            preview.overdue ? "past window" : "left"
+                        }`}
                     </p>
                 )}
 
@@ -184,6 +199,7 @@ export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
                     onClick={onNext}
                     disabled={!lkw || preview?.overdue}
                     className="mx-auto flex flex-end w-full rounded-lg bg-clinical-slate px-6 py-3 text-base text-parchment hover:bg-clinical-slate/90 sm:w-auto sm:text-lg"
+                    name="continueToDrugSelection"
                 >
                     Continue
                 </Button>

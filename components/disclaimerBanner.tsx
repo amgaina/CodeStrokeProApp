@@ -7,13 +7,13 @@
  * about the site's development status.
  */
 
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { AlertTriangle, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { AlertTriangle, X } from "lucide-react";
 
 // The key used to store the dismissal state in localStorage.
-const DISMISS_KEY = 'csp-disclaimer-dismissed-v1';
+const DISMISS_KEY = "csp-disclaimer-dismissed-v1";
 
 export default function DisclaimerBanner() {
     const [isVisible, setIsVisible] = useState(false);
@@ -21,7 +21,7 @@ export default function DisclaimerBanner() {
     // On component mount, check if the banner has already been dismissed.
     // Using localStorage makes the dismissal persistent across browser sessions.
     useEffect(() => {
-        const hasDismissed = localStorage.getItem(DISMISS_KEY) === 'true';
+        const hasDismissed = localStorage.getItem(DISMISS_KEY) === "true";
         if (!hasDismissed) {
             setIsVisible(true);
         }
@@ -32,7 +32,7 @@ export default function DisclaimerBanner() {
      * It hides the banner and sets a flag in localStorage.
      */
     const handleDismiss = () => {
-        localStorage.setItem(DISMISS_KEY, 'true');
+        localStorage.setItem(DISMISS_KEY, "true");
         setIsVisible(false);
     };
 
@@ -53,7 +53,7 @@ export default function DisclaimerBanner() {
                         </p>
                         <p>
                             This application is for demonstration and testing
-                            purposes only. Information may be inaccurate.{' '}
+                            purposes only. Information may be inaccurate.{" "}
                             <strong>
                                 Do not use for actual clinical decision-making.
                             </strong>
@@ -64,6 +64,7 @@ export default function DisclaimerBanner() {
                     onClick={handleDismiss}
                     aria-label="Dismiss warning"
                     className="flex-shrink-0 rounded-md p-1 hover:bg-yellow-200"
+                    name="dismiss-warning"
                 >
                     <X className="h-5 w-5" />
                 </button>
