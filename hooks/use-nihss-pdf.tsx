@@ -325,6 +325,15 @@ export default function useNihssPdf({
                 align: "center",
             });
 
+            // Add metadata to the PDF
+            doc.setProperties({
+                title: "NIH Stroke Scale (NIHSS) Assessment",
+                subject: "NIHSS assessment results and details",
+                author: "CodeStrokePro",
+                keywords: "NIHSS, stroke, assessment, NIH Stroke Scale, screening",
+                creator: "CodeStrokePro",
+            });
+
             // Save PDF with date in filename
             const now = new Date();
             const datePart = `${now.getFullYear()}-${String(

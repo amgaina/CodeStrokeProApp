@@ -193,6 +193,15 @@ export default function useVanPdf({
                 align: "center",
             });
 
+            // Add metadata to the PDF
+            doc.setProperties({
+                title: "VAN Assessment for LVO",
+                subject: "VAN assessment results and details",
+                author: "CodeStrokePro",
+                keywords: "VAN, stroke, assessment, LVO, screening",
+                creator: "CodeStrokePro",
+            });
+
             // Save PDF with date in filename
             const now = new Date();
             const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;

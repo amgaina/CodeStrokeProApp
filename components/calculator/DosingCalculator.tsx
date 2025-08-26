@@ -120,6 +120,16 @@ export default function DosingCalculator({
         if (!doseCalculation) return;
 
         const doc = new jsPDF();
+
+        // Add metadata to the PDF
+        doc.setProperties({
+            title: "Stroke Thrombolytic Dosing Card",
+            subject: "Dosing instructions for Tenecteplase (TNK) or Alteplase (tPA)",
+            author: "CodeStrokePro Calculator",
+            keywords: "stroke, dosing, thrombolytic, TNK, tPA, calculator",
+            creator: "CodeStrokePro Calculator",
+        });
+
         const primaryColor = "#2E3A40";
         const secondaryColor = "#4A90E2";
         const accentColor = "#E74C3C";
