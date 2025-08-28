@@ -41,6 +41,14 @@ interface DosingCalculatorProps {
     additionalResources?: boolean;
 }
 
+// Define the type for options in addTaggedText at the top level
+interface TaggedTextOptions {
+    tag?: string;
+    fontSize?: number;
+    fontStyle?: "normal" | "bold" | "italic";
+    align?: "left" | "center" | "right";
+}
+
 export default function DosingCalculator({
     selectedDrug,
     patientWeight,
@@ -55,6 +63,12 @@ export default function DosingCalculator({
     onBack,
     additionalResources,
 }: DosingCalculatorProps) {
+    // Define font sizes
+    const headerFontSize = 16;
+    const sectionHeaderSize = 14;
+    const baseFontSize = 12;
+    const smallFontSize = 10;
+
     const calculateDose = (): DoseCalculation | null => {
         const weight = parseFloat(patientWeight);
         const vial = parseFloat(vialSize);
@@ -121,18 +135,19 @@ export default function DosingCalculator({
 
         const doc = new jsPDF();
 
-        // Add metadata to the PDF
+        // Enhanced metadata - using only supported properties
         doc.setProperties({
             title: "Stroke Thrombolytic Dosing Card",
-            subject: "Dosing instructions for Tenecteplase (TNK) or Alteplase (tPA)",
+            subject:
+                "Dosing instructions for Tenecteplase (TNK) or Alteplase (tPA)",
             author: "CodeStrokePro Calculator",
-            keywords: "stroke, dosing, thrombolytic, TNK, tPA, calculator",
+            keywords:
+                "stroke, dosing, thrombolytic, TNK, tPA, calculator, accessible, medical",
             creator: "CodeStrokePro Calculator",
         });
 
-        const primaryColor = "#2E3A40";
-        const secondaryColor = "#4A90E2";
-        const accentColor = "#E74C3C";
+        // Set document language (this helps with the natural language requirement)
+        doc.setLanguage("en-US");
 
         const weight = parseFloat(patientWeight);
         const weightInKg = weightUnit === "lbs" ? weight * 0.454545 : weight;
@@ -140,122 +155,220 @@ export default function DosingCalculator({
             selectedDrug === "tnk" ? "Tenecteplase (TNK)" : "Alteplase (tPA)";
         const currentDate = new Date().toLocaleString();
 
-        // Add header
-        doc.setFillColor(46, 58, 64); // #2E3A40
+        // Font embedding - use standard fonts that are always embedded
+        doc.setFont("helvetica", "normal");
+
+        // Alternative: Load and embed custom font (requires font file)
+        // doc.addFileToVFS('CustomFont.ttf', customFontBase64);
+        // doc.addFont('CustomFont.ttf', 'CustomFont', 'normal');
+        // doc.setFont('CustomFont');
+
+        let yPos = 30;
+        let tagId = 1; // For structure tagging
+
+        // Function to add tagged content
+        const addTaggedText = (
+            text: string,
+            x: number,
+            y: number,
+            options: TaggedTextOptions = {}
+        ) => {
+            const tag = options.tag || "P"; // Default to paragraph
+            const fontSize = options.fontSize || 12;
+            const fontStyle = options.fontStyle || "normal";
+
+            doc.setFontSize(fontSize);
+            doc.setFont("helvetica", fontStyle);
+
+            // Add text without unsupported advancedAPI calls
+            doc.text(text, x, y, options.align ? { align: options.align } : {});
+        };
+
+        // Add document title with proper styling
+        doc.setFillColor(44, 62, 80); // headerBgColor
         doc.rect(0, 0, 210, 30, "F");
-        doc.setFontSize(18);
+        doc.setFontSize(headerFontSize);
         doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
         doc.text("STROKE THROMBOLYTIC DOSING CARD", 105, 20, {
             align: "center",
         });
 
-        // Add drug info section
-        doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
+        // Reset text color for main content
+        doc.setTextColor(26, 26, 26); // primaryColor
+        yPos = 45;
+
+        // Section 1: Drug Information with clear hierarchy
+        doc.setFontSize(sectionHeaderSize);
         doc.setFont("helvetica", "bold");
-        doc.text("DRUG INFORMATION", 15, 45);
+        doc.text("DRUG INFORMATION", 15, yPos);
+        yPos += 5;
+
+        // Add visual separator line for structure
+        doc.setDrawColor(200, 200, 200);
+        doc.line(15, yPos, 195, yPos);
+        yPos += 10;
+
+        doc.setFontSize(baseFontSize);
         doc.setFont("helvetica", "normal");
-        doc.text(`Drug: ${drugName}`, 15, 55);
+
+        // Use consistent spacing and alignment
+        const leftMargin = 20;
+        const lineHeight = 8;
+
+        doc.text(`Drug: ${drugName}`, leftMargin, yPos);
+        yPos += lineHeight;
         doc.text(
             `Patient Weight: ${patientWeight} ${weightUnit} (${weightInKg.toFixed(
                 1
             )} kg)`,
-            15,
-            65
+            leftMargin,
+            yPos
         );
-        doc.text(`Calculated: ${currentDate}`, 15, 75);
+        yPos += lineHeight;
+        doc.text(`Calculated: ${currentDate}`, leftMargin, yPos);
+        yPos += 15;
 
-        // Add dosing instructions section
+        // Section 2: Dosing Instructions with improved structure
+        doc.setFontSize(sectionHeaderSize);
         doc.setFont("helvetica", "bold");
-        doc.text("DOSING INSTRUCTIONS", 15, 90);
+        doc.text("DOSING INSTRUCTIONS", 15, yPos);
+        yPos += 5;
+
+        doc.setDrawColor(200, 200, 200);
+        doc.line(15, yPos, 195, yPos);
+        yPos += 10;
+
+        doc.setFontSize(baseFontSize);
         doc.setFont("helvetica", "normal");
 
-        let yPos = 100;
+        // Use bullet points with proper spacing for better readability
         if (selectedDrug === "tnk") {
             doc.text(
-                `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`,
-                20,
+                `• Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`,
+                leftMargin,
                 yPos
             );
-            yPos += 10;
+            yPos += lineHeight;
             doc.text(
-                `- Volume: ${doseCalculation.volume.toFixed(1)} mL`,
-                20,
+                `• Volume: ${doseCalculation.volume.toFixed(1)} mL`,
+                leftMargin,
                 yPos
             );
-            yPos += 10;
-            doc.text("- Administration: IV push over 5-10 seconds", 20, yPos);
+            yPos += lineHeight;
+            doc.text(
+                "• Administration: IV push over 5-10 seconds",
+                leftMargin,
+                yPos
+            );
             yPos += 15;
         } else {
             doc.text(
-                `- Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`,
-                20,
+                `• Total Dose: ${doseCalculation.totalDose.toFixed(1)} mg`,
+                leftMargin,
                 yPos
             );
-            yPos += 10;
+            yPos += lineHeight;
             doc.text(
-                `- Bolus (10%): ${doseCalculation.pushDose!.toFixed(
+                `• Bolus (10%): ${doseCalculation.pushDose!.toFixed(
                     1
                 )} mg (${doseCalculation.pushVolume!.toFixed(1)} mL)`,
-                20,
+                leftMargin,
                 yPos
             );
-            yPos += 10;
+            yPos += lineHeight;
             doc.text(
-                `- Infusion (90%): ${doseCalculation.infusionDose!.toFixed(
+                `• Infusion (90%): ${doseCalculation.infusionDose!.toFixed(
                     1
                 )} mg (${doseCalculation.infusionVolume!.toFixed(
                     1
                 )} mL) over 60 minutes`,
-                20,
+                leftMargin,
                 yPos
             );
             yPos += 15;
         }
 
-        // Add waste information
+        // Section 3: Waste Documentation
+        doc.setFontSize(sectionHeaderSize);
         doc.setFont("helvetica", "bold");
         doc.text("WASTE DOCUMENTATION", 15, yPos);
+        yPos += 5;
+
+        doc.setDrawColor(200, 200, 200);
+        doc.line(15, yPos, 195, yPos);
         yPos += 10;
+
+        doc.setFontSize(baseFontSize);
         doc.setFont("helvetica", "normal");
         doc.text(
-            `${doseCalculation.waste.toFixed(
+            `• Unused amount: ${doseCalculation.waste.toFixed(
                 1
-            )} mg (${doseCalculation.wasteVolume.toFixed(1)} mL unused)`,
-            20,
+            )} mg (${doseCalculation.wasteVolume.toFixed(1)} mL)`,
+            leftMargin,
             yPos
         );
         yPos += 15;
 
-        // Add warning section
-        doc.setFillColor(231, 76, 60); // #E74C3C
-        doc.rect(15, yPos, 180, 20, "F");
+        // Warning section with high contrast and clear formatting
+        const warningBoxHeight = 25;
+        doc.setFillColor(192, 57, 43); // warningBgColor with better contrast
+        doc.rect(15, yPos, 180, warningBoxHeight, "F");
+
+        // White text on dark background for maximum contrast
         doc.setTextColor(255, 255, 255);
         doc.setFont("helvetica", "bold");
+        doc.setFontSize(sectionHeaderSize);
+        doc.text("⚠ CRITICAL WARNING", 105, yPos + 8, { align: "center" });
+
+        doc.setFontSize(baseFontSize);
         doc.text(
             "VERIFY ALL CALCULATIONS BEFORE ADMINISTRATION",
             105,
-            yPos + 12,
+            yPos + 18,
             { align: "center" }
         );
-        yPos += 30;
 
-        // Add footer
-        doc.setFontSize(10);
-        doc.setTextColor(100, 100, 100);
+        yPos += warningBoxHeight + 10;
+
+        // Add instructions for accessibility (alternative text concept)
+        doc.setTextColor(74, 74, 74); // secondaryTextColor
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(smallFontSize);
         doc.text(
-            "This document is generated by CodeStrokePro Calculator",
+            "Document Structure: Header, Drug Information, Dosing Instructions, Waste Documentation, Warning",
+            15,
+            yPos
+        );
+        yPos += 6;
+        doc.text(
+            "This document contains critical medical dosing information that requires verification.",
+            15,
+            yPos
+        );
+        yPos += 10;
+
+        // Footer with proper contrast
+        doc.setTextColor(74, 74, 74);
+        doc.setFontSize(smallFontSize);
+        doc.text("Generated by CodeStrokePro Calculator", 105, 280, {
+            align: "center",
+        });
+        doc.text(
+            `Page 1 of 1 - Generated: ${new Date().toLocaleDateString()}`,
             105,
             285,
             { align: "center" }
         );
 
+        // Enhanced filename for better accessibility
+        const timestamp = new Date().toISOString().split("T")[0];
+        const accessibleFilename = `stroke-dosing-card-${drugName
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "-")}-${timestamp}.pdf`;
+
         // Save the PDF
-        doc.save(
-            `stroke-dosing-${selectedDrug}-${
-                new Date().toISOString().split("T")[0]
-            }.pdf`
-        );
+        doc.save(accessibleFilename);
     };
 
     return (

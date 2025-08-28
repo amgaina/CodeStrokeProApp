@@ -330,7 +330,8 @@ export default function useNihssPdf({
                 title: "NIH Stroke Scale (NIHSS) Assessment",
                 subject: "NIHSS assessment results and details",
                 author: "CodeStrokePro",
-                keywords: "NIHSS, stroke, assessment, NIH Stroke Scale, screening",
+                keywords:
+                    "NIHSS, stroke, assessment, NIH Stroke Scale, screening",
                 creator: "CodeStrokePro",
             });
 
