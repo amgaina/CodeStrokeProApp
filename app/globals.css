@@ -2,58 +2,205 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Clarity Protocol Design System */
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
-  }
+    :root {
+        /* Clarity Protocol Color Palette */
+        --parchment: 49 17% 97%; /* #F7F7F5 - Primary background */
+        --deep-charcoal: 204 15% 20%; /* #2E3A40 - Primary text */
+        --clinical-slate: 209 29% 32%; /* #3A506B - Primary action */
+        --harbor-gray: 210 16% 75%; /* #BCC5CE - Secondary UI */
+        --vital-green: 174 43% 39%; /* #2A9D8F - Success/Positive */
+        --urgent-amber: 42 81% 66%; /* #E9C46A - Warning/Attention */
+        --critical-crimson: 0 71% 50%; /* #D62828 - Critical/High alert */
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
-  }
+        /* Semantic color mappings */
+        --background: var(--parchment);
+        --foreground: var(--deep-charcoal);
+        --card: 0 0% 100%; /* Pure white for cards */
+        --card-foreground: var(--deep-charcoal);
+        --popover: 0 0% 100%;
+        --popover-foreground: var(--deep-charcoal);
+        --primary: var(--clinical-slate);
+        --primary-foreground: var(--parchment);
+        --secondary: var(--harbor-gray);
+        --secondary-foreground: var(--deep-charcoal);
+        --muted: var(--harbor-gray);
+        --muted-foreground: var(--deep-charcoal);
+        --accent: var(--clinical-slate);
+        --accent-foreground: var(--parchment);
+        --destructive: var(--critical-crimson);
+        --destructive-foreground: var(--parchment);
+        --border: var(--harbor-gray);
+        --input: var(--harbor-gray);
+        --ring: var(--clinical-slate);
+        --success: var(--vital-green);
+        --success-foreground: var(--parchment);
+        --warning: var(--urgent-amber);
+        --warning-foreground: var(--deep-charcoal);
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        /* Dark mode using inverted clarity palette */
+        --background: var(--deep-charcoal);
+        --foreground: var(--parchment);
+        --card: var(--deep-charcoal);
+        --card-foreground: var(--parchment);
+        --popover: var(--deep-charcoal);
+        --popover-foreground: var(--parchment);
+        --primary: var(--clinical-slate);
+        --primary-foreground: var(--parchment);
+        --secondary: var(--harbor-gray);
+        --secondary-foreground: var(--deep-charcoal);
+        --muted: var(--harbor-gray);
+        --muted-foreground: var(--deep-charcoal);
+        --accent: var(--clinical-slate);
+        --accent-foreground: var(--parchment);
+        --destructive: var(--critical-crimson);
+        --destructive-foreground: var(--parchment);
+        --border: var(--harbor-gray);
+        --input: var(--harbor-gray);
+        --ring: var(--clinical-slate);
+    }
+
+    /* Typography - Inter font system */
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Roboto, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        font-weight: 400;
+    }
+
+    /* Clarity Protocol Typography Scale */
+    h1 {
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 36px;
+        line-height: 1.3;
+    }
+
+    h2 {
+        font-family: "Inter", sans-serif;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 1.4;
+    }
+
+    h3 {
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 1.5;
+    }
+}
+
+/* Clarity Protocol Utility Classes */
+@layer utilities {
+    .bg-parchment {
+        background-color: hsl(var(--parchment));
+    }
+
+    .text-deep-charcoal {
+        color: hsl(var(--deep-charcoal));
+    }
+
+    .bg-clinical-slate {
+        background-color: hsl(var(--clinical-slate));
+    }
+
+    .text-clinical-slate {
+        color: hsl(var(--clinical-slate));
+    }
+
+    .bg-vital-green {
+        background-color: hsl(var(--vital-green));
+    }
+
+    .text-vital-green {
+        color: hsl(var(--vital-green));
+    }
+
+    .bg-urgent-amber {
+        background-color: hsl(var(--urgent-amber));
+    }
+
+    .text-urgent-amber {
+        color: hsl(var(--urgent-amber));
+    }
+
+    .bg-critical-crimson {
+        background-color: hsl(var(--critical-crimson));
+    }
+
+    .text-critical-crimson {
+        color: hsl(var(--critical-crimson));
+    }
+
+    .border-harbor-gray {
+        border-color: hsl(var(--harbor-gray));
+    }
+
+    /* Result score styling */
+    .result-score {
+        font-family: "Inter", sans-serif;
+        font-weight: 700;
+        font-size: 48px;
+        line-height: 1.2;
+    }
+
+    /* Button text styling */
+    .btn-text {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1;
+    }
+
+    /* Soft shadow for cards */
+    .clarity-shadow {
+        box-shadow: 0 4px 12px rgba(46, 58, 64, 0.08);
+    }
 }
 
 @layer base {
-  * {
-    @apply border-border;
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+/* Define the animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Start 20px down */
   }
-  body {
-    @apply bg-background text-foreground;
+  to {
+    opacity: 1;
+    transform: translateY(0);   /* End at its original position */
   }
+}
+
+/* Create a reusable class to apply the animation */
+.animate-fade-in-up {
+  /* Apply the animation */
+  animation: fadeInUp 0.7s ease-out forwards;
+  /* `forwards` ensures it stays in the final state */
+  opacity: 0; /* Start hidden */
+}
+
+/* Create delay classes */
+.animation-delay-1 {
+  animation-delay: 0.4s;
+}
+
+.animation-delay-2 {
+  animation-delay: 0.9s;
 }

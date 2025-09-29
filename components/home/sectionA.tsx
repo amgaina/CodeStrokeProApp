@@ -1,0 +1,128 @@
+/**
+ * Author: Abhishek Amgain and Dinesh Chhantyal
+ * Version: 1.0.0
+ * File Description:
+ *     This file defines the Mission (SectionA) component for the CodeStroke Pro application.
+ *     It presents the application's mission statement, call-to-action buttons, and key features
+ *     in a visually engaging and accessible layout for clinicians and stakeholders.
+ */
+"use client";
+
+import Link from "next/link";
+import {
+    ChevronRight,
+    BookOpen,
+    Activity,
+    Shield,
+    Stethoscope,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+export default function Mission() {
+    return (
+        <section
+            id="mission"
+            /* ⬇️ Full-screen height, flex center */
+            className="relative isolate flex min-h-[100dvh] flex-col justify-center bg-parchment/5 px-4 pb-12 pt-16 sm:px-6 sm:py-24 lg:px-8"
+        >
+            <div className="mx-auto max-w-4xl text-center">
+                {/* Tagline */}
+                <p className="mb-2 text-base font-semibold tracking-wide text-clinical-slate">
+                    Developed by pharmacists
+                </p>
+
+                {/* Heading */}
+                <h1 className="mb-6 text-3xl font-semibold leading-tight text-deep-charcoal sm:text-4xl">
+                    EMPOWERING RURAL HEALTHCARE PROVIDERS: ENHANCING STROKE
+                    CARE: SAVING LIVES
+                </h1>
+
+                {/* Body */}
+                <p className="mx-auto mb-10 max-w-2xl text-base leading-relaxed text-deep-charcoal/80">
+                    This project was funded by a grant from the Living Well
+                    Foundation, whose commitment to improving healthcare
+                    accessibility helps us provide essential stroke care
+                    resources to those who need them most.
+                </p>
+
+                {/* CTAs */}
+                <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                    <Button
+                        asChild
+                        size="lg"
+                        className="bg-clinical-slate text-parchment hover:bg-clinical-slate/90 px-8 py-4"
+                        name="startWorkflow"
+                    >
+                        <Link href="/calculator">
+                            Start Workflow
+                            <ChevronRight className="ml-2 h-5 w-5" />
+                        </Link>
+                    </Button>
+
+                    <Button
+                        asChild
+                        variant="outline"
+                        size="lg"
+                        className="border-harbor-gray text-deep-charcoal hover:bg-harbor-gray/20 px-8 py-4"
+                        name="resources"
+                    >
+                        <Link href="/resources">
+                            Resources
+                            <BookOpen className="ml-2 h-5 w-5" />
+                        </Link>
+                    </Button>
+                </div>
+
+                {/* Stats banner */}
+                <div className="mt-12 rounded-lg border border-clinical-slate/20 bg-gradient-to-r from-clinical-slate/10 to-clinical-slate/10 p-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                        {/* Community */}
+                        <div className="flex flex-col items-center sm:flex-row sm:text-left">
+                            <span className="mb-2 rounded-full bg-clinical-slate/20 p-2 sm:mb-0 sm:mr-3">
+                                <Activity className="h-5 w-5 text-clinical-slate" />
+                            </span>
+                            <div>
+                                <h2 className="text-sm font-medium text-deep-charcoal">
+                                    Community Focus
+                                </h2>
+                                <h3 className="text-xs text-deep-charcoal/70">
+                                    Northeast Louisiana
+                                </h3>
+                            </div>
+                        </div>
+
+                        {/* Open access */}
+                        <div className="flex flex-col items-center sm:flex-row sm:text-left">
+                            <span className="mb-2 rounded-full bg-clinical-slate/20 p-2 sm:mb-0 sm:mr-3">
+                                <Shield className="h-5 w-5 text-clinical-slate" />
+                            </span>
+                            <div>
+                                <h2 className="text-sm font-medium text-deep-charcoal">
+                                    Open Access
+                                </h2>
+                                <h3 className="text-xs text-deep-charcoal/70">
+                                    Non-commercial
+                                </h3>
+                            </div>
+                        </div>
+
+                        {/* Evidence-based */}
+                        <div className="flex flex-col items-center sm:flex-row sm:text-left">
+                            <span className="mb-2 rounded-full bg-clinical-slate/20 p-2 sm:mb-0 sm:mr-3">
+                                <Stethoscope className="h-5 w-5 text-clinical-slate" />
+                            </span>
+                            <div>
+                                <h2 className="text-sm font-medium text-deep-charcoal">
+                                    Evidence-Based
+                                </h2>
+                                <h3 className="text-xs text-deep-charcoal/70">
+                                    Guideline Driven
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
