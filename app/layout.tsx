@@ -5,7 +5,6 @@ import Header from '@/components/home/header';
 import Footer from '@/components/home/footer';
 import './globals.css';
 import DisclaimerGate from '@/components/disclaimerGate';
-import DisclaimerBanner from '@/components/disclaimerBanner'
 
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -86,7 +85,6 @@ export default function RootLayout({
             <body className="min-h-screen flex flex-col">
                 <DisclaimerGate>
                     <Header />
-                    <DisclaimerBanner />
                     {/* main grows to fill, footer (if any) comes after */}
                     <main className="flex-1">{children}</main>
                     <Footer />
