@@ -169,7 +169,7 @@ export default function EligibilityScreening({
               <Checkbox
                 id={question.key}
                 checked={answers[question.key]}
-                onCheckedChange={(checked) => {
+                onCheckedChange={(checked: boolean | "indeterminate") => {
                   const isChecked = checked === true;
                   updateAnswer(question.key, isChecked);
                   if (question.key === "underAge" && isChecked) {
@@ -242,7 +242,7 @@ export default function EligibilityScreening({
               <Checkbox
                 id="highBP"
                 checked={answers.highBP}
-                onCheckedChange={(checked) =>
+                onCheckedChange={(checked: boolean | "indeterminate") =>
                   updateAnswer("highBP", checked === true)
                 }
                 className="mt-1"
@@ -284,7 +284,7 @@ export default function EligibilityScreening({
               <Checkbox
                 id="abnormalGlucose"
                 checked={answers.abnormalGlucose}
-                onCheckedChange={(checked) =>
+                onCheckedChange={(checked: boolean | "indeterminate") =>
                   updateAnswer("abnormalGlucose", checked === true)
                 }
                 className="mt-1"
@@ -312,7 +312,7 @@ export default function EligibilityScreening({
               <Checkbox
                 id="onMedications"
                 checked={answers.onMedications}
-                onCheckedChange={(checked) =>
+                onCheckedChange={(checked: boolean | "indeterminate") =>
                   updateAnswer("onMedications", checked === true)
                 }
                 className="mt-1"
@@ -407,7 +407,7 @@ export default function EligibilityScreening({
               <Checkbox
                 id="antiplateletAgents"
                 checked={answers.antiplateletAgents}
-                onCheckedChange={(checked) => {
+                onCheckedChange={(checked: boolean | "indeterminate") => {
                   updateAnswer("antiplateletAgents", checked === true);
                   setShowRelativeContraDialog(checked === true);
                 }}
@@ -497,7 +497,7 @@ export default function EligibilityScreening({
               <Checkbox
                 id="contraindications"
                 checked={answers.contraindications}
-                onCheckedChange={(checked) =>
+                onCheckedChange={(checked: boolean | "indeterminate") =>
                   updateAnswer("contraindications", checked === true)
                 }
                 className="mt-1"
@@ -525,73 +525,272 @@ export default function EligibilityScreening({
                   </CollapsibleTrigger>
                   <CollapsibleContent className="mt-4 ">
                     <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                      <div className="space-y-4 text-xs text-gray-700">
+                      <div className="space-y-4 text-xs text-gray-700 max-h-96 overflow-y-auto pr-1">
                         <div>
                           <h5 className="font-semibold text-gray-800 mb-2">
-                            Hemorrhage Risk
+                            Conditions Considered Absolute Contraindications
                           </h5>
-                          <ul className="space-y-1 ml-2">
-                            <li>• Active internal bleeding</li>
+                          <ul className="space-y-2 ml-4 list-disc">
                             <li>
-                              • Recent (within 3 months) intracranial/spinal
-                              surgery, serious head trauma, or previous stroke
+                              <strong>CT with extensive hypodensity:</strong> IV
+                              thrombolysis should not be administered when clear
+                              hypodensity on brain imaging appears responsible
+                              for clinical stroke symptoms.
+                            </li>
+                            <li>
+                              <strong>CT with hemorrhage:</strong> Do not
+                              administer IV thrombolysis when acute
+                              intracranial hemorrhage is present on CT.
+                            </li>
+                            <li>
+                              <strong>
+                                Moderate to severe traumatic brain injury &lt;14
+                                days:
+                              </strong>{" "}
+                              Likely contraindicated with recent injury,
+                              especially with &gt;30 minutes of unconsciousness,
+                              Glasgow Coma Scale &lt;13, or hemorrhage,
+                              contusion, or skull fracture on neuroimaging.
+                            </li>
+                            <li>
+                              <strong>Neurosurgery &lt;14 days:</strong> IV
+                              thrombolysis is potentially harmful and should not
+                              be administered after recent intracranial or
+                              spinal surgery.
+                            </li>
+                            <li>
+                              <strong>
+                                Acute spinal cord injury within 3 months:
+                              </strong>{" "}
+                              IV thrombolysis is likely contraindicated.
+                            </li>
+                            <li>
+                              <strong>Intra-axial neoplasm:</strong> IV
+                              thrombolysis is potentially harmful and should not
+                              be administered.
+                            </li>
+                            <li>
+                              <strong>Infective endocarditis:</strong> Do not
+                              administer IV thrombolysis in patients with AIS
+                              and symptoms consistent with infective
+                              endocarditis.
+                            </li>
+                            <li>
+                              <strong>
+                                Severe coagulopathy or thrombocytopenia:
+                              </strong>{" "}
+                              IV thrombolysis should not be administered with
+                              platelets &lt;100,000/mm3, INR &gt;1.7, aPTT &gt;40
+                              seconds, or PT &gt;15 seconds. In patients without
+                              recent warfarin/heparin use, treatment may begin
+                              before coagulation results are available, but
+                              should be discontinued if INR &gt;1.7 or PT/PTT are
+                              abnormal by local laboratory standards.
+                            </li>
+                            <li>
+                              <strong>Aortic arch dissection:</strong> In known
+                              or suspected aortic arch dissection, IV
+                              thrombolysis is potentially harmful and should not
+                              be administered.
+                            </li>
+                            <li>
+                              <strong>
+                                Amyloid-related imaging abnormalities (ARIA):
+                              </strong>{" "}
+                              Risk of thrombolysis-related ICH is unknown in
+                              patients on amyloid immunotherapy or with ARIA;
+                              IV thrombolysis should be avoided.
                             </li>
                           </ul>
                         </div>
 
                         <div>
                           <h5 className="font-semibold text-gray-800 mb-2">
-                            Coagulopathy
+                            Conditions Considered Relative Contraindications
                           </h5>
-                          <ul className="space-y-1 ml-2">
-                            <li>• Platelets &lt;100,000</li>
-                            <li>• INR &gt;1.7 or PT &gt;15 sec</li>
-                            <li>• aPTT &gt;40 sec</li>
+                          <ul className="space-y-2 ml-4 list-disc">
+                            <li>
+                              <strong>Pre-existing disability:</strong> Benefit
+                              versus risk remains uncertain and should be
+                              determined individually.
+                            </li>
+                            <li>
+                              <strong>Recent DOAC exposure (&lt;48 hours):</strong>{" "}
+                              Safety is unknown; IV thrombolysis may be
+                              considered after individualized risk-benefit
+                              analysis, including timing of last dose, renal
+                              function, stroke severity, thrombectomy
+                              availability, reversal options, and assay
+                              availability.
+                            </li>
+                            <li>
+                              <strong>
+                                Ischemic stroke within the prior 3 months:
+                              </strong>{" "}
+                              May increase risk of intracranial hemorrhage;
+                              decisions should be individualized.
+                            </li>
+                            <li>
+                              <strong>Prior ICH:</strong> May increase risk of
+                              symptomatic hemorrhage. Individualized treatment
+                              decisions are recommended.
+                            </li>
+                            <li>
+                              <strong>
+                                Recent major non-CNS trauma (14 days to 3
+                                months):
+                              </strong>{" "}
+                              May increase risk of systemic hemorrhage; consider
+                              surgical consultation.
+                            </li>
+                            <li>
+                              <strong>
+                                Recent major non-CNS surgery within 10 days:
+                              </strong>{" "}
+                              May increase harm; individual risk-benefit review
+                              and surgical consultation are appropriate.
+                            </li>
+                            <li>
+                              <strong>
+                                Recent GI/GU bleeding within 21 days:
+                              </strong>{" "}
+                              May increase harm; consult GI/GU specialists to
+                              assess whether bleeding risk is reduced.
+                            </li>
+                            <li>
+                              <strong>Intracranial arterial dissections:</strong>{" "}
+                              Safety of IV thrombolysis is unknown.
+                            </li>
+                            <li>
+                              <strong>
+                                Intracranial vascular malformations:
+                              </strong>{" "}
+                              Safety in unruptured or untreated lesions is
+                              unknown.
+                            </li>
+                            <li>
+                              <strong>Recent STEMI within 3 months:</strong>{" "}
+                              Requires individualized risk-benefit assessment
+                              and emergent cardiology consultation.
+                            </li>
+                            <li>
+                              <strong>Acute pericarditis:</strong> May be
+                              reasonable in severe disabling AIS with emergent
+                              cardiology consultation.
+                            </li>
+                            <li>
+                              <strong>
+                                Left atrial or ventricular thrombus:
+                              </strong>{" "}
+                              May be reasonable in severe disabling AIS with
+                              emergent cardiology consultation.
+                            </li>
+                            <li>
+                              <strong>Systemic active malignancy:</strong>{" "}
+                              Safety is unknown; emergent oncology consultation
+                              and individualized risk-benefit analysis are
+                              warranted.
+                            </li>
+                            <li>
+                              <strong>Pregnancy and post-partum period:</strong>{" "}
+                              May be considered when benefits for moderate or
+                              severe stroke outweigh uterine bleeding risk;
+                              emergent obstetrical consultation is warranted.
+                            </li>
+                            <li>
+                              <strong>Dural puncture within 7 days:</strong> May
+                              be considered in individual AIS cases.
+                            </li>
+                            <li>
+                              <strong>Arterial puncture within 7 days:</strong>{" "}
+                              Safety is unknown after noncompressible vessel
+                              puncture in the preceding 7 days.
+                            </li>
+                            <li>
+                              <strong>
+                                Moderate to severe traumatic brain injury 14
+                                days to 3 months:
+                              </strong>{" "}
+                              May be considered with careful multidisciplinary
+                              consultation.
+                            </li>
+                            <li>
+                              <strong>
+                                Neurosurgery 14 days to 3 months:
+                              </strong>{" "}
+                              May be considered on an individual basis with
+                              neurosurgical consultation.
+                            </li>
                           </ul>
                         </div>
 
                         <div>
                           <h5 className="font-semibold text-gray-800 mb-2">
-                            Vascular
+                            Conditions Where Benefits Generally Outweigh
+                            Bleeding Risk
                           </h5>
-                          <ul className="space-y-1 ml-2">
+                          <ul className="space-y-2 ml-4 list-disc">
                             <li>
-                              • Known AVM, aneurysm, or neoplasm with high
-                              bleeding risk
+                              <strong>Extracranial cervical dissections:</strong>{" "}
+                              IV thrombolysis appears reasonably safe within 4.5
+                              hours and is likely recommended.
+                            </li>
+                            <li>
+                              <strong>
+                                Extra-axial intracranial neoplasms:
+                              </strong>{" "}
+                              Risk appears low and treatment should be
+                              considered.
+                            </li>
+                            <li>
+                              <strong>Angiographic procedural stroke:</strong>{" "}
+                              Benefit likely outweighs risk and treatment should
+                              be considered.
+                            </li>
+                            <li>
+                              <strong>
+                                Unruptured intracranial aneurysm:
+                              </strong>{" "}
+                              Risk appears low and treatment should be
+                              considered.
+                            </li>
+                            <li>
+                              <strong>History of GI/GU bleeding:</strong> Remote
+                              stable history may still permit IV thrombolysis
+                              after individualized review and GI/GU
+                              consultation.
+                            </li>
+                            <li>
+                              <strong>History of MI:</strong> Remote MI history
+                              generally has greater benefit than risk.
+                            </li>
+                            <li>
+                              <strong>Recreational drug use:</strong> In most
+                              patients, benefit likely outweighs risk.
+                            </li>
+                            <li>
+                              <strong>
+                                Uncertain diagnosis / stroke mimics:
+                              </strong>{" "}
+                              Unless absolute contraindications are present,
+                              harm risk is low and benefit likely outweighs
+                              risk.
+                            </li>
+                            <li>
+                              <strong>Moyamoya:</strong> Current evidence does
+                              not suggest increased ICH risk, and benefit likely
+                              outweighs risk.
                             </li>
                           </ul>
                         </div>
 
-                        <div>
-                          <h5 className="font-semibold text-gray-800 mb-2">
-                            Other
-                          </h5>
-                          <ul className="space-y-1 ml-2">
-                            <li>• Symptoms resolving rapidly</li>
-                            <li>
-                              • Seizure at stroke onset with postictal deficits
-                              only
-                            </li>
-                            <li>
-                              • Recent GI or GU hemorrhage (within 21 days)
-                            </li>
-                            <li>
-                              • Infective endocarditis or suspected aortic
-                              dissection
-                            </li>
-                            <li>• Pregnancy (relative exclusion)</li>
-                            <li>
-                              • Age &gt;80 years (Weigh risks vs. Benefit)
-                            </li>
-                            {/* <li>
-                                                            • NIH Stroke Scale
-                                                            (NIHSS) &gt;25
-                                                        // </li> */}
-                            {/* changed on 02/18/2026 by Dinesh Chhantyal
-                                                        
-                                                        Dr. Emily McGee told us that the guidelines have updated.*/}
-                          </ul>
-                        </div>
+                        <p className="text-[11px] text-gray-600 italic border-t border-gray-200 pt-3">
+                          Disclaimer: This document is intended for guidance
+                          purposes only. Clinical decisions must always be made
+                          in accordance with current clinical guidelines, local
+                          policies and protocols, and the professional
+                          judgment and discretion of the treating clinician.
+                        </p>
                       </div>
 
                       <div className="mt-4 pt-4 border-t border-gray-300">
@@ -651,8 +850,17 @@ export default function EligibilityScreening({
               <>
                 <br />
                 <span className="text-sm text-critical-crimson mt-2 block">
-                  Further evaluation needed to discuss risks vs benefit of
-                  thrombolytic therapy
+                  Absolute contraindication(s) present. Do not proceed with IV
+                  thrombolytic therapy.
+                </span>
+              </>
+            )}
+            {eligibilityStatus.status === "evaluate" && (
+              <>
+                <br />
+                <span className="text-sm text-urgent-amber-dark mt-2 block">
+                  Relative risk factor(s) present. Continue only after
+                  individualized risk-benefit review.
                 </span>
               </>
             )}
