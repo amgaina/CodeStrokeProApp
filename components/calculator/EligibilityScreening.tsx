@@ -57,6 +57,7 @@ export default function EligibilityScreening({
   ] = useState(true);
   const [showRelativeContraDialog, setShowRelativeContraDialog] =
     useState(false);
+  const [showPediatricDialog, setShowPediatricDialog] = useState(false);
 
   const updateAnswer = (key: keyof EligibilityAnswers, value: boolean) => {
     onAnswerChange({
@@ -144,42 +145,81 @@ export default function EligibilityScreening({
             {
               key: "underAge" as keyof EligibilityAnswers,
               label: "Is the patient <18 years of age?",
+              showInfo: true,
             },
             {
               key: "hemorrhage" as keyof EligibilityAnswers,
               label: "Did head CT suggest or confirm any hemorrhage?",
+              showInfo: false,
             },
             {
               key: "overTimeLimit" as keyof EligibilityAnswers,
               label:
                 "Is the patient's last known well more than 4.5 hours ago?",
+              showInfo: false,
             },
           ].map((question) => (
             <div
               key={question.key}
-              className={`flex items-start space-x-3 p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-                answers[question.key]
-                  ? "border-red-300 bg-red-50"
-                  : "border-gray-200"
-              }`}
+              className={`flex items-start space-x-3 p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers[question.key]
+                ? "border-red-300 bg-red-50"
+                : "border-gray-200"
+                }`}
             >
               <Checkbox
                 id={question.key}
                 checked={answers[question.key]}
-                onCheckedChange={(checked) =>
-                  updateAnswer(question.key, checked === true)
-                }
+                onCheckedChange={(checked) => {
+                  const isChecked = checked === true;
+                  updateAnswer(question.key, isChecked);
+                  if (question.key === "underAge" && isChecked) {
+                    setShowPediatricDialog(true);
+                  }
+                }}
                 className="mt-1"
               />
-              <Label
-                htmlFor={question.key}
-                className="text-sm leading-relaxed cursor-pointer font-medium"
-              >
-                {question.label}
-              </Label>
+              <div className="flex-1 flex items-start justify-between">
+                <Label
+                  htmlFor={question.key}
+                  className="text-sm leading-relaxed cursor-pointer font-medium"
+                >
+                  {question.label}
+                </Label>
+              </div>
             </div>
           ))}
         </div>
+
+        {/* Pediatric Alteplase Information Dialog */}
+        <Dialog
+          open={showPediatricDialog}
+          onOpenChange={setShowPediatricDialog}
+        >
+          <DialogContent>
+            <DialogHeader className="mb-2">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5 text-blue-600" />
+                <DialogTitle className="text-blue-900 text-lg font-semibold">
+                  Pediatric Patient - Alteplase Use
+                </DialogTitle>
+              </div>
+            </DialogHeader>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
+              <p className="text-sm text-blue-800">
+                While alteplase is not FDA-approved for pediatric stroke, it
+                has been used off-label in select children with acute
+                ischemic stroke.
+              </p>
+              <p className="text-sm text-blue-800">
+                <strong>Use should be restricted to specialized stroke
+                  centers and guided by neurology consultation.</strong>
+              </p>
+              <p className="text-sm text-blue-800 font-medium">
+                Follow your local protocol.
+              </p>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Relative Contraindications */}
         <div className="space-y-3 md:space-y-4">
@@ -193,11 +233,10 @@ export default function EligibilityScreening({
 
           {/* Blood Pressure */}
           <div
-            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-              answers.highBP
-                ? "border-amber-300 bg-amber-50"
-                : "border-gray-200"
-            }`}
+            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.highBP
+              ? "border-amber-300 bg-amber-50"
+              : "border-gray-200"
+              }`}
           >
             <div className="flex items-start space-x-3">
               <Checkbox
@@ -236,11 +275,10 @@ export default function EligibilityScreening({
 
           {/* Glucose */}
           <div
-            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-              answers.abnormalGlucose
-                ? "border-amber-300 bg-amber-50"
-                : "border-gray-200"
-            }`}
+            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.abnormalGlucose
+              ? "border-amber-300 bg-amber-50"
+              : "border-gray-200"
+              }`}
           >
             <div className="flex items-start space-x-3">
               <Checkbox
@@ -265,11 +303,10 @@ export default function EligibilityScreening({
 
           {/* Medications */}
           <div
-            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-              answers.onMedications
-                ? "border-amber-300 bg-amber-50"
-                : "border-gray-200"
-            }`}
+            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.onMedications
+              ? "border-amber-300 bg-amber-50"
+              : "border-gray-200"
+              }`}
           >
             <div className="flex items-start space-x-3">
               <Checkbox
@@ -361,11 +398,10 @@ export default function EligibilityScreening({
           </div>
           {/* Antiplatelet Agents Contraindications */}
           <div
-            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-              answers.antiplateletAgents
-                ? "border-amber-300 bg-amber-50"
-                : "border-gray-200"
-            }`}
+            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.antiplateletAgents
+              ? "border-amber-300 bg-amber-50"
+              : "border-gray-200"
+              }`}
           >
             <div className="flex items-start space-x-3">
               <Checkbox
@@ -452,11 +488,10 @@ export default function EligibilityScreening({
           </div>
           {/* Additional Contraindications - Collapsible */}
           <div
-            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${
-              answers.contraindications
-                ? "border-amber-300 bg-amber-50"
-                : "border-gray-200"
-            }`}
+            className={`p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers.contraindications
+              ? "border-amber-300 bg-amber-50"
+              : "border-gray-200"
+              }`}
           >
             <div className="flex items-start space-x-3">
               <Checkbox
@@ -565,7 +600,7 @@ export default function EligibilityScreening({
                         </p>
                         <div className="w-full">
                           <PDFLink
-                            filename="inclusion-and-exclusion-criteria-decision-tree.pdf"
+                            filename="Thrombolytic Exlcusion and Inclusion Criteria (2026 Guideline Update).pdf"
                             title="Inclusion & Exclusion Criteria Decision Tree"
                             variant="button"
                             showDownload={true}
@@ -582,35 +617,32 @@ export default function EligibilityScreening({
 
         {/* Eligibility Status */}
         <Alert
-          className={`${
-            eligibilityStatus.status === "ineligible"
-              ? "border-critical-crimson/70 bg-critical-crimson/20"
-              : eligibilityStatus.status === "evaluate" ||
-                  eligibilityStatus.status === "correct"
-                ? "border-urgent-amber/70 bg-urgent-amber/20"
-                : "border-vital-green/70 bg-vital-green/20"
-          }`}
+          className={`${eligibilityStatus.status === "ineligible"
+            ? "border-critical-crimson/70 bg-critical-crimson/20"
+            : eligibilityStatus.status === "evaluate" ||
+              eligibilityStatus.status === "correct"
+              ? "border-urgent-amber/70 bg-urgent-amber/20"
+              : "border-vital-green/70 bg-vital-green/20"
+            }`}
         >
           <AlertTriangle
-            className={`h-5 w-5 ${
-              eligibilityStatus.status === "ineligible"
-                ? "text-critical-crimson"
-                : eligibilityStatus.status === "evaluate" ||
-                    eligibilityStatus.status === "correct"
-                  ? "text-urgent-amber-dark"
-                  : "text-vital-green-dark"
-            }`}
+            className={`h-5 w-5 ${eligibilityStatus.status === "ineligible"
+              ? "text-critical-crimson"
+              : eligibilityStatus.status === "evaluate" ||
+                eligibilityStatus.status === "correct"
+                ? "text-urgent-amber-dark"
+                : "text-vital-green-dark"
+              }`}
           />
           <AlertDescription className="font-medium">
             <strong
-              className={`${
-                eligibilityStatus.status === "ineligible"
-                  ? "text-critical-crimson"
-                  : eligibilityStatus.status === "evaluate" ||
-                      eligibilityStatus.status === "correct"
-                    ? "text-urgent-amber-dark"
-                    : "text-vital-green-dark"
-              }`}
+              className={`${eligibilityStatus.status === "ineligible"
+                ? "text-critical-crimson"
+                : eligibilityStatus.status === "evaluate" ||
+                  eligibilityStatus.status === "correct"
+                  ? "text-urgent-amber-dark"
+                  : "text-vital-green-dark"
+                }`}
             >
               Assessment:
             </strong>{" "}
@@ -663,14 +695,13 @@ export default function EligibilityScreening({
               eligibilityStatus.status === "correct"
             }
             name="continueToDrugSelection"
-            className={`text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto ${
-              eligibilityStatus.status === "ineligible" ||
+            className={`text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto ${eligibilityStatus.status === "ineligible" ||
               eligibilityStatus.status === "correct"
-                ? "bg-harbor-gray-dark text-white cursor-not-allowed"
-                : eligibilityStatus.status === "evaluate"
-                  ? "bg-urgent-amber-dark hover:bg-urgent-amber/90 text-white"
-                  : "bg-vital-green-dark hover:bg-vital-green/90 text-white"
-            }`}
+              ? "bg-harbor-gray-dark text-white cursor-not-allowed"
+              : eligibilityStatus.status === "evaluate"
+                ? "bg-urgent-amber-dark hover:bg-urgent-amber/90 text-white"
+                : "bg-vital-green-dark hover:bg-vital-green/90 text-white"
+              }`}
           >
             {eligibilityStatus.status === "ineligible"
               ? "Patient Not Eligible - Cannot Proceed"
