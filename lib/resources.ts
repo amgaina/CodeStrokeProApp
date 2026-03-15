@@ -118,8 +118,8 @@ const resources = [
         icon: BookMarked,
     },
     {
-        filename: "inclusion-and-exclusion-criteria-decision-tree.pdf",
-        title: "Inclusion & Exclusion Criteria Decision Tree",
+        filename: "Thrombolytic Exlcusion and Inclusion Criteria (2026 Guideline Update).pdf",
+        title: "Thrombolytic Exclusion and Inclusion Criteria",
         description: "Decision tree for thrombolytic therapy eligibility",
         category: "Assessment",
         icon: FileText,
