@@ -6,8 +6,11 @@ import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 
 const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-const POSTHOG_HOST =
-    process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
+// Reverse proxy: events go through our own domain (rewrites in next.config.mjs)
+// so ad/tracking blockers don't drop them. ui_host keeps dashboard links right.
+const POSTHOG_PROXY = "/ingest";
+const POSTHOG_UI_HOST =
+    process.env.NEXT_PUBLIC_POSTHOG_UI_HOST || "https://us.posthog.com";
 
 /**
  * Initializes PostHog and tracks pageviews for the App Router.
@@ -23,7 +26,8 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
         if (!POSTHOG_KEY) return;
         if (posthog.__loaded) return;
         posthog.init(POSTHOG_KEY, {
-            api_host: POSTHOG_HOST,
+            api_host: POSTHOG_PROXY,
+            ui_host: POSTHOG_UI_HOST,
             capture_pageview: false, // handled manually below for SPA nav
             capture_pageleave: true, // engagement / time on page
             autocapture: true,

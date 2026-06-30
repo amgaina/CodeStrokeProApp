@@ -27,8 +27,24 @@ behaves identically.
    NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
    ```
    Use `https://eu.i.posthog.com` if you created an EU project.
-4. Add the same two variables in Vercel: **Project → Settings → Environment
+4. Add `NEXT_PUBLIC_POSTHOG_KEY` in Vercel: **Project → Settings → Environment
    Variables** (Production + Preview), then redeploy.
+
+> Events are sent through a **reverse proxy** (see below), so the SDK actually
+> talks to `/ingest` on this domain — `NEXT_PUBLIC_POSTHOG_HOST` is no longer
+> required at runtime, only the key.
+
+## Reverse proxy
+
+Analytics requests route through our own domain (`/ingest`) instead of
+`*.posthog.com`, so ad blockers, hospital network filters, and Safari tracking
+protection don't drop events — keeping user/visit counts accurate.
+
+- `next.config.mjs` rewrites `/ingest/*` → PostHog US ingestion hosts.
+- The SDK is configured with `api_host: "/ingest"` and
+  `ui_host: "https://us.posthog.com"`.
+- EU project: change the rewrite destinations to `eu.i.posthog.com` /
+  `eu-assets.i.posthog.com` and set `NEXT_PUBLIC_POSTHOG_UI_HOST=https://eu.posthog.com`.
 
 That's it — page views and events start flowing.
 
