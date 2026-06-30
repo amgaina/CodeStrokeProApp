@@ -8,6 +8,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { BookOpen } from "lucide-react";
+import { track, EVENTS } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -154,6 +155,15 @@ export default function CodeStrokeProApp() {
                 top: 0,
                 behavior: "smooth",
             });
+        }
+    }, [step]);
+
+    /* De-identified workflow funnel: fire each step once as it is reached. */
+    const seenStepsRef = useRef<Set<string>>(new Set());
+    useEffect(() => {
+        if (!seenStepsRef.current.has(step)) {
+            seenStepsRef.current.add(step);
+            track(EVENTS.CALC_STEP, { step });
         }
     }, [step]);
 

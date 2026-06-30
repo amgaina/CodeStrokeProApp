@@ -24,6 +24,8 @@ export const EVENTS = {
     PDF_DOWNLOADED: "pdf_downloaded",
     RESOURCE_OPENED: "resource_opened",
     VIDEO_OPENED: "video_opened",
+    // Per-step event for the full calculator workflow, powers a drop-off funnel.
+    CALC_STEP: "calculator_step",
 } as const;
 
 /** Stable tool identifiers used across all events. */
