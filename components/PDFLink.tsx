@@ -3,6 +3,7 @@
 import { FileText, Download, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { track, EVENTS } from "@/lib/analytics";
 
 interface PDFLinkProps {
     filename: string;
@@ -25,6 +26,7 @@ export function PDFLink({
 
     const handleDownload = (e: React.MouseEvent) => {
         e.preventDefault();
+        track(EVENTS.PDF_DOWNLOADED, { tool: "resources", filename, title });
         const link = document.createElement("a");
         link.href = pdfUrl;
         link.download = filename;
@@ -32,6 +34,7 @@ export function PDFLink({
     };
 
     const handleView = () => {
+        track(EVENTS.RESOURCE_OPENED, { tool: "resources", filename, title });
         window.open(pdfUrl, "_blank", "noopener,noreferrer");
     };
 

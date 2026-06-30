@@ -14,6 +14,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import useCpssPdf from "@/hooks/use-cpss-pdf";
+import { trackToolCompleted, trackPdfDownloaded } from "@/lib/analytics";
 
 export default function CincinnatiStrokeScale() {
     const [answers, setAnswers] = useState<{
@@ -51,6 +52,32 @@ export default function CincinnatiStrokeScale() {
         hasPositiveSign,
         isComplete,
     });
+
+    // De-identified interpretation: positive/negative + count of abnormal findings
+    const abnormalCount = Object.values(answers).filter(
+        (value) => value === true
+    ).length;
+    const interpretation = hasPositiveSign ? "positive" : "negative";
+
+    // Fire completion event exactly once per completion
+    const completionTracked = useRef(false);
+    useEffect(() => {
+        if (isComplete && !completionTracked.current) {
+            completionTracked.current = true;
+            trackToolCompleted("cpss", {
+                result: interpretation,
+                abnormalCount,
+            });
+        } else if (!isComplete) {
+            completionTracked.current = false;
+        }
+    }, [isComplete, interpretation, abnormalCount]);
+
+    // Wrapper so all download buttons emit the same de-identified event
+    const handleDownloadPDF = () => {
+        generatePDF();
+        trackPdfDownloaded("cpss", { result: interpretation });
+    };
 
     // Scroll to top when page loads
     useEffect(() => {
@@ -127,7 +154,7 @@ export default function CincinnatiStrokeScale() {
                                 <Button
                                     size="sm"
                                     variant="outline"
-                                    onClick={generatePDF}
+                                    onClick={handleDownloadPDF}
                                     className="h-7 px-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 hidden md:flex items-center mt-2"
                                     name="download-pdf"
                                 >
@@ -422,7 +449,7 @@ export default function CincinnatiStrokeScale() {
                                 </div>
                                 <div className="mt-4 flex justify-center gap-3 flex-wrap">
                                     <Button
-                                        onClick={generatePDF}
+                                        onClick={handleDownloadPDF}
                                         variant="outline"
                                         className="w-full md:w-auto flex items-center"
                                         name="download-pdf"

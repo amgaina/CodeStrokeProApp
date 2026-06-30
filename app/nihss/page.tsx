@@ -8,6 +8,7 @@ import NIHSSTimer from "@/components/nihss/NIHSSTimer";
 import NIHSSQuestion from "@/components/nihss/NIHSSQuestion";
 import NIHSSScore from "@/components/nihss/NIHSSScore";
 import useNIHSSPdf from "@/hooks/use-nihss-pdf";
+import { trackToolCompleted, trackPdfDownloaded } from "@/lib/analytics";
 
 interface ScoreRecord {
     [key: string]: number | null;
@@ -57,6 +58,23 @@ export default function NIHSSCalculator() {
     };
     const severity = getSeverity();
 
+    // Whether every question has been scored
+    const isComplete = Object.values(scores).every((s) => s !== null);
+
+    // Fire de-identified completion analytics exactly once per completion
+    const completionTracked = useRef(false);
+    useEffect(() => {
+        if (isComplete && !completionTracked.current) {
+            completionTracked.current = true;
+            trackToolCompleted("nihss", {
+                score: totalScore,
+                severity: severity.label,
+            });
+        } else if (!isComplete) {
+            completionTracked.current = false;
+        }
+    }, [isComplete, totalScore, severity.label]);
+
     // Handle score changes
     const handleScoreChange = (questionId: string, value: number | null) => {
         setScores((prev) => ({
@@ -90,6 +108,12 @@ export default function NIHSSCalculator() {
         totalScore,
         severity,
     });
+
+    // Generate the PDF then record de-identified download analytics
+    const handleDownloadPdf = () => {
+        generatePDF();
+        trackPdfDownloaded("nihss", { score: totalScore });
+    };
 
     return (
         <div ref={mainRef} className="min-h-screen bg-parchment">
@@ -161,7 +185,7 @@ export default function NIHSSCalculator() {
                             <Button
                                 size="sm"
                                 variant="outline"
-                                onClick={generatePDF}
+                                onClick={handleDownloadPdf}
                                 className="h-7 px-2 mt-2 text-sm flex items-center gap-1"
                                 aria-label="Download PDF"
                             >
@@ -218,7 +242,7 @@ export default function NIHSSCalculator() {
                     totalQuestions={Object.keys(scores).length}
                     showReset={true}
                     onReset={resetScores}
-                    onDownloadPdf={generatePDF}
+                    onDownloadPdf={handleDownloadPdf}
                 />
 
                 <Card className="mb-6 shadow-sm border border-gray-200 bg-white">
@@ -726,7 +750,7 @@ export default function NIHSSCalculator() {
                                 totalQuestions={Object.keys(scores).length}
                                 showReset={true}
                                 onReset={resetScores}
-                                onDownloadPdf={generatePDF}
+                                onDownloadPdf={handleDownloadPdf}
                             />
                         </div>
                     </CardContent>

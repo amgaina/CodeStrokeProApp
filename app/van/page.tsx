@@ -18,6 +18,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import useVanPdf from "@/hooks/use-van-pdf";
+import { trackToolCompleted, trackPdfDownloaded } from "@/lib/analytics";
 
 export default function VANAssessment() {
     const [weaknessPresent, setWeaknessPresent] = useState<boolean | null>(
@@ -75,6 +76,29 @@ export default function VANAssessment() {
         isVANNegative,
         isAssessmentComplete,
     });
+
+    // De-identified interpretation for analytics (no PHI)
+    const interpretation = isVANPositive ? "van-positive" : "van-negative";
+
+    // Fire completion analytics exactly once when result is available
+    const completedTracked = useRef(false);
+    useEffect(() => {
+        if (isAssessmentComplete && !completedTracked.current) {
+            completedTracked.current = true;
+            trackToolCompleted("van", { result: interpretation });
+        }
+        if (!isAssessmentComplete) {
+            completedTracked.current = false;
+        }
+    }, [isAssessmentComplete, interpretation]);
+
+    // Wrapper so every PDF button reports a download (no PHI)
+    const handleGeneratePDF = () => {
+        generatePDF();
+        trackPdfDownloaded("van", {
+            result: isAssessmentComplete ? interpretation : undefined,
+        });
+    };
 
     return (
         <div ref={mainRef} className="min-h-screen bg-parchment">
@@ -138,7 +162,7 @@ export default function VANAssessment() {
                             <Button
                                 size="sm"
                                 variant="outline"
-                                onClick={generatePDF}
+                                onClick={handleGeneratePDF}
                                 disabled={!isAssessmentComplete}
                                 className="h-7 px-2 text-sm flex items-center gap-1 mt-2"
                                 name="download-pdf"
@@ -630,7 +654,7 @@ export default function VANAssessment() {
 
                                     <div className="mt-4 flex flex-col md:flex-row items-center justify-center gap-3">
                                         <Button
-                                            onClick={generatePDF}
+                                            onClick={handleGeneratePDF}
                                             variant="outline"
                                             className="flex items-center gap-2 w-full md:w-auto"
                                             name="generate-pdf"

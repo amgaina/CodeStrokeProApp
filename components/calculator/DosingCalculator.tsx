@@ -14,6 +14,8 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Calculator, AlertTriangle, Download } from "lucide-react";
 import { jsPDF } from "jspdf";
+import { useEffect, useRef } from "react";
+import { trackPdfDownloaded, trackToolCompleted } from "@/lib/analytics";
 
 interface DoseCalculation {
     totalDose: number;
@@ -63,6 +65,9 @@ export default function DosingCalculator({
     onBack,
     additionalResources,
 }: DosingCalculatorProps) {
+    // Aggregate analytics: same component backs both the full and quick flows.
+    const toolId = isQuickCalc ? "fast-calc" : "calculator";
+
     // Define font sizes
     const headerFontSize = 16;
     const sectionHeaderSize = 14;
@@ -129,6 +134,16 @@ export default function DosingCalculator({
     };
 
     const doseCalculation = calculateDose();
+
+    // Fire a de-identified completion event once a valid dose is produced.
+    const hasDose = !!doseCalculation;
+    const completedRef = useRef(false);
+    useEffect(() => {
+        if (hasDose && !completedRef.current) {
+            completedRef.current = true;
+            trackToolCompleted(toolId, { drug: selectedDrug });
+        }
+    }, [hasDose, toolId, selectedDrug]);
 
     const generatePdfDosingCard = () => {
         if (!doseCalculation) return;
@@ -369,6 +384,7 @@ export default function DosingCalculator({
 
         // Save the PDF
         doc.save(accessibleFilename);
+        trackPdfDownloaded(toolId, { drug: selectedDrug });
     };
 
     return (
