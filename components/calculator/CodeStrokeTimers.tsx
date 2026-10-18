@@ -215,6 +215,13 @@ export default function CodeStrokeTimers({
                                             )}
                                         </p>
                                     )}
+                                    {thrombolytic.expired && (
+                                        <p className="mt-2 text-xs font-medium text-deep-charcoal">
+                                            Standard window expired.
+                                            Extended-window assessment available
+                                            at Eligibility.
+                                        </p>
+                                    )}
                                 </div>
                             ) : (
                                 <p className="text-sm text-deep-charcoal">
@@ -479,9 +486,7 @@ export default function CodeStrokeTimers({
 
                     <Button
                         onClick={onNext}
-                        disabled={
-                            !doorNeedle || (thrombolytic?.expired ?? true)
-                        }
+                        disabled={!doorNeedle || !thrombolytic}
                         className="w-full rounded-md bg-clinical-slate px-6 py-3 text-base text-parchment hover:bg-clinical-slate/90 disabled:opacity-40 sm:w-auto sm:text-lg"
                         name="continue-to-eligibility"
                     >
