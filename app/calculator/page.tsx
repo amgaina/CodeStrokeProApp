@@ -26,6 +26,10 @@ import DrugSelection from "@/components/calculator/DrugSelection";
 import DosingCalculator from "@/components/calculator/DosingCalculator";
 import ClinicalResources from "@/components/calculator/ClinicalResources";
 import StepProgress from "@/components/calculator/StepProgress";
+import {
+    EXTENDED_INITIAL,
+    type ExtendedWindowState,
+} from "@/components/calculator/ExtendedWindowAssessment";
 
 /* ─────────── types & constants ─────────── */
 interface TimerState {
@@ -87,6 +91,8 @@ export default function CodeStrokeProApp() {
         "lkw" | "timers" | "screening" | "drugSelection" | "dosing"
     >("lkw");
     const [showResources, setShowResources] = useState(false);
+    const [extended, setExtended] =
+        useState<ExtendedWindowState>(EXTENDED_INITIAL);
     const mainRef = useRef<HTMLDivElement>(null);
 
     /* ---------------- clocks ---------------- */
@@ -170,6 +176,8 @@ export default function CodeStrokeProApp() {
     /* ---------------- handlers ---------------- */
     /* from LKW component */
     const handleLKWSet = (d: Date | null) => {
+        // LKWTimeEntry re-sends the same time on remount; only reset on a real change
+        if (d?.getTime() !== timers.lkwTime?.getTime()) setExtended(EXTENDED_INITIAL);
         setTimers((p) => ({
             ...p,
             lkwTime: d,
@@ -195,6 +203,7 @@ export default function CodeStrokeProApp() {
                 Object.keys(answers).map((k) => [k, false])
             ) as unknown as EligibilityAnswers
         );
+        setExtended(EXTENDED_INITIAL);
         setSelectedDrug(null);
         setVialSize("");
         setPtWeight("");
@@ -269,6 +278,10 @@ export default function CodeStrokeProApp() {
                         onAnswerChange={setAnswers}
                         onNext={() => setStep("drugSelection")}
                         onBack={() => setStep("timers")}
+                        lkwTime={timers.lkwTime}
+                        now={timers.currentTime}
+                        extended={extended}
+                        onExtendedChange={setExtended}
                     />
                 )}
 

@@ -19,6 +19,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import ExtendedWindowAssessment, {
+  evaluateExtendedWindow,
+  type ExtendedWindowState,
+} from "./ExtendedWindowAssessment";
+import { STANDARD_WINDOW_HOURS, HOUR_MS } from "@/lib/clinicalConfig";
 
 interface EligibilityAnswers {
   underAge: boolean;
@@ -40,6 +45,10 @@ interface EligibilityScreeningProps {
   onAnswerChange: (answers: EligibilityAnswers) => void;
   onNext: () => void;
   onBack?: () => void;
+  lkwTime: Date | null;
+  now: Date;
+  extended: ExtendedWindowState;
+  onExtendedChange: (v: ExtendedWindowState) => void;
 }
 
 export default function EligibilityScreening({
@@ -47,6 +56,10 @@ export default function EligibilityScreening({
   onAnswerChange,
   onNext,
   onBack,
+  lkwTime,
+  now,
+  extended,
+  onExtendedChange,
 }: EligibilityScreeningProps) {
   const [medicationsExpanded, setMedicationsExpanded] = useState(true);
   const [contraindicationsExpanded, setContraindicationsExpanded] =
@@ -66,6 +79,14 @@ export default function EligibilityScreening({
     });
   };
 
+  /* >4.5 h is derived from LKW so it can't be missed; the extended-window
+     pathway replaces the hard stop once complete and clinician-confirmed */
+  const lkwElapsedMs = lkwTime ? now.getTime() - lkwTime.getTime() : 0;
+  const beyondStandard = lkwElapsedMs > STANDARD_WINDOW_HOURS * HOUR_MS;
+  const overTime = answers.overTimeLimit || beyondStandard;
+  const extendedOk =
+    overTime && evaluateExtendedWindow(extended, lkwTime, now).complete;
+
   const getEligibilityStatus = (): {
     status: "eligible" | "evaluate" | "ineligible" | "correct";
     message: string;
@@ -75,7 +96,7 @@ export default function EligibilityScreening({
     if (
       answers.underAge ||
       answers.hemorrhage ||
-      answers.overTimeLimit ||
+      (overTime && !extendedOk) ||
       answers.activeBleed ||
       answers.recentSurgery
     ) {
@@ -102,7 +123,8 @@ export default function EligibilityScreening({
       answers.contraindications ||
       answers.rapidImprovement ||
       answers.minorSymptoms ||
-      answers.antiplateletAgents
+      answers.antiplateletAgents ||
+      extendedOk
     ) {
       return {
         status: "evaluate",
@@ -158,17 +180,21 @@ export default function EligibilityScreening({
                 "Is the patient's last known well more than 4.5 hours ago?",
               showInfo: false,
             },
-          ].map((question) => (
+          ].map((question) => {
+            const isTime = question.key === "overTimeLimit";
+            const checked = isTime ? overTime : answers[question.key];
+            return (
             <div
               key={question.key}
-              className={`flex items-start space-x-3 p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${answers[question.key]
+              className={`flex items-start space-x-3 p-3 md:p-4 border-2 rounded-lg hover:border-blue-300 transition-colors ${checked
                 ? "border-red-300 bg-red-50"
                 : "border-gray-200"
                 }`}
             >
               <Checkbox
                 id={question.key}
-                checked={answers[question.key]}
+                checked={checked}
+                disabled={isTime && beyondStandard}
                 onCheckedChange={(checked: boolean | "indeterminate") => {
                   const isChecked = checked === true;
                   updateAnswer(question.key, isChecked);
@@ -184,10 +210,27 @@ export default function EligibilityScreening({
                   className="text-sm leading-relaxed cursor-pointer font-medium"
                 >
                   {question.label}
+                  {isTime && beyondStandard && (
+                    <span className="block text-xs font-normal text-gray-600">
+                      Set automatically from last known well (
+                      {Math.floor(lkwElapsedMs / HOUR_MS)}h{" "}
+                      {Math.floor((lkwElapsedMs % HOUR_MS) / 60_000)}m ago)
+                    </span>
+                  )}
                 </Label>
               </div>
             </div>
-          ))}
+            );
+          })}
+
+          {overTime && (
+            <ExtendedWindowAssessment
+              value={extended}
+              onChange={onExtendedChange}
+              lkwTime={lkwTime}
+              now={now}
+            />
+          )}
         </div>
 
         {/* Pediatric Alteplase Information Dialog */}
@@ -852,6 +895,8 @@ export default function EligibilityScreening({
                 <span className="text-sm text-critical-crimson mt-2 block">
                   Absolute contraindication(s) present. Do not proceed with IV
                   thrombolytic therapy.
+                  {overTime &&
+                    " If outside the 4.5 h window, complete the Extended-Window assessment above."}
                 </span>
               </>
             )}
@@ -859,6 +904,8 @@ export default function EligibilityScreening({
               <>
                 <br />
                 <span className="text-sm text-urgent-amber-dark mt-2 block">
+                  {extendedOk &&
+                    "Extended-window pathway: criteria clinician-confirmed. "}
                   Relative risk factor(s) present. Continue only after
                   individualized risk-benefit review.
                 </span>

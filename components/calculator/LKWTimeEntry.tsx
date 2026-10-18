@@ -185,19 +185,25 @@ export default function LKWTimeEntry({ onTimeSet, onNext }: Props) {
                     <p
                         className={`mx-auto max-w-xs rounded-md px-3 py-2 text-center text-sm font-semibold ${
                             preview.overdue
-                                ? "bg-red-100 text-red-800"
+                                ? "bg-amber-100 text-amber-900"
                                 : "bg-green-100 text-green-800"
                         }`}
                     >
                         {`${preview.hrs}h ${preview.mins}m ${
-                            preview.overdue ? "past window" : "left"
+                            preview.overdue ? "past 4.5 h window" : "left"
                         }`}
+                        {preview.overdue && (
+                            <span className="block text-xs font-normal">
+                                Extended-window assessment available at
+                                Eligibility.
+                            </span>
+                        )}
                     </p>
                 )}
 
                 <Button
                     onClick={onNext}
-                    disabled={!lkw || preview?.overdue}
+                    disabled={!lkw}
                     className="mx-auto flex flex-end w-full rounded-lg bg-clinical-slate px-6 py-3 text-base text-parchment hover:bg-clinical-slate/90 sm:w-auto sm:text-lg"
                     name="continueToDrugSelection"
                 >
